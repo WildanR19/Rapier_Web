@@ -1,0 +1,157 @@
+$bg-body:#EAEAEA;
+$abu:#7F7F7F;
+$biru:#0B92AB;
+$oren:#FFC045;
+$p_form:0 3rem;
+$bdrs:5rem;
+$h_btn:3rem;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@mixin responsive($breakpoint) {
+    @if $breakpoint==mini_desktop {
+        @media (min-width:768px) {
+            @content
+        }
+
+        ;
+    }
+
+    @if $breakpoint==desktop {
+        @media (min-width:1080px) {
+            @content
+        }
+
+        ;
+    }
+
+}
+
+@mixin flex {
+    display: flex;
+    align-items: center;
+}
+
+@mixin flexColumn {
+    display: flex;
+    flex-direction: column;
+}
+
+@mixin btn {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+}
+
+body {
+    @include flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    background-color: $bg-body;
+}
+
+a {
+    color: $biru;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.container {
+    @include flexColumn;
+    width: 90vw;
+
+    @include responsive(mini_desktop) {
+        width: 50vw;
+    }
+
+    img {
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2rem;
+
+        @include responsive(mini_desktop) {
+            width: 300px;
+        }
+    }
+
+    .col {
+        width: 100%;
+        background-color: white;
+        border-radius: 1.2rem;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
+        .card {
+            @include flexColumn;
+            padding: 2rem;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+
+            @include responsive(mini_desktop) {
+                width: 25vw;
+            }
+
+            .title {
+                text-align: center;
+                font-size: 1.7rem;
+                margin-bottom: 3rem;
+            }
+
+            form {
+                @include flexColumn;
+                margin-bottom: 3rem;
+
+                .form-group {
+                    position: relative;
+                    @include btn;
+                    color: $abu;
+                    margin-bottom: .75rem;
+
+                    label {
+                        position: absolute;
+                        left: 1.5rem;
+                        font-size: .8rem;
+                    }
+
+                    input {
+                        width: 100%;
+                        height: $h_btn;
+                        outline: none;
+                        border: 1px solid $abu;
+                        padding-left: $h_btn;
+                        padding-right: 1rem;
+                        border-radius: $bdrs;
+
+                        &:focus {
+                            border-color: $oren;
+                        }
+                    }
+                }
+
+                .btn-login {
+                    @include btn;
+                    justify-content: center;
+                    font-weight: bold;
+                    cursor: pointer;
+                    color: #0C2233;
+                    background-color: $oren;
+                    border: none;
+                    border-radius: $bdrs;
+
+                    &:hover {
+                        background-color: darken($oren, 10%);
+                    }
+                }
+            }
+        }
+    }
+}

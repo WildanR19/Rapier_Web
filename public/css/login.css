@@ -1,0 +1,168 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100vw;
+  height: 100vh;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: #EAEAEA;
+}
+
+a {
+  color: #0B92AB;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 90vw;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 50vw;
+  }
+}
+
+.container img {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+  .container img {
+    width: 300px;
+  }
+}
+
+.container .col {
+  width: 100%;
+  background-color: white;
+  border-radius: 1.2rem;
+  -webkit-box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.container .col .card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 2rem;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .container .col .card {
+    width: 25vw;
+  }
+}
+
+.container .col .card .title {
+  text-align: center;
+  font-size: 1.7rem;
+  margin-bottom: 3rem;
+}
+
+.container .col .card form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-bottom: 3rem;
+}
+
+.container .col .card form .form-group {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 3rem;
+  color: #7F7F7F;
+  margin-bottom: .75rem;
+}
+.container .col .card form .form-check {
+  position: relative;
+  display: block;
+  padding-left: .25rem;
+  margin-bottom: .75rem;
+}
+
+.container .col .card form .form-group label {
+  position: absolute;
+  left: 1.5rem;
+  font-size: .8rem;
+}
+
+.container .col .card form .form-group input {
+  width: 100%;
+  height: 3rem;
+  outline: none;
+  border: 1px solid #7F7F7F;
+  padding-left: 3rem;
+  padding-right: 1rem;
+  border-radius: 5rem;
+}
+
+.container .col .card form .form-group input:focus {
+  border-color: #FFC045;
+}
+
+.container .col .card form .btn-login {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 3rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-weight: bold;
+  cursor: pointer;
+  color: #0C2233;
+  background-color: #FFC045;
+  border: none;
+  border-radius: 5rem;
+}
+
+.container .col .card form .btn-login:hover {
+  background-color: #ffaf12;
+}
+/*# sourceMappingURL=login.css.map */

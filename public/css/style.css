@@ -1,0 +1,367 @@
+:root {
+    --primary: #0B92AB;
+    --secondary: #FFC045;
+    --sidebarColor: #59becd;
+    /* --notification-bar: 16.5rem; */
+    --navigation-bar: 8rem;
+}
+
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+ul {
+    padding-inline-start: 0;
+    list-style-type: none;
+}
+
+.scroll {
+    height: 100%;
+}
+
+.dropdown-menu a:hover {
+    background-color: #dba02b;
+    color: #fff;
+}
+
+.nav-menu {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    background-color: white;
+    box-shadow: 0 1px 1px #99999920;
+    color: #555;
+    z-index: 10000;
+}
+
+.nav-container {
+    padding: .25rem 1rem;
+    display: flex;
+    /* justify-content: space-between; */
+}
+
+.nav-container>*,
+.nav-menu-back {
+    display: flex;
+    min-width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-container i {
+    font-size: larger;
+}
+
+.nav-logo img {
+    height: 1.25rem;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link,
+.navbar-nav .active {
+    color: #fff;
+    background-color: var(--secondary);
+}
+
+.sidenav {
+    height: 100%;
+    /* Full-height: remove this if you want "auto" height */
+    width: var(--notification-bar);
+    /* Set the width of the sidebar */
+    position: fixed;
+    /* Fixed Sidebar (stay in place on scroll) */
+    z-index: 2;
+    /* Stay on top */
+    top: 0;
+    /* Stay at the top */
+    right: 0;
+    background-color: #111;
+    /* Black */
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    padding-top: 20px;
+}
+
+.main-sidebar {
+    background: var(--sidebarColor);
+    width: 100%;
+    margin-left: 0;
+    transform: translateX(-110%);
+    transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+    z-index: 1000;
+    height: 100%;
+}
+
+.main-sidebar.active {
+    transform: translateX(0);
+}
+
+.sidebar-main {
+    width: 300px;
+    background-color: white;
+}
+
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    background-color: #00000050;
+}
+
+.nav-menu-back {
+    display: flex;
+}
+
+.nav-menu-back i {
+    font-size: larger;
+    color: #555;
+}
+
+.nav-link.dropdown-toggle {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dropdown-menu {
+    /* position: relative !important;
+    width: 100%; */
+    background: var(--secondary);
+    transform: none !important;
+    border: none;
+    padding: .75rem;
+}
+
+.dropdown-menu h5 {
+    color: var(--primary);
+}
+
+.dropdown-menu p {
+    color: var(--primary);
+    font-style: italic;
+}
+
+.dropdown-menu ul {
+    padding-inline-start: 20px;
+    list-style-type: disc;
+}
+
+.content-wrapper {
+    padding-top: 90px;
+}
+
+.ongoing-projects>li+li {
+    margin-top: 1rem;
+}
+
+.ongoing-projects ul {
+    list-style-type: disc;
+    padding-inline-start: 20px;
+}
+
+.ongoing-projects ul>li::marker {
+    color: var(--secondary);
+}
+
+.ongoing-projects a {
+    color: #eee;
+}
+
+.ongoing-projects a:hover {
+    color: #fff;
+}
+
+.btn {
+    font-weight: bolder;
+    border: none;
+}
+
+.btn-primary {
+    color: var(--secondary);
+    background-color: var(--primary);
+}
+
+.btn-secondary {
+    color: #0C2233;
+    background-color: var(--secondary);
+}
+
+.btn-white{
+    color: #000;
+    background-color: #fff;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.button {
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+}
+
+.side-setting {
+    bottom: 0;
+    position: sticky;
+    width: 100%;
+}
+
+.nav-link:hover {
+    background-color: #FFC045;
+}
+
+.nav-link-1:hover {
+    background-color: #59BECD;
+}
+
+.text-biru-muda {
+    color: #59BECD;
+}
+
+.text-biru-tua {
+    color: #065471;
+}
+
+.text-oren {
+    color: #FFC045;
+}
+
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.text-secondary {
+    color: var(--secondary) !important;
+}
+
+.text-progress {
+    color: #93278F !important;
+}
+
+.text-pending {
+    color: #FF0000 !important;
+}
+
+.text-notif{
+    color: #7f7f7f !important;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.show_page {
+    display: block !important;
+}
+
+.panel {
+    display: none;
+}
+
+.con-button {
+    background-color: #efefef;
+}
+
+.panel-btn {
+    background-color: #fff !important;
+}
+
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--secondary) !important;
+}
+
+.bg-oren {
+    background-color: #FFC045;
+    color: #000;
+}
+
+#goals .card,
+#teams .card {
+    min-height: 14rem;
+}
+
+.img-project-card {
+    width: 60px;
+}
+
+.list-assigned li+li {
+    margin-left: .5rem;
+}
+
+.list-assigned img {
+    width: 32px;
+}
+
+.legend {
+    display: flex;
+    flex-direction: row;
+}
+
+.legend::before,
+.legend::after {
+    content: "";
+    flex: 1 1;
+    border-bottom: 2px solid #000;
+    margin: auto;
+}
+
+@media screen and (min-width: 900px) {
+    .nav-menu {
+        display: none;
+    }
+
+    body:not(.sidebar-mini-md) .content-wrapper,
+    body:not(.sidebar-mini-md) .main-footer {
+        margin-left: var(--navigation-bar);
+    }
+
+    .main-sidebar {
+        width: var(--navigation-bar);
+        transform: translateX(0);
+    }
+
+    .nav-menu-back {
+        display: none;
+    }
+
+    .sidebar-main {
+        width: inherit;
+    }
+
+    .sidenav {
+        margin-right: 0;
+    }
+
+    .edit-contact {
+        max-width: 40vw;
+    }
+}
+
+@media screen and (min-width: 1900px) {
+    html {
+        font-size: 20px;
+    }
+}
+
+@media screen and (min-width: 2800px) {
+    html {
+        font-size: 32px;
+    }
+}
