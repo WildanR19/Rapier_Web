@@ -10,7 +10,7 @@
                     <div class="col">
                         <div class="row">
                             <div class="col font-weight-bold">Name</div>
-                            <div class="col">Jess Effendy</div>
+                            <div class="col">{{ Auth::user()->name }}</div>
                         </div>
                         <div class="row">
                             <div class="col font-weight-bold">Employee ID</div>

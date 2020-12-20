@@ -110,7 +110,7 @@
                                     <div class="row">
                                         <div class="col text-center my-auto border-right">
                                             <div class="image">
-                                                <img src="{{ Auth::user()->profile_photo_url }}" alt="User Image" width="200px" id="imgTeam">
+                                                <img src="{{ Auth::user()->profile_photo_url }}" alt="User Image" width="200px" id="imgTeam" class="rounded-circle elevation-2">
                                             </div>
                                             <div class="head mt-2">
                                                 <h2>{{ Auth::user()->name }}</h2>

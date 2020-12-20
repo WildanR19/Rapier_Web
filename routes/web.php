@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
+//employee
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/home', function () {
         return view('dashboard');
@@ -65,4 +66,19 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/notifications', function () {
         return view('notifications.index');
     })->name('dash.notifications');
+});
+
+//admin
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/employee', function () {
+        return view('admin.employee');
+    })->name('dash.employee');
+
+    Route::get('/department', function () {
+        return view('admin.department');
+    })->name('dash.department');
+
+    Route::get('/jobs', function () {
+        return view('admin.jobs');
+    })->name('dash.jobs');
 });

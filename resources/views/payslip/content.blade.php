@@ -20,15 +20,6 @@
 
 @section('content')
 <div id="payslip">
-    <div class="content-header">
-        <div class="container">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    {{-- <h1 class="m-0 text-dark">Payslip</h1> --}}
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
     <div class="content" id="showContent">
         <div class="container">
             <div class="row">
@@ -40,13 +31,13 @@
                                     <div class="row mt-4">
                                         <div class="col-auto">
                                             <div class="image">
-                                                <img src="{{ asset('img/dummy-profile.svg') }}" class="img-circle elevation-2" alt="User Image" width="80px" style="background-color: #0B92AB;">
+                                                <img src="{{ Auth::user()->profile_photo_url }}" class="img-circle elevation-2" alt="User Image" width="80px" style="background-color: #0B92AB;">
                                             </div>
                                         </div>
                                         <div class="col my-auto">
                                             <div>
-                                                <h5>JessEffendy</h5>
-                                                <i>HR Operations & IRGA Lead</i>
+                                                <h5>{{ Auth::user()->name }}</h5>
+                                                <i>{{ Auth::user()->role }}</i>
                                             </div>
                                         </div>
                                     </div>

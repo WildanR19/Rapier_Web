@@ -43,8 +43,8 @@
         <div class="modal-content">
             <div class="modal-body p-4">
                 <h5 class="modal-title" id="editContactModalLabel">Edit Contact Info</h5>
-                <p class="mt-2 mb-3">Contact Info</p>
-                <form action="" class="pl-3">
+                
+                <form action="" class="pl-3 mt-4">
                     <div class="form-group row">
                         <label for="inputPhone" class="col-sm-2 col-form-label">Phone</label>
                         <div class="col-sm-10">
