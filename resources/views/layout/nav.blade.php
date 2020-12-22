@@ -9,6 +9,11 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
+            @if (Auth::user()->role == 'employee')
+            <li class="nav-item">
+                <button class="btn btn-outline-info">Attendance</button>
+            </li>
+            @endif
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     <i class="far fa-bell text-primary fa-2x"></i>

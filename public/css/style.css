@@ -3,7 +3,7 @@
     --secondary: #FFC045;
     --sidebarColor: #59becd;
     /* --notification-bar: 16.5rem; */
-    --navigation-bar: 8rem;
+    --navigation-bar: 12.5rem;
 }
 
 * {
@@ -364,4 +364,12 @@ p {
     html {
         font-size: 32px;
     }
+}
+
+.nav-item .nav-link p, .nav-item .nav-link i{
+    color: #fff;
+}
+
+.nav-treeview .nav-item .nav-link p{
+    padding-left: 34px;
 }

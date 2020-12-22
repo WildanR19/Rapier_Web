@@ -1,3 +1,9 @@
+$(document).ready(function() {
+    // $(".navbar").css("height", $(".legs").height());
+    var height = $('.navbar:visible').outerHeight();
+    $('.main-sidebar').css('margin-top', height);
+});
+
 const navtoggle = document.querySelector('.nav-toggle');
 const navmenuback = document.querySelector('.nav-menu-back');
 const sidebaroverlay = document.querySelector('.sidebar-overlay');

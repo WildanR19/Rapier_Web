@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'role'
+        'name', 'email', 'password',
     ];
 
     /**
@@ -57,4 +57,10 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function role()
+    {
+    	return $this->hasOne(Role::class);
+    }
+    
 }

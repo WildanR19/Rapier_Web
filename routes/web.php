@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,10 +70,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 //admin
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/employee', function () {
-        return view('admin.employee');
-    })->name('dash.employee');
+Route::middleware(['auth:sanctum', 'verified'])->group(function () 
+{
+    Route::get('/admin/employee', [EmployeeController::class, 'index'])->name('dash.employee');
+    Route::get('/admin/employee/add', [EmployeeController::class, 'add'])->name('dash.employee.add');
 
     Route::get('/department', function () {
         return view('admin.department');
