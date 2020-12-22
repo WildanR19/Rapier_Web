@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,12 +74,33 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 //admin
 Route::middleware(['auth:sanctum', 'verified'])->group(function () 
 {
+    //employee
+    //Read
     Route::get('/admin/employee', [EmployeeController::class, 'index'])->name('dash.employee');
+    Route::get('/admin/employee/details', [EmployeeController::class, 'details'])->name('dash.employee.details');
+    //Create
     Route::get('/admin/employee/add', [EmployeeController::class, 'add'])->name('dash.employee.add');
+    Route::post('/admin/employee/add/store', [EmployeeController::class, 'store'])->name('dash.employee.store');
+    //delete
+    Route::get('/admin/employee/delete/{id}', [EmployeeController::class, 'destroy']);
 
-    Route::get('/department', function () {
-        return view('admin.department');
-    })->name('dash.department');
+    //department
+    //read
+    Route::get('/admin/department', [DepartmentController::class, 'index'])->name('dash.department');
+    //create
+    Route::post('/admin/department/add/store', [DepartmentController::class, 'store'])->name('dash.department.store');
+    //delete
+    Route::get('/admin/department/delete/{id}', [DepartmentController::class, 'destroy']);
+
+    //job
+    //read
+    Route::get('/admin/job', [JobController::class, 'index'])->name('dash.job');
+    //create
+    Route::post('/admin/job/add/store', [JobController::class, 'store'])->name('dash.job.store');
+    //delete
+    Route::get('/admin/job/delete/{id}', [JobController::class, 'destroy']);
+    //update
+    Route::get('/admin/job/update/{id}', [JobController::class, 'edit']);
 
     Route::get('/jobs', function () {
         return view('admin.jobs');

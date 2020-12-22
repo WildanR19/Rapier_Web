@@ -1,4 +1,4 @@
-@if (Auth::user()->hasRole == 'employee')
+@if (auth()->user()->role_id == '2')
 <aside class="main-sidebar">
     <div class="sidebar p-0">
         <!-- Sidebar Menu -->
@@ -53,7 +53,7 @@
 </aside>
 @endif
 
-@if (Auth::user()->hasRole == 'admin')
+@if (auth()->user()->role_id == '1')
 <aside class="main-sidebar">
     <div class="sidebar p-0">
         <!-- Sidebar Menu -->
@@ -77,12 +77,12 @@
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="{{ route('dash.department') }}" class="nav-link">
                             <p>Department</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="{{ route('dash.job') }}" class="nav-link">
                             <p>Job</p>
                           </a>
                         </li>

@@ -18,6 +18,8 @@ class CreateEmployeeDetailsTable extends Migration
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
             $table->text('address')->nullable();
             $table->enum('gender', ['male','female','others']);
+            $table->date('join_date');
+            $table->date('last_date')->nullable();
             $table->timestamps();
         });
     }

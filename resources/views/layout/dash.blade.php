@@ -33,7 +33,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <i class="fas fa-bars"></i>
                 </div>
                 <div class="nav-logo">
-                    <img src="{{ asset('img/logo2.png') }}">
+                    <img src="{{ asset('img/logo-with-text.svg') }}">
                 </div>
                 {{-- <div class="nav-task">
                     <i class="fas fa-ellipsis-v"></i>

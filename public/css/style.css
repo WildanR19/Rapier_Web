@@ -373,3 +373,10 @@ p {
 .nav-treeview .nav-item .nav-link p{
     padding-left: 34px;
 }
+
+.font-larger{
+    font-size: larger;
+}
+.col-in{
+    padding: 20px;
+}
