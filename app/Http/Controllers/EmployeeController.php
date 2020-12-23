@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\Employee_detail;
 use App\Models\Job;
 use App\Models\Role;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -54,12 +55,7 @@ class EmployeeController extends Controller
         }else{
             $status = 'active';
         }
-        User::updateOrCreate(['id' => $this->member_id], [
-            'name' => $this->name,
-            'email' => $this->email,
-            'phone_number' => $this->phone_number,
-            'status' => $this->status,
-        ]);
+        
         $user_data =new User();
         $user_data->name        = $request->name;
         $user_data->email       = $request->email;
@@ -83,6 +79,15 @@ class EmployeeController extends Controller
         $ed->save();
         
         return redirect()->route('dash.employee');
+    }
+
+    protected function createTeam(User $user)
+    {
+        $user->ownedTeams()->save(Team::forceCreate([
+            'user_id' => $user->id,
+            'name' => explode(' ', $user->name, 2)[0]."'s Team",
+            'personal_team' => true,
+        ]));
     }
 
     public function destroy($id)

@@ -7,7 +7,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('dash.employee.store')}}" method="POST">
+                        <form action="{{ route('register') }}" method="POST">
                             @csrf
                             {{-- user table --}}
                             <div class="form-group">

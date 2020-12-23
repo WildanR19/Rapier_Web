@@ -3,6 +3,8 @@
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\JobController;
+use App\Http\Livewire\Departments;
+use App\Models\Department;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +23,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', function () {
         return view('home');
     });
+    
 
     Route::get('/home', function () {
         return view('dashboard');
@@ -94,6 +97,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::post('/admin/department/add/store', [DepartmentController::class, 'store'])->name('dash.department.store');
     //delete
     Route::get('/admin/department/delete/{id}', [DepartmentController::class, 'destroy']);
+    //update
+    Route::get('/admin/department/{id}/edit', [DepartmentController::class, 'update'])->name('dash.department.update');
+    Route::post('/admin/department/{id}', [DepartmentController::class, 'edit'])->name('dash.department.edit');
 
     //job
     //read
@@ -103,9 +109,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     //delete
     Route::get('/admin/job/delete/{id}', [JobController::class, 'destroy']);
     //update
-    Route::get('/admin/job/update/{id}', [JobController::class, 'edit']);
+    Route::get('/admin/job/{id}/edit', [JobController::class, 'update'])->name('dash.job.update');
+    Route::post('/admin/job/{id}', [JobController::class, 'edit'])->name('dash.job.edit');
 
-    Route::get('/jobs', function () {
-        return view('admin.jobs');
-    })->name('dash.jobs');
+    Route::get('department', Departments::class)->name('department');
 });

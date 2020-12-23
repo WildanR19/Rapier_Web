@@ -12,6 +12,15 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
+                            @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            @endif
                             <div class="row">
                                 <div class="col text-right">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">
@@ -35,10 +44,10 @@
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $d->name }}</td>
                                                 <td>
-                                                    <a href="#" class="btn btn-info rounded-circle px-2 py-1" data-toggle="tooltip" title="Edit">
+                                                    <a href="" id="editDept" class="btn btn-info rounded-circle px-2 py-1" data-tooltip="tooltip" title="Edit" data-toggle="modal" data-target="#editDepartmentModal" data-id="{{ $d->id }}">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
-                                                    <a href="/admin/department/delete/{{ $d->id }}" class="btn btn-danger rounded-circle px-2 py-1 delete-confirm" data-toggle="tooltip" title="Delete">
+                                                    <a href="/admin/department/delete/{{ $d->id }}" class="btn btn-danger rounded-circle px-2 py-1 delete-confirm" data-tooltip="tooltip" title="Delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>
@@ -55,7 +64,7 @@
     </div>
 
     <!-- Modal -->
-    @include('admin.department.modal-add')
+    @include('admin.department.modal')
 @endsection
 
 @section('js')
@@ -65,6 +74,7 @@
 <!-- Sweet Alert -->
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+    //datatable
     $(function () {
         $('#empTable').DataTable({
             "paging": true,
@@ -74,10 +84,13 @@
             "info": true,
         });
     });
+
+    //tooltip
     $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();   
+        $('[data-tooltip="tooltip"]').tooltip();   
     });
 
+    //alert delete
     $(document).on('click', '.delete-confirm', function (e) {
         e.preventDefault();
         const url = $(this).attr('href');
@@ -91,15 +104,75 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
+                sessionStorage.setItem('delete', true);
                 window.location.href = url;
-                Swal.fire(
-                    'Deleted!',
-                    'Your data has been deleted.',
-                    'success'
-                )
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire('Cancelled', '', 'error')
             }
+        });
+    });
+
+    $( function () {
+        if ( sessionStorage.getItem('delete') ) {
+            Swal.fire(
+                'Deleted!',
+                'Your data has been deleted.',
+                'success'
+            )
+            sessionStorage.removeItem('delete');
+        }
+    });
+
+    //modal update
+    $(document).ready(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('body').on('click', '#submit', function (event) {
+            event.preventDefault()
+            var id = $("#color_id").val();
+            var name = $("#name").val();
+
+            $.ajax({
+                url: 'department/' + id,
+                type: "POST",
+                data: {
+                    id: id,
+                    name: name,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#deptdata').trigger("reset");
+                    $('#editDepartmentModal').modal('hide');
+                    sessionStorage.setItem('update', true);
+                    window.location.reload(true);
+                }
+            });
+        });
+        $( function () {
+            if ( sessionStorage.getItem('update') ) {
+                Swal.fire(
+                    'Updated!',
+                    'Your data has been updated.',
+                    'success'
+                );
+                sessionStorage.removeItem('update');
+            }
+        });
+        $('body').on('click', '#editDept', function (event) {
+            event.preventDefault();
+            var id = $(this).data('id');
+            console.log(id)
+            $.get('department/' + id + '/edit', function (data) {
+                $('#submit').val("Save Changes");
+                $('#editDepartmentModal').modal('show');
+                $('#color_id').val(data.data.id);
+                $('#name').val(data.data.name);
+            })
         });
     });
 </script>

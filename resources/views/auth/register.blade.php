@@ -25,8 +25,8 @@
             </div>
             <div class="mt-4">
                 <x-jet-label for="role" value="{{ __('Role') }}" />
-                {{-- <x-jet-input id="role" class="block mt-1 w-full" type="text" name="role" required /> --}}
-                <div class="flex items-start">
+                <x-jet-input id="role" class="block mt-1 w-full" type="text" name="role" required />
+                {{-- <div class="flex items-start">
                     <div class="flex items-center h-5">
                       <input id="admin" name="admin" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                     </div>
@@ -41,7 +41,7 @@
                     <div class="ml-3 text-sm">
                       <label for="employee" class="font-medium text-gray-700">Employee</label>
                     </div>
-                  </div>
+                  </div> --}}
             </div>
 
             <div class="mt-4">

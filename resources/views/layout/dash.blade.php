@@ -9,6 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Kount</title>
 
@@ -101,6 +102,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    {{-- Ajax Jquery --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- overlayScrollbars -->

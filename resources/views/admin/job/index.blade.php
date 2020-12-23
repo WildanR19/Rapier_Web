@@ -35,10 +35,10 @@
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $j->name }}</td>
                                                 <td>
-                                                    <a href="/admin/job/update/{id}" class="btn btn-info rounded-circle px-2 py-1" data-toggle="tooltip" title="Edit">
+                                                    <a href="" id="editJob" class="btn btn-info rounded-circle px-2 py-1" data-tooltip="tooltip" title="Edit" data-toggle="modal" data-target="#editJobModal" data-id="{{ $j->id }}">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
-                                                    <a href="/admin/job/delete/{{ $j->id }}" class="btn btn-danger rounded-circle px-2 py-1 delete-confirm" data-toggle="tooltip" title="Delete">
+                                                    <a href="/admin/job/delete/{{ $j->id }}" class="btn btn-danger rounded-circle px-2 py-1 delete-confirm" data-tooltip="tooltip" title="Delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>
@@ -65,6 +65,7 @@
 <!-- Sweet Alert -->
 <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
+    //datatable
     $(function () {
         $('#jobTable').DataTable({
             "paging": true,
@@ -74,10 +75,13 @@
             "info": true,
         });
     });
+    
+    //tooltip
     $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();   
+        $('[data-tooltip="tooltip"]').tooltip();   
     });
 
+    //alert delete
     $(document).on('click', '.delete-confirm', function (e) {
         e.preventDefault();
         const url = $(this).attr('href');
@@ -91,16 +95,77 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
+                sessionStorage.setItem('delete', true);
                 window.location.href = url;
-                Swal.fire(
-                    'Deleted!',
-                    'Your data has been deleted.',
-                    'success'
-                )
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire('Cancelled', '', 'error')
             }
         });
+    });
+
+    $( function () {
+        if ( sessionStorage.getItem('delete') ) {
+            Swal.fire(
+                'Deleted!',
+                'Your data has been deleted.',
+                'success'
+            )
+            sessionStorage.removeItem('delete');
+        }
+    });
+
+    //modal update
+    $(document).ready(function () {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('body').on('click', '#submit', function (event) {
+            event.preventDefault()
+            var id = $("#color_id").val();
+            var name = $("#name").val();
+
+            $.ajax({
+                url: 'job/' + id,
+                type: "POST",
+                data: {
+                    id: id,
+                    name: name,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#jobdata').trigger("reset");
+                    $('#editJobModal').modal('hide');
+                    sessionStorage.setItem('update', true);
+                    window.location.reload(true);
+                }
+            });
+        });
+        $( function () {
+            if ( sessionStorage.getItem('update') ) {
+                Swal.fire(
+                    'Updated!',
+                    'Your data has been updated.',
+                    'success'
+                );
+                sessionStorage.removeItem('update');
+            }
+        });
+        $('body').on('click', '#editJob', function (event) {
+            event.preventDefault();
+            var id = $(this).data('id');
+            console.log(id)
+            $.get('job/' + id + '/edit', function (data) {
+                $('#submit').val("Save Changes");
+                $('#editJobModal').modal('show');
+                $('#color_id').val(data.data.id);
+                $('#name').val(data.data.name);
+            })
+        });
+
     });
 </script>
 @endsection
