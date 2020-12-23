@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth/login');
-});
-
 //employee
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/', function () {
+        return view('home');
+    });
+
     Route::get('/home', function () {
         return view('dashboard');
     })->name('dashboard');
@@ -83,6 +83,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::post('/admin/employee/add/store', [EmployeeController::class, 'store'])->name('dash.employee.store');
     //delete
     Route::get('/admin/employee/delete/{id}', [EmployeeController::class, 'destroy']);
+    //update
+    Route::get('/admin/employee/update/{id}', [EmployeeController::class, 'edit']);
+    Route::post('/admin/employee/update', [EmployeeController::class, 'update'])->name('dash.employee.update');
 
     //department
     //read

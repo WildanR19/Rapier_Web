@@ -57,7 +57,7 @@
                                                 </td>
                                                 <td>{{ $emp->created_at }}</td>
                                                 <td>
-                                                    <a href="#" class="btn btn-info rounded-circle px-2 py-1" data-toggle="tooltip" title="Edit">
+                                                    <a href="/admin/employee/update/{{ $emp->id }}" class="btn btn-info rounded-circle px-2 py-1" data-toggle="tooltip" title="Edit">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
                                                     <a href="{{ route('dash.employee.details') }}" class="btn btn-success rounded-circle px-2 py-1" data-toggle="tooltip" title="Details">
@@ -113,12 +113,12 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
-                window.location.href = url;
                 Swal.fire(
                     'Deleted!',
                     'Your data has been deleted.',
                     'success'
-                )
+                );
+                window.location.href = url;
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire('Cancelled', '', 'error')
             }

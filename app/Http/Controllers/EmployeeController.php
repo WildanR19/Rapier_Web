@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Employee_detail;
 use App\Models\Job;
 use App\Models\Role;
 use App\Models\User;
@@ -27,36 +28,60 @@ class EmployeeController extends Controller
         $job = Job::all();
         $data = 
         [
-            'dept' => $dept,
-            'role' => $role,
-            'job' => $job,
+            'dept'  => $dept,
+            'role'  => $role,
+            'job'   => $job,
         ];
         return view('admin.employee.add')->with($data);
     }
 
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name'      => 'required|string',
+            'email'     => 'required|email',
+            'password'  => 'required',
+            'role'      => 'required',
+            'address'   => 'required',
+            'dept'      => 'required',
+            'job'       => 'required',
+            'gender'    => 'required',
+            'join_date' => 'required',
+        ]);
+
+        if($request->last_date <= now() && !empty($request->last_date)){
+            $status = 'deactive';
+        }else{
+            $status = 'active';
+        }
+        User::updateOrCreate(['id' => $this->member_id], [
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone_number' => $this->phone_number,
+            'status' => $this->status,
+        ]);
         $user_data =new User();
-        $user_data->name = $request->name;
-        $user_data->email = $request->email;
-        $user_data->password = Hash::make($request->password);
-        $user_data->role_id = $request->role;
-        $user_data->created_at = now();
-        $user_data->updated_at = now();
+        $user_data->name        = $request->name;
+        $user_data->email       = $request->email;
+        $user_data->password    = Hash::make($request->password);
+        $user_data->role_id     = $request->role;
+        $user_data->status      = $status;
+        $user_data->created_at  = now();
+        $user_data->updated_at  = now();
         $user_data->save();
         
-        DB::table('employee_details')->insert([
-            'user_id'       => $user_data->id,
-            'address'       => $request->address,
-            'gender'        => $request->gender,
-            'job_id'        => $request->job,
-            'department_id' => $request->dept,
-            'join_date'     => $request->join_date,
-            'last_date'     => $request->last_date,
-            'created_at'    => now(),
-            'updated_at'    => now(),
-        ]);
-        // redirect to index employee
+        $ed = new Employee_detail();
+        $ed->user_id        = $user_data->id;
+        $ed->address        = $request->address;
+        $ed->gender         = $request->gender;
+        $ed->job_id         = $request->job;
+        $ed->department_id  = $request->dept;
+        $ed->join_date      = $request->join_date;
+        $ed->last_date      = $request->last_date;
+        $ed->created_at     = now();
+        $ed->updated_at     = now();
+        $ed->save();
+        
         return redirect()->route('dash.employee');
     }
 
@@ -64,6 +89,52 @@ class EmployeeController extends Controller
     {
         User::find($id)->delete();
         return back()->with('success','Data deleted successfully');
+    }
+
+    public function edit($id)
+    {
+        $user = User::where('id', $id)->first();
+        $ed = Employee_detail::where('user_id', $id)->first();
+        $dept = Department::all();
+        $role = Role::all();
+        $job = Job::all();
+        $data = [
+            'user'  => $user,
+            'ed'    => $ed,
+            'dept'  => $dept,
+            'role'  => $role,
+            'job'   => $job,
+        ];
+        return view('admin.employee.edit')->with($data);
+    }
+
+    public function update(Request $request)
+    {
+        if($request->last_date <= now() && !empty($request->last_date)){
+            $status = 'deactive';
+        }else{
+            $status = 'active';
+        }
+
+        $emp = User::findOrFail($request->id);
+        $emp->name      = $request->name;
+        $emp->email     = $request->email;
+        $emp->password  = Hash::make($request->password);
+        $emp->role_id   = $request->role;
+        $emp->status    = $status;
+        $emp->save();
+
+        Employee_detail::where('user_id', $request->id)
+        ->update([
+            'address'       => $request->address,
+            'gender'        => $request->gender,
+            'job_id'        => $request->job,
+            'department_id' => $request->dept,
+            'join_date'     => $request->join_date,
+            'last_date'     => $request->last_date,
+        ]);
+
+        return redirect()->route('dash.employee');
     }
 
     public function details()

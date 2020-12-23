@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee_detail extends Model
 {
+    protected $fillable = [
+        'user_id', 'address', 'gender', 'job_id', 'department_id', 'join-date',
+    ];
+
     public function user()
     {
         return $this->hasOne(User::class);
