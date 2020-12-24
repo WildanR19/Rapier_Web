@@ -80,7 +80,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     //employee
     //Read
     Route::get('/admin/employee', [EmployeeController::class, 'index'])->name('dash.employee');
-    Route::get('/admin/employee/details', [EmployeeController::class, 'details'])->name('dash.employee.details');
     //Create
     Route::get('/admin/employee/add', [EmployeeController::class, 'add'])->name('dash.employee.add');
     Route::post('/admin/employee/add/store', [EmployeeController::class, 'store'])->name('dash.employee.store');
@@ -89,6 +88,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     //update
     Route::get('/admin/employee/update/{id}', [EmployeeController::class, 'edit']);
     Route::post('/admin/employee/update', [EmployeeController::class, 'update'])->name('dash.employee.update');
+    //detail
+    Route::get('/admin/employee/detail/{id}', [EmployeeController::class, 'details']);
 
     //department
     //read
@@ -112,5 +113,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::get('/admin/job/{id}/edit', [JobController::class, 'update'])->name('dash.job.update');
     Route::post('/admin/job/{id}', [JobController::class, 'edit'])->name('dash.job.edit');
 
-    Route::get('department', Departments::class)->name('department');
+    //attendance
+    Route::get('/admin/job', [JobController::class, 'index'])->name('dash.job');
+    //leaves
+    Route::get('/admin/job', [JobController::class, 'index'])->name('dash.job');
+    //holiday
+    Route::get('/admin/job', [JobController::class, 'index'])->name('dash.job');
 });

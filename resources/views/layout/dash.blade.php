@@ -30,7 +30,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
         <!-- nav-menu-mobile -->
-        <header class="nav-menu">
+        {{-- <header class="nav-menu">
             <div class="nav-container">
                 <div class="nav-toggle">
                     <i class="fas fa-bars"></i>
@@ -75,7 +75,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div>
                 </div>
             </div>
-        </header>
+        </header> --}}
 
         <!-- Main Sidebar Container -->
         @include('layout.nav')

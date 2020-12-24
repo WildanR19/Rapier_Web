@@ -29,17 +29,6 @@ for (let i = 0; i < menuLength; i++) {
     }
 }
 
-// function setActive() {
-//     aObj = document.getElementById('navbar').getElementsByTagName('a');
-//     for (i = 0; i < aObj.length; i++) {
-//         if (document.location.href.indexOf(aObj[i].href) >= 0) {
-//             aObj[i].className = 'active';
-//         }
-//     }
-// }
-
-// window.onload = setActive;
-
 // Jam
 function showTime() {
     var date = new Date();

@@ -6,11 +6,9 @@ use App\Models\Department;
 use App\Models\Employee_detail;
 use App\Models\Job;
 use App\Models\Role;
-use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -87,15 +85,6 @@ class EmployeeController extends Controller
         return redirect()->route('dash.employee');
     }
 
-    protected function createTeam(User $user)
-    {
-        $user->ownedTeams()->save(Team::forceCreate([
-            'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
-            'personal_team' => true,
-        ]));
-    }
-
     public function destroy($id)
     {
         $user = User::find($id);
@@ -155,8 +144,20 @@ class EmployeeController extends Controller
         return redirect()->route('dash.employee');
     }
 
-    public function details()
+    public function details($id)
     {
-        return view('admin.employee.details');
+        $user   = User::where('id', $id)->first();
+        $ed     = Employee_detail::where('user_id', $id)->first();
+        $dept   = Department::all();
+        $role   = Role::all();
+        $job    = Job::all();
+        $data = [
+            'user'  => $user,
+            'ed'    => $ed,
+            'dept'  => $dept,
+            'role'  => $role,
+            'job'   => $job,
+        ];
+        return view('admin.employee.details')->with($data);
     }
 }

@@ -179,18 +179,17 @@ ul {
     color: #fff;
 }
 
-.btn {
-    font-weight: bolder;
-    border: none;
-}
-
 .btn-primary {
     color: var(--secondary);
+    font-weight: bolder;
     background-color: var(--primary);
+    border: none;
 }
 
 .btn-secondary {
     color: #0C2233;
+    font-weight: bolder;
+    border: none;
     background-color: var(--secondary);
 }
 

@@ -12,6 +12,11 @@
             font-size: 14px;
             margin: 0px 0px 12px;
         }
+        .widget-user .widget-user-image > img {
+            height: 90px !important;
+            object-fit: cover;
+            object-position: center;
+        }
     </style>
 @endsection
 @section('content')
@@ -21,11 +26,11 @@
                 <div class="col-md-5">
                     <div class="card card-widget widget-user">
                         <div class="widget-user-header bg-info">
-                          <h3 class="widget-user-username">{{ auth()->user()->name }}</h3>
-                          {{-- <h5 class="widget-user-desc">{{ auth()->user()->employee_detail()->job }}</h5> --}}
+                          <h3 class="widget-user-username">{{ $user->name }}</h3>
+                          <h5 class="widget-user-desc">{{ $ed->job->name }}</h5>
                         </div>
                         <div class="widget-user-image">
-                          <img class="img-circle elevation-2" src="{{ auth()->user()->profile_photo_url }}" alt="User Avatar">
+                          <img class="img-circle elevation-2" src="{{ $user->profile_photo_url }}" alt="User Avatar">
                         </div>
                         <div class="card-footer">
                           <div class="row">
@@ -60,48 +65,47 @@
                     <div class="card">
                         <div class="card-header d-flex p-0">
                             <ul class="nav nav-pills mx-auto p-2">
-                                <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Profile</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Projects</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Tasks</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Leaves</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Profile</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#projects" data-toggle="tab">Projects</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#tasks" data-toggle="tab">Tasks</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#leaves" data-toggle="tab">Leaves</a></li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
-                                <div class="tab-pane active" id="tab_1">
+                                <div class="tab-pane active" id="profile">
                                     <div class="row">
                                         <div class="col-md-4 border-right"> <strong>Name</strong> <br>
-                                            <p class="text-muted">{{ auth()->user()->name }}</p>
+                                            <p class="text-muted">{{ $user->name }}</p>
                                         </div>
                                         <div class="col-md-4 border-right"> <strong>Email</strong> <br>
-                                            <p class="text-muted">{{ auth()->user()->email }}</p>
+                                            <p class="text-muted">{{ $user->email }}</p>
                                         </div>
                                         <div class="col-md-4"> <strong>Gender</strong> <br>
-                                            <p class="text-muted">#</p>
+                                            <p class="text-muted text-capitalize">{{ $ed->gender }}</p>
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-4 border-right"> <strong>Department</strong> <br>
-                                            <p class="text-muted">#</p>
+                                            <p class="text-muted">{{ $ed->department->name }}</p>
                                         </div>
                                         <div class="col-md-4 border-right"> <strong>Job</strong> <br>
-                                            <p class="text-muted">#</p>
+                                            <p class="text-muted">{{ $ed->job->name }}</p>
                                         </div>
                                         <div class="col-md-4"> <strong>Joining Date</strong> <br>
-                                            <p class="text-muted">#</p>
+                                            <p class="text-muted">{{ $ed->join_date }}</p>
                                         </div>
                                     </div>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <strong>Address</strong>
-                                            <br><p class="text-muted">#</p>
+                                            <br><p class="text-muted">{{ $ed->address }}</p>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- /.tab-pane -->
-                                <div class="tab-pane" id="tab_2">
+                                <div class="tab-pane" id="projects">
                                     The European languages are members of the same family. Their separate existence is a
                                     myth.
                                     For science, music, sport, etc, Europe uses the same vocabulary. The languages only
@@ -116,8 +120,7 @@
                                     simple
                                     and regular than that of the individual languages.
                                 </div>
-                                <!-- /.tab-pane -->
-                                <div class="tab-pane" id="tab_3">
+                                <div class="tab-pane" id="tasks">
                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                                     Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
                                     when an unknown printer took a galley of type and scrambled it to make a type
@@ -130,7 +133,19 @@
                                     software
                                     like Aldus PageMaker including versions of Lorem Ipsum.
                                 </div>
-                                <!-- /.tab-pane -->
+                                <div class="tab-pane" id="leaves">
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                                    when an unknown printer took a galley of type and scrambled it to make a type
+                                    specimen book.
+                                    It has survived not only five centuries, but also the leap into electronic
+                                    typesetting,
+                                    remaining essentially unchanged. It was popularised in the 1960s with the release of
+                                    Letraset
+                                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing
+                                    software
+                                    like Aldus PageMaker including versions of Lorem Ipsum.
+                                </div>
                             </div>
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->

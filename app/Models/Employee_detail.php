@@ -19,4 +19,8 @@ class Employee_detail extends Model
     {
         return $this->belongsTo(Job::class);
     }
+    public function department()
+    {
+    	return $this->belongsTo(Department::class);
+    }
 }

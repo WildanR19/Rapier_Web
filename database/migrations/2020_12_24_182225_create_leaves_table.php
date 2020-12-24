@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEmployeeDetailsTable extends Migration
+class CreateLeavesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,17 @@ class CreateEmployeeDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('employee_details', function (Blueprint $table) {
+        Schema::create('leaves', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->text('address')->nullable();
-            $table->enum('gender', ['male','female','others']);
-            $table->date('join_date');
-            $table->date('last_date')->nullable();
+            $table->unsignedInteger('leave_type_id');
+            $table->foreign('leave_type_id')->references('id')->on('leave_types')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('duration');
+            $table->date('leave_date');
+            $table->text('reason');
+            $table->enum('status', ['approved', 'pending', 'rejected']);
+            $table->text('reject_reason')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +35,6 @@ class CreateEmployeeDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee_details');
+        Schema::dropIfExists('leaves');
     }
 }

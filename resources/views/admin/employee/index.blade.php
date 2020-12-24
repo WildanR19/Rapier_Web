@@ -14,8 +14,10 @@
             vertical-align: middle !important;
         }
         .thumb-index{
-            max-height: 50px;
-            max-width: 50px;
+            height: 50px;
+            width: 50px;
+            object-fit: cover;
+            object-position: center;
         }
     </style>
 @endsection
@@ -71,7 +73,7 @@
                                                     <a href="/admin/employee/update/{{ $emp->id }}" class="btn btn-info rounded-circle px-2 py-1" data-toggle="tooltip" title="Edit">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
-                                                    <a href="{{ route('dash.employee.details') }}" class="btn btn-success rounded-circle px-2 py-1" data-toggle="tooltip" title="Details">
+                                                    <a href="/admin/employee/detail/{{ $emp->id }}" class="btn btn-success rounded-circle px-2 py-1" data-toggle="tooltip" title="Details">
                                                         <i class="fas fa-search"></i>
                                                     </a>
                                                     <a href="/admin/employee/delete/{{ $emp->id }}" class="btn btn-danger rounded-circle px-2 py-1 delete-confirm" data-toggle="tooltip" title="Delete">
