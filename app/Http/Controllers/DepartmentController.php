@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class DepartmentController extends Controller
 {
@@ -24,6 +25,7 @@ class DepartmentController extends Controller
         Department::create([
             'name' => $request->name,
         ]);
+        Alert::success('Success', 'Your data has been added.');
         return back();
     }
 
@@ -42,13 +44,14 @@ class DepartmentController extends Controller
             [ 'id' => $id ],
             [ 'name' => $request->name, ],
         );
-
+        Alert::success('Updated', 'Your data has been updated.');
         return response()->json([ 'success' => true ]);
     }
 
     public function destroy($id)
     {
         Department::find($id)->delete();
+        Alert::success('Deleted', 'Your data has been deleted.');
         return back();
     }
 }

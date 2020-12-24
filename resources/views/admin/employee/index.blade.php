@@ -2,8 +2,6 @@
 @section('css')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
-    <!-- Sweet Alert -->
-    <link href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
     <style>
         .label-status {
             letter-spacing: .05em;
@@ -11,6 +9,13 @@
             padding: 4px 12px;
             font-size: small;
             font-weight: 500 !important;
+        }
+        td{
+            vertical-align: middle !important;
+        }
+        .thumb-index{
+            max-height: 50px;
+            max-width: 50px;
         }
     </style>
 @endsection
@@ -31,11 +36,11 @@
                                     <thead>
                                         <tr>
                                             <th>No.</th>
+                                            <th>Photo</th>
                                             <th>Name</th>
                                             <th>Email</th>
                                             <th>User Role</th>
                                             <th>Status</th>
-                                            <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -44,6 +49,13 @@
                                         @foreach ($user as $emp)    
                                             <tr>
                                                 <td>{{ $no++ }}</td>
+                                                <td>
+                                                    @if (!empty($emp->profile_photo_path))
+                                                        <img src="{{ asset('storage/'.$emp->profile_photo_path) }}" alt="" class="rounded-circle thumb-index">
+                                                    @else
+                                                        <img src="{{ asset('img/dummy-profile.svg') }}" alt="" class="thumb-index">
+                                                    @endif
+                                                </td>
                                                 <td>{{ $emp->name }}</td>
                                                 <td>{{ $emp->email }}</td>
                                                 <td>{{ $emp->role->name }}</td>
@@ -55,7 +67,6 @@
                                                         <label class="label-status bg-danger">{{ $emp->status }}</label>
                                                     @endif
                                                 </td>
-                                                <td>{{ $emp->created_at }}</td>
                                                 <td>
                                                     <a href="/admin/employee/update/{{ $emp->id }}" class="btn btn-info rounded-circle px-2 py-1" data-toggle="tooltip" title="Edit">
                                                         <i class="fas fa-pencil-alt"></i>
@@ -84,8 +95,6 @@
 <!-- DataTables -->
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
-<!-- Sweet Alert -->
-<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
     $(function () {
         $('#empTable').DataTable({
@@ -113,11 +122,6 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
-                Swal.fire(
-                    'Deleted!',
-                    'Your data has been deleted.',
-                    'success'
-                );
                 window.location.href = url;
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire('Cancelled', '', 'error')

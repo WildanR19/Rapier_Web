@@ -1,5 +1,12 @@
 @extends('layout.dash')
-
+@section('css')
+    <style>
+        ul{
+            list-style-type: disc;        
+            padding-inline-start: 40px;
+        }
+    </style>
+@endsection
 @section('content')
 <div class="content">
     <div class="container-fluid">
@@ -7,7 +14,16 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('register') }}" method="POST">
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form action="{{ route('dash.employee.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             {{-- user table --}}
                             <div class="form-group">
@@ -81,9 +97,9 @@
                             <div class="form-group">
                                 <label for="InputPicture">Profile Picture</label>
                                 <div>
-                                    <img src="..." alt="..." class="img-thumbnail">
+                                    <img src="{{ asset('img/dummy-profile.svg') }}" alt="Profile Picture" class="img-thumbnail" style="max-width: 150px">
                                 </div>
-                                <input type="file" id="InputPicture">
+                                <input type="file" id="InputPicture" name="photo">
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>

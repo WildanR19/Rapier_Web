@@ -6,7 +6,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{ route('dash.employee.update') }}" method="POST">
+                        <form action="{{ route('dash.employee.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             {{-- user table --}}
                             <input type="hidden" name="id" value="{{ $user->id }}">
@@ -100,9 +100,9 @@
                             <div class="form-group">
                                 <label for="InputPicture">Profile Picture</label>
                                 <div>
-                                    <img src="..." alt="..." class="img-thumbnail">
+                                    <img src="{{ asset('storage/'.$user->profile_photo_path) }}" alt="{{ $user->name }}" class="img-thumbnail" style="max-width: 150px">
                                 </div>
-                                <input type="file" id="InputPicture">
+                                <input type="file" id="InputPicture" name="photo">
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>

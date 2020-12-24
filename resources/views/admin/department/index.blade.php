@@ -2,8 +2,6 @@
 @section('css')
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
-    <!-- Sweet Alert -->
-    <link href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
 @endsection
 @section('content')
     <div class="content">
@@ -71,8 +69,6 @@
 <!-- DataTables -->
 <script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
 <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
-<!-- Sweet Alert -->
-<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script>
     //datatable
     $(function () {
@@ -104,23 +100,11 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
-                sessionStorage.setItem('delete', true);
                 window.location.href = url;
             } else if (result.dismiss === Swal.DismissReason.cancel) {
                 Swal.fire('Cancelled', '', 'error')
             }
         });
-    });
-
-    $( function () {
-        if ( sessionStorage.getItem('delete') ) {
-            Swal.fire(
-                'Deleted!',
-                'Your data has been deleted.',
-                'success'
-            )
-            sessionStorage.removeItem('delete');
-        }
     });
 
     //modal update
@@ -148,20 +132,9 @@
                 success: function (data) {
                     $('#deptdata').trigger("reset");
                     $('#editDepartmentModal').modal('hide');
-                    sessionStorage.setItem('update', true);
                     window.location.reload(true);
                 }
             });
-        });
-        $( function () {
-            if ( sessionStorage.getItem('update') ) {
-                Swal.fire(
-                    'Updated!',
-                    'Your data has been updated.',
-                    'success'
-                );
-                sessionStorage.removeItem('update');
-            }
         });
         $('body').on('click', '#editDept', function (event) {
             event.preventDefault();
