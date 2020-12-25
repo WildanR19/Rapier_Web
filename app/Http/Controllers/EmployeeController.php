@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Employee_detail;
 use App\Models\Job;
+use App\Models\Leave;
+use App\Models\LeaveType;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\File;
@@ -151,12 +153,24 @@ class EmployeeController extends Controller
         $dept   = Department::all();
         $role   = Role::all();
         $job    = Job::all();
+        $leave  = Leave::where('user_id', $id)->get();
+        $leaveType  = LeaveType::all();
+        
+        $leaveCount = $leave->where('status', '!=', 'rejected')->count();
+
+        foreach($leaveType as $lt){
+            $leaveTab[] = '<li class="nav-item"><p class="nav-link">'.$lt->type_name.' <span class="float-right badge bg-'.$lt->color.' badge">'.$leave->where('leave_type_id', $lt->id)->count().'</span></p></li>';
+        }
+
         $data = [
             'user'  => $user,
             'ed'    => $ed,
             'dept'  => $dept,
             'role'  => $role,
             'job'   => $job,
+            'leave' => $leave,
+            'lc'    => $leaveCount,
+            'leaveTab'  => $leaveTab,
         ];
         return view('admin.employee.details')->with($data);
     }

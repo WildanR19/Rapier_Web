@@ -1,6 +1,8 @@
 :root {
-    --primary: #0B92AB;
+    --primary: #14abc5;
+    --primaryHover: #1190A7;
     --secondary: #FFC045;
+    --secondaryHover: #FFB41F;
     --sidebarColor: #59becd;
     /* --notification-bar: 16.5rem; */
     --navigation-bar: 12.5rem;
@@ -67,26 +69,19 @@ ul {
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link,
 .navbar-nav .active {
-    color: #fff;
+    color: #fff !important;
     background-color: var(--secondary);
 }
 
 .sidenav {
     height: 100%;
-    /* Full-height: remove this if you want "auto" height */
     width: var(--notification-bar);
-    /* Set the width of the sidebar */
     position: fixed;
-    /* Fixed Sidebar (stay in place on scroll) */
     z-index: 2;
-    /* Stay on top */
     top: 0;
-    /* Stay at the top */
     right: 0;
     background-color: #111;
-    /* Black */
     overflow-x: hidden;
-    /* Disable horizontal scroll */
     padding-top: 20px;
 }
 
@@ -180,10 +175,14 @@ ul {
 }
 
 .btn-primary {
-    color: var(--secondary);
+    color: #fff;
     font-weight: bolder;
     background-color: var(--primary);
     border: none;
+}
+
+.btn-primary:hover{
+    background-color: var(--primaryHover);
 }
 
 .btn-secondary {
@@ -191,6 +190,11 @@ ul {
     font-weight: bolder;
     border: none;
     background-color: var(--secondary);
+}
+
+.btn-secondary:hover{
+    color: #0C2233;
+    background-color: var(--secondaryHover);
 }
 
 .btn-white{
@@ -217,9 +221,13 @@ ul {
     width: 100%;
 }
 
-.nav-link:hover {
-    background-color: #FFC045;
-}
+/* .nav-link:hover{
+    background-color: var(--secondary) !important;
+    color: var(--secondary) !important;
+} */
+/* .nav-link:hover i{
+    color: var(--secondary) !important;
+} */
 
 .nav-link-1:hover {
     background-color: #59BECD;
@@ -289,6 +297,11 @@ p {
 .bg-oren {
     background-color: #FFC045;
     color: #000;
+}
+
+.bg-biru-muda {
+    background-color: var(--sidebarColor);
+    color: #fff;
 }
 
 #goals .card,
@@ -378,4 +391,28 @@ p {
 }
 .col-in{
     padding: 20px;
+}
+.label-status {
+    letter-spacing: .05em;
+    border-radius: 60px;
+    padding: 4px 12px;
+    font-size: small;
+    font-weight: 500 !important;
+}
+
+.btn-circle{
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+    padding: 6px 0px;
+    border-radius: 15px;
+}
+
+.nav-img{
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    object-position: center;
 }

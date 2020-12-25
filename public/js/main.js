@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    // $(".navbar").css("height", $(".legs").height());
     var height = $('.navbar:visible').outerHeight();
     $('.main-sidebar').css('margin-top', height);
 });
@@ -8,13 +7,10 @@ const navtoggle = document.querySelector('.nav-toggle');
 const navmenuback = document.querySelector('.nav-menu-back');
 const sidebaroverlay = document.querySelector('.sidebar-overlay');
 const sidebar = document.querySelector('.main-sidebar');
-// navtoggle.onclick = () => sidebar.classList.toggle('active');
-// navmenuback.onclick = () => sidebar.classList.toggle('active');
 sidebaroverlay.onclick = () => sidebar.classList.toggle('active');
 
 const navtask = document.querySelector('.nav-task');
 const sidenav = document.querySelector('.sidenav');
-// navtask.onclick = () => sidenav.classList.toggle('active');
 
 const navitem = document.querySelector('.nav-item');
 const navlink = document.querySelector('.nav-link');
@@ -65,3 +61,8 @@ showDate();
 $('#myModal').on('shown.bs.modal', function () {
     $('#myInput').trigger('focus')
 })
+
+//tooltip
+$(document).ready(function(){
+    $('[data-tooltip="tooltip"]').tooltip();   
+});

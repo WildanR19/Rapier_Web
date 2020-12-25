@@ -12,11 +12,8 @@
             <h5 class="text-primary ml-4" id="date"></h5>
             <span class="border-right ml-1" style="border-color: #FFC045 !important;">&nbsp;</span>
             <h5 class="ml-2" id="time"></h5>
-
+            
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                <li class="nav-item my-auto">
-                    <button class="btn btn-outline-info nav-link"><i class="far fa-clipboard"></i> Attendance</button>
-                </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                         <i class="far fa-bell text-primary fa-2x"></i>
@@ -50,7 +47,7 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img class="rounded-circle" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" width="35px"/>
+                        <img class="rounded-circle nav-img" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}"/>
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('profile.show') }}">Profile</a>

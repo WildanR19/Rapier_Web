@@ -2,7 +2,7 @@
 <aside class="main-sidebar">
     <div class="sidebar p-0">
         <!-- Sidebar Menu -->
-        <nav class="mt-2 bg-primary">
+        <nav class="bg-primary">
             <ul id="navbar" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="background-color: #59BECD;">
                 <li class="nav-item">
                     <a href="{{ route('dash.home') }}" class="nav-link {{ (request()->segment(1) == 'dashboard') ? 'active' : '' }}">
@@ -57,7 +57,7 @@
 <aside class="main-sidebar">
     <div class="sidebar p-0">
         <!-- Sidebar Menu -->
-        <nav class="mt-2 bg-primary">
+        <nav class="bg-primary">
             <ul id="navbar" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="background-color: #59BECD;">
                 <li class="nav-item">
                     <a href="{{ route('dash.home') }}" class="nav-link {{ (request()->segment(1) == 'dashboard') ? 'active' : '' }}">
@@ -87,22 +87,17 @@
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="#" class="nav-link">
-                            <p>Attendance</p>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="{{ route('admin.leaves') }}" class="nav-link">
                             <p>Leaves</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="{{ route('admin.holiday') }}" class="nav-link">
                             <p>Holiday</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('dash.payslip') }}" class="nav-link">
                               <p>Payslip</p>
                             </a>
                         </li>

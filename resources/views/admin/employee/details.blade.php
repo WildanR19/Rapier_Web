@@ -45,7 +45,7 @@
                                 <h5 class="description-header">Leaves Taken</h5>
                                 <div class="row font-larger">
                                     <div class="col-md-4 px-2"><i class="nav-icon fas fa-calendar-times text-warning"></i></div>
-                                    <div class="col-md-8 px-2 text-right">0</div>
+                                    <div class="col-md-8 px-2 text-right">{{ $lc }}</div>
                                 </div>
                             </div>
                           </div>
@@ -54,7 +54,7 @@
                                 <h5 class="description-header">LEAVES REMAINING</h5>
                                 <div class="row font-larger">
                                     <div class="col-md-4 px-2"><i class="nav-icon fas fa-calendar-times text-danger"></i></i></div>
-                                    <div class="col-md-8 px-2 text-right">15</div>
+                                    <div class="col-md-8 px-2 text-right">{{ 15-$lc }}</div>
                                 </div>
                               </div>
                           </div>
@@ -62,93 +62,95 @@
                       </div>
                 </div>
                 <div class="col-md-7">
-                    <div class="card">
-                        <div class="card-header d-flex p-0">
-                            <ul class="nav nav-pills mx-auto p-2">
-                                <li class="nav-item"><a class="nav-link active" href="#profile" data-toggle="tab">Profile</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#projects" data-toggle="tab">Projects</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#tasks" data-toggle="tab">Tasks</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#leaves" data-toggle="tab">Leaves</a></li>
-                            </ul>
-                        </div><!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="profile">
-                                    <div class="row">
-                                        <div class="col-md-4 border-right"> <strong>Name</strong> <br>
-                                            <p class="text-muted">{{ $user->name }}</p>
-                                        </div>
-                                        <div class="col-md-4 border-right"> <strong>Email</strong> <br>
-                                            <p class="text-muted">{{ $user->email }}</p>
-                                        </div>
-                                        <div class="col-md-4"> <strong>Gender</strong> <br>
-                                            <p class="text-muted text-capitalize">{{ $ed->gender }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-4 border-right"> <strong>Department</strong> <br>
-                                            <p class="text-muted">{{ $ed->department->name }}</p>
-                                        </div>
-                                        <div class="col-md-4 border-right"> <strong>Job</strong> <br>
-                                            <p class="text-muted">{{ $ed->job->name }}</p>
-                                        </div>
-                                        <div class="col-md-4"> <strong>Joining Date</strong> <br>
-                                            <p class="text-muted">{{ $ed->join_date }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <strong>Address</strong>
-                                            <br><p class="text-muted">{{ $ed->address }}</p>
-                                        </div>
-                                    </div>
+                    <div class="card card-primary card-outline card-outline-tabs">
+                      <div class="card-header p-0 border-bottom-0">
+                        <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link active" id="profile-tab" data-toggle="pill" href="#tab-profile" role="tab" aria-controls="tab-profile" aria-selected="true">Profile</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="project-tab" data-toggle="pill" href="#tab-project" role="tab" aria-controls="tab-project" aria-selected="false">Projects</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="task-tab" data-toggle="pill" href="#tab-task" role="tab" aria-controls="tab-task" aria-selected="false">Tasks</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="leave-tab" data-toggle="pill" href="#tab-leave" role="tab" aria-controls="tab-leave" aria-selected="false">Leaves</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="card-body">
+                        <div class="tab-content" id="custom-tabs-three-tabContent">
+                          <div class="tab-pane fade active show" id="tab-profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="row">
+                                <div class="col-md-4 border-right"> <strong>Name</strong> <br>
+                                    <p class="text-muted">{{ $user->name }}</p>
                                 </div>
-                                <div class="tab-pane" id="projects">
-                                    The European languages are members of the same family. Their separate existence is a
-                                    myth.
-                                    For science, music, sport, etc, Europe uses the same vocabulary. The languages only
-                                    differ
-                                    in their grammar, their pronunciation and their most common words. Everyone realizes
-                                    why a
-                                    new common language would be desirable: one could refuse to pay expensive
-                                    translators. To
-                                    achieve this, it would be necessary to have uniform grammar, pronunciation and more
-                                    common
-                                    words. If several languages coalesce, the grammar of the resulting language is more
-                                    simple
-                                    and regular than that of the individual languages.
+                                <div class="col-md-4 border-right"> <strong>Email</strong> <br>
+                                    <p class="text-muted">{{ $user->email }}</p>
                                 </div>
-                                <div class="tab-pane" id="tasks">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    when an unknown printer took a galley of type and scrambled it to make a type
-                                    specimen book.
-                                    It has survived not only five centuries, but also the leap into electronic
-                                    typesetting,
-                                    remaining essentially unchanged. It was popularised in the 1960s with the release of
-                                    Letraset
-                                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing
-                                    software
-                                    like Aldus PageMaker including versions of Lorem Ipsum.
-                                </div>
-                                <div class="tab-pane" id="leaves">
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
-                                    when an unknown printer took a galley of type and scrambled it to make a type
-                                    specimen book.
-                                    It has survived not only five centuries, but also the leap into electronic
-                                    typesetting,
-                                    remaining essentially unchanged. It was popularised in the 1960s with the release of
-                                    Letraset
-                                    sheets containing Lorem Ipsum passages, and more recently with desktop publishing
-                                    software
-                                    like Aldus PageMaker including versions of Lorem Ipsum.
+                                <div class="col-md-4"> <strong>Gender</strong> <br>
+                                    <p class="text-muted text-capitalize">{{ $ed->gender }}</p>
                                 </div>
                             </div>
-                            <!-- /.tab-content -->
-                        </div><!-- /.card-body -->
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-4 border-right"> <strong>Department</strong> <br>
+                                    <p class="text-muted">{{ $ed->department->name }}</p>
+                                </div>
+                                <div class="col-md-4 border-right"> <strong>Job</strong> <br>
+                                    <p class="text-muted">{{ $ed->job->name }}</p>
+                                </div>
+                                <div class="col-md-4"> <strong>Joining Date</strong> <br>
+                                    <p class="text-muted">{{ $ed->join_date }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <strong>Address</strong>
+                                    <br><p class="text-muted">{{ $ed->address }}</p>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="tab-project" role="tabpanel" aria-labelledby="project-tab">
+                             Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam. 
+                          </div>
+                          <div class="tab-pane fade" id="tab-task" role="tabpanel" aria-labelledby="task-tab">
+                             Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna. 
+                          </div>
+                          <div class="tab-pane fade" id="tab-leave" role="tabpanel" aria-labelledby="leave-tab">
+                            <ul class="nav flex-column">
+                                @foreach ($leaveTab as $leavetab)
+                                    {!! $leavetab !!}
+                                @endforeach
+                            </ul>
+                            <div class="table-responsive mt-3">
+                                <table class="table table-stripped">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>From Date</th>
+                                            <th>To Date</th>
+                                            <th>Reason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($leave as $leaves)
+                                            <tr>
+                                                <td><span class="badge bg-{{ $leaves->type->color }} badge">{{ $leaves->type->type_name }}</span></td>
+                                                <td>{{ $leaves->from_date }}</td>
+                                                <td>{{ $leaves->to_date }}</td>
+                                                <td>{{ $leaves->reason }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /.card -->
                     </div>
                 </div>
             </div>

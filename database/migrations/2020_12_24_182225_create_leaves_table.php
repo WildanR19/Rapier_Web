@@ -20,7 +20,8 @@ class CreateLeavesTable extends Migration
             $table->unsignedInteger('leave_type_id');
             $table->foreign('leave_type_id')->references('id')->on('leave_types')->onDelete('cascade')->onUpdate('cascade');
             $table->string('duration');
-            $table->date('leave_date');
+            $table->date('from_date');
+            $table->date('to_date');
             $table->text('reason');
             $table->enum('status', ['approved', 'pending', 'rejected']);
             $table->text('reject_reason')->nullable();

@@ -33,10 +33,10 @@
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $j->name }}</td>
                                                 <td>
-                                                    <a href="" id="editJob" class="btn btn-info rounded-circle px-2 py-1" data-tooltip="tooltip" title="Edit" data-toggle="modal" data-target="#editJobModal" data-id="{{ $j->id }}">
+                                                    <a href="" id="editJob" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit" data-toggle="modal" data-target="#editJobModal" data-id="{{ $j->id }}">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
-                                                    <a href="/admin/job/delete/{{ $j->id }}" class="btn btn-danger rounded-circle px-2 py-1 delete-confirm" data-tooltip="tooltip" title="Delete">
+                                                    <a href="/admin/job/delete/{{ $j->id }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>
@@ -72,11 +72,6 @@
         });
     });
     
-    //tooltip
-    $(document).ready(function(){
-        $('[data-tooltip="tooltip"]').tooltip();   
-    });
-
     //alert delete
     $(document).on('click', '.delete-confirm', function (e) {
         e.preventDefault();

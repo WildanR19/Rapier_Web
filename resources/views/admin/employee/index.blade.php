@@ -3,13 +3,6 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
     <style>
-        .label-status {
-            letter-spacing: .05em;
-            border-radius: 60px;
-            padding: 4px 12px;
-            font-size: small;
-            font-weight: 500 !important;
-        }
         td{
             vertical-align: middle !important;
         }
@@ -70,13 +63,13 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="/admin/employee/update/{{ $emp->id }}" class="btn btn-info rounded-circle px-2 py-1" data-toggle="tooltip" title="Edit">
+                                                    <a href="/admin/employee/update/{{ $emp->id }}" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
-                                                    <a href="/admin/employee/detail/{{ $emp->id }}" class="btn btn-success rounded-circle px-2 py-1" data-toggle="tooltip" title="Details">
+                                                    <a href="/admin/employee/detail/{{ $emp->id }}" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Details">
                                                         <i class="fas fa-search"></i>
                                                     </a>
-                                                    <a href="/admin/employee/delete/{{ $emp->id }}" class="btn btn-danger rounded-circle px-2 py-1 delete-confirm" data-toggle="tooltip" title="Delete">
+                                                    <a href="/admin/employee/delete/{{ $emp->id }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>
@@ -106,9 +99,6 @@
             "ordering": true,
             "info": true,
         });
-    });
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();   
     });
 
     $(document).on('click', '.delete-confirm', function (e) {

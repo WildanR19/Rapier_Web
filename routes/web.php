@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\LeaveController;
 use App\Http\Livewire\Departments;
 use App\Models\Department;
 use Illuminate\Support\Facades\Route;
@@ -113,10 +116,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::get('/admin/job/{id}/edit', [JobController::class, 'update'])->name('dash.job.update');
     Route::post('/admin/job/{id}', [JobController::class, 'edit'])->name('dash.job.edit');
 
-    //attendance
-    Route::get('/admin/job', [JobController::class, 'index'])->name('dash.job');
     //leaves
-    Route::get('/admin/job', [JobController::class, 'index'])->name('dash.job');
+    Route::get('/admin/leaves', [LeaveController::class, 'index'])->name('admin.leaves');
+    Route::get('/admin/leaves/add', [LeaveController::class, 'add'])->name('admin.leaves.add');
+    Route::post('/admin/leaves/add/store', [LeaveController::class, 'store'])->name('admin.leaves.store');
+    Route::post('/admin/leaves/{id}/approve', [LeaveController::class, 'approve'])->name('admin.leaves.approve');
+    Route::post('/admin/leaves/{id}/reject', [LeaveController::class, 'reject'])->name('admin.leaves.reject');
+
     //holiday
-    Route::get('/admin/job', [JobController::class, 'index'])->name('dash.job');
+    Route::get('/admin/holiday', [HolidayController::class, 'index'])->name('admin.holiday');
 });
