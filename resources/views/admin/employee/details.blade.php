@@ -1,10 +1,5 @@
 @extends('layout.dash')
 @section('css')
-    <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
-    <!-- Sweet Alert -->
-    <link href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet">
-
     <style>
         .description-header{
             font-weight: 500;
@@ -33,31 +28,7 @@
                           <img class="img-circle elevation-2" src="{{ $user->profile_photo_url }}" alt="User Avatar">
                         </div>
                         <div class="card-footer">
-                          <div class="row">
-                            <div class="col-md-6 border-right col-in">
-                                <h5 class="description-header">Tasks Done</h5>
-                                <div class="row font-larger">
-                                    <div class="col-md-4 px-2"><i class="fas fa-tasks text-success"></i></div>
-                                    <div class="col-md-8 px-2 text-right">0</div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-in">
-                                <h5 class="description-header">Leaves Taken</h5>
-                                <div class="row font-larger">
-                                    <div class="col-md-4 px-2"><i class="nav-icon fas fa-calendar-times text-warning"></i></div>
-                                    <div class="col-md-8 px-2 text-right">{{ $lc }}</div>
-                                </div>
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-6 border-right col-in">
-                                <h5 class="description-header">LEAVES REMAINING</h5>
-                                <div class="row font-larger">
-                                    <div class="col-md-4 px-2"><i class="nav-icon fas fa-calendar-times text-danger"></i></i></div>
-                                    <div class="col-md-8 px-2 text-right">{{ 15-$lc }}</div>
-                                </div>
-                              </div>
-                          </div>
+                          {!! $card !!}
                         </div>
                       </div>
                 </div>
@@ -156,23 +127,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('js')
-<!-- DataTables -->
-<script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
-<!-- Sweet Alert -->
-<script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-<script>
-    $(function () {
-        $('#empTable').DataTable({
-            "paging": true,
-            "lengthChange": true,
-            "searching": true,
-            "ordering": true,
-            "info": true,
-        });
-    });
-</script>
 @endsection

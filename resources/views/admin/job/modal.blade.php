@@ -8,7 +8,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <form action="{{ route('dash.job.store')}}" method="POST" id="addForm">
+            <form action="{{ route('admin.job.store')}}" method="POST" id="addForm">
                 @csrf
                 {{-- user table --}}
                 <div class="form-group">

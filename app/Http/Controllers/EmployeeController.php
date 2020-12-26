@@ -84,7 +84,7 @@ class EmployeeController extends Controller
         $ed->save();
 
         Alert::success('Success', 'Your data has been added.');
-        return redirect()->route('dash.employee');
+        return redirect()->route('admin.employee');
     }
 
     public function destroy($id)
@@ -115,6 +115,19 @@ class EmployeeController extends Controller
 
     public function update(Request $request)
     {
+        $this->validate($request, [
+            'name'      => 'required|string|min:5|max:50',
+            'email'     => 'required|email',
+            'role'      => 'required',
+            'address'   => 'required',
+            'dept'      => 'required',
+            'job'       => 'required',
+            'gender'    => 'required',
+            'join_date' => 'required|date',
+            'last_date' => 'nullable',
+            'photo'     => 'nullable|file|image|mimes:jpeg,png,jpg,svg|max:1024',
+        ]);
+
         if($request->last_date < now() && !empty($request->last_date)){
             $status = 'deactive';
         }else{
@@ -124,7 +137,9 @@ class EmployeeController extends Controller
         $emp = User::findOrFail($request->id);
         $emp->name      = $request->name;
         $emp->email     = $request->email;
-        $emp->password  = Hash::make($request->password);
+        if(!empty($request->password)){
+            $emp->password  = Hash::make($request->password);
+        }
         $emp->role_id   = $request->role;
         $emp->status    = $status;
         if($request->hasFile('photo')){
@@ -143,7 +158,7 @@ class EmployeeController extends Controller
             'last_date'     => $request->last_date,
         ]);
 
-        return redirect()->route('dash.employee');
+        return redirect()->route('admin.employee');
     }
 
     public function details($id)
@@ -156,20 +171,70 @@ class EmployeeController extends Controller
         $leave  = Leave::where('user_id', $id)->get();
         $leaveType  = LeaveType::all();
         
-        $leaveCount = $leave->where('status', '!=', 'rejected')->count();
+        $leaveApprove = Leave::where('user_id', $user->id)->where('status', '!=', 'rejected')->get();
 
+        $leaveCount = 0;
+        foreach($leaveApprove as $la){
+            $td = strtotime($la->to_date);
+            $fd = strtotime($la->from_date);
+            $count = floor(($td-$fd) / (60 * 60 * 24))+1;
+            if($la->duration == 'half day'){
+                $count = $count/2;
+            }
+            $leaveCount += $count;
+        }
+        $leaveRemaining = 15 - $leaveCount;
+
+        $card = '
+        <div class="row">
+            <div class="col-md-6 border-right col-in">
+                <h5 class="description-header">Tasks Done</h5>
+                <div class="row font-larger">
+                    <div class="col-md-4 px-2"><i class="fas fa-tasks text-success"></i></div>
+                    <div class="col-md-8 px-2 text-right">0</div>
+                </div>
+            </div>
+            <div class="col-md-6 col-in">
+                <h5 class="description-header">Leaves Taken</h5>
+                <div class="row font-larger">
+                    <div class="col-md-4 px-2"><i class="nav-icon fas fa-calendar-times text-warning"></i></div>
+                    <div class="col-md-8 px-2 text-right">'.$leaveCount.'</div>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-md-6 border-right col-in">
+                <h5 class="description-header">LEAVES REMAINING</h5>
+                <div class="row font-larger">
+                    <div class="col-md-4 px-2"><i class="nav-icon fas fa-calendar-times text-danger"></i></i></div>
+                    <div class="col-md-8 px-2 text-right">'.$leaveRemaining.'</div>
+                </div>
+            </div>
+        </div>';
+            
         foreach($leaveType as $lt){
-            $leaveTab[] = '<li class="nav-item"><p class="nav-link">'.$lt->type_name.' <span class="float-right badge bg-'.$lt->color.' badge">'.$leave->where('leave_type_id', $lt->id)->count().'</span></p></li>';
+            $countLeaveType = Leave::where('user_id', $id)->where('leave_type_id', $lt->id)->get();
+            $leaveTypeCount = 0;
+            foreach($countLeaveType as $lv){
+                $tda = strtotime($lv->to_date);
+                $fda = strtotime($lv->from_date);
+                $counta = floor(($tda-$fda) / (60 * 60 * 24))+1;
+                if($lv->duration == 'half day'){
+                    $counta = $counta/2;
+                }
+                $leaveTypeCount += $counta;
+            }
+            $leaveTab[] = '<li class="nav-item"><p class="nav-link">'.$lt->type_name.' <span class="float-right badge bg-'.$lt->color.' badge">'.$leaveTypeCount.'</span></p></li>';
         }
 
         $data = [
-            'user'  => $user,
-            'ed'    => $ed,
-            'dept'  => $dept,
-            'role'  => $role,
-            'job'   => $job,
-            'leave' => $leave,
-            'lc'    => $leaveCount,
+            'user'      => $user,
+            'ed'        => $ed,
+            'dept'      => $dept,
+            'role'      => $role,
+            'job'       => $job,
+            'leave'     => $leave,
+            'card'      => $card,
             'leaveTab'  => $leaveTab,
         ];
         return view('admin.employee.details')->with($data);

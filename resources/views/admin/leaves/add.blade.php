@@ -1,6 +1,5 @@
 @extends('layout.dash')
 @section('css')
-    <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
     <style>
         ul{
             list-style-type: disc;        
@@ -37,7 +36,9 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="leaveType">Leave Type</label>
+                                <label for="leaveType">Leave Type
+                                    <button type="button" class="btn btn-sm btn-primary rounded-circle" data-tooltip="tooltip" title="Add new leave type" data-toggle="modal" data-target="#addTypeModal"><i class="fas fa-plus"></i></button>
+                                </label>
                                 <select id="leaveType" class="form-control" name="type">
                                     <option disabled selected>Choose...</option>
                                     @foreach ($type as $t)
@@ -89,10 +90,5 @@
         </div>
     </div>
 </div>
-@endsection
-@section('js')
-<!-- InputMask -->
-<script src="{{ asset('plugins/moment/moment.min.js') }}"></script>
-<!-- date-range-picker -->
-<script src="{{ asset('plugins/daterangepicker/daterangepicker.js') }}"></script>
+@include('admin.leaves.modal')
 @endsection

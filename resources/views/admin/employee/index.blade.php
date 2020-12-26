@@ -1,7 +1,5 @@
 @extends('layout.dash')
 @section('css')
-    <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
     <style>
         td{
             vertical-align: middle !important;
@@ -23,7 +21,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col text-right">
-                                    <a href="{{ route('dash.employee.add') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Employee</a>
+                                    <a href="{{ route('admin.employee.add') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Employee</a>
                                 </div>
                             </div>
                             <div class="table-responsive mt-3">
@@ -63,13 +61,13 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <a href="/admin/employee/update/{{ $emp->id }}" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit">
+                                                    <a href="{{ route('admin.employee.edit', $emp->id) }}" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
-                                                    <a href="/admin/employee/detail/{{ $emp->id }}" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Details">
+                                                    <a href="{{ route('admin.employee.details', $emp->id) }}" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Details">
                                                         <i class="fas fa-search"></i>
                                                     </a>
-                                                    <a href="/admin/employee/delete/{{ $emp->id }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
+                                                    <a href="{{ route('admin.employee.delete', $emp->id) }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>
@@ -87,9 +85,6 @@
 @endsection
 
 @section('js')
-<!-- DataTables -->
-<script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
 <script>
     $(function () {
         $('#empTable').DataTable({

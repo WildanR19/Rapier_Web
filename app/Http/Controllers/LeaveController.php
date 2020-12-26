@@ -14,7 +14,22 @@ class LeaveController extends Controller
     {
         $leave = Leave::all();
         $count = $leave->where('status', 'pending')->count();
-        return view('admin.leaves.index')->with('leave', $leave)->with('count', $count);
+        $small_box = '
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>'.$count.'</h3>
+                    <p>Pending Leaves</p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+            </div>
+            ';
+        $data = [
+            'leave' => $leave,
+            'smallbox'  => $small_box,
+        ];
+        return view('admin.leaves.index')->with($data);
     }
 
     public function add()
@@ -62,6 +77,18 @@ class LeaveController extends Controller
     {
         Leave::where('id',$id)->update(['status' => 'rejected', 'reject_reason' => $request->reason]);
         Alert::error('Rejected', 'Your leave has been rejected.');
+        return back();
+    }
+
+    public function add_type(Request $request){
+        $this->validate($request,[
+            'type'      => 'required|string',
+            'color'     => 'required|string',
+        ]);
+        LeaveType::create([
+            'type_name' => $request->type,
+            'color'     => $request->color,
+        ]);
         return back();
     }
 }

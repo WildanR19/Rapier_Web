@@ -72,17 +72,17 @@
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
-                          <a href="{{ route('dash.employee') }}" class="nav-link">
+                          <a href="{{ route('admin.employee') }}" class="nav-link">
                             <p>Employee</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="{{ route('dash.department') }}" class="nav-link">
+                          <a href="{{ route('admin.department') }}" class="nav-link">
                             <p>Department</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="{{ route('dash.job') }}" class="nav-link">
+                          <a href="{{ route('admin.job') }}" class="nav-link">
                             <p>Job</p>
                           </a>
                         </li>
@@ -110,12 +110,12 @@
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="{{ route('admin.projects') }}" class="nav-link">
                             <p>Projects</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="#" class="nav-link">
+                          <a href="{{ route('admin.tasks') }}" class="nav-link">
                             <p>Tasks</p>
                           </a>
                         </li>

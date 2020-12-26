@@ -1,23 +1,11 @@
 @extends('layout.dash')
-@section('css')
-    <!-- DataTables -->
-    <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
-@endsection
+
 @section('content')
     <div class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-3 col-6">
-                    <div class="small-box bg-warning">
-                        <div class="inner">
-                          <h3>{{ $count }}</h3>
-          
-                          <p>Pending Leaves</p>
-                        </div>
-                        <div class="icon">
-                          <i class="fas fa-sign-out-alt"></i>
-                        </div>
-                    </div>
+                    {!! $smallbox !!}
                 </div>
             </div>
             <div class="row">
@@ -35,6 +23,7 @@
                                         <tr>
                                             <th>No.</th>
                                             <th>Employee</th>
+                                            <th>Duration</th>
                                             <th>From Date</th>
                                             <th>To Date</th>
                                             <th>Leave Status</th>
@@ -48,6 +37,7 @@
                                             <tr>
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $lv->user->name }}</td>
+                                                <td class="text-capitalize">{{ $lv->duration }}</td>
                                                 <td>{{ $lv->from_date }}</td>
                                                 <td>{{ $lv->to_date }}</td>
                                                 @php
@@ -92,9 +82,6 @@
 @endsection
 
 @section('js')
-<!-- DataTables -->
-<script src="{{ asset('plugins/datatables/jquery.dataTables.js') }}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
 <script>
     //datatable
     $(function () {

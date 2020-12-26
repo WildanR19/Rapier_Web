@@ -23,7 +23,7 @@
                                 </ul>
                             </div>
                         @endif
-                        <form action="{{ route('dash.employee.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin.employee.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             {{-- user table --}}
                             <div class="form-group">
