@@ -416,3 +416,11 @@ p {
     object-fit: cover;
     object-position: center;
 }
+
+.card-primary.card-outline-tabs > .card-header a.active {
+    border-top: 3px solid var(--primary) !important;
+}
+
+nav-link a {
+    color: var(--primary) !important;
+}

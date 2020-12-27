@@ -4,17 +4,19 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Leave;
+use App\Models\LeaveType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class LeaveController extends Controller
 {
     public function index()
     {
-        $user   = Auth::user();
-        $leave  = Leave::where('user_id', $user->id)->get();
+        $user       = Auth::user();
+        $leave      = Leave::where('user_id', $user->id)->orderByDesc('created_at')->get();
+        $leaveType  = LeaveType::all();
 
-        // $leaveCount = $leave->where('status', '!=', 'rejected')->count();
         $leaveApprove = Leave::where('user_id', $user->id)->where('status', '!=', 'rejected')->get();
 
         $leaveCount = 0;
@@ -55,11 +57,57 @@ class LeaveController extends Controller
 
         $data = [
             'leave_header'  => $leave_header,
-            'user'          => $user,
             'leave'         => $leave,
+            'leavetype'     => $leaveType,
         ];
         return view('employee.leave.index')->with($data);
     }
 
+    public function store(Request $request)
+    {
+        $leave = new Leave();
 
+        $leave->user_id         = Auth::user()->id;
+        $leave->leave_type_id   = $request->type;
+        $leave->duration        = $request->duration;
+        $leave->from_date       = $request->fromdate;
+        $leave->to_date         = $request->todate;
+        $leave->reason          = $request->reason;
+        $leave->status          = 'pending';
+        $leave->save();
+
+        Alert::success('Success', 'Your leave has been assign.');
+        return back();
+    }
+
+    public function update($id)
+    {
+    	$leave = Leave::find($id);
+
+	    return response()->json([
+	      'data' => $leave
+	    ]);
+    }
+
+    public function edit(Request $request, $id)
+    {
+        Leave::where('id', $id)
+                ->where('user_id', $request->user_id)
+                ->update([
+                    'leave_type_id' => $request->type,
+                    'duration'      => $request->duration,
+                    'from_date'     => $request->fromdate,
+                    'to_date'       => $request->todate,
+                    'reason'        => $request->reason,
+                ]);
+        Alert::success('Updated', 'Your data has been updated.');
+        return response()->json([ 'success' => true ]);
+    }
+
+    public function destroy($id)
+    {
+        Leave::find($id)->delete();
+        Alert::success('Cancel', 'Your leave has been canceled.');
+        return back();
+    }
 }

@@ -52,13 +52,15 @@
                                                 <td>{{ $emp->name }}</td>
                                                 <td>{{ $emp->email }}</td>
                                                 <td>{{ $emp->role->name }}</td>
+                                                @php 
+                                                    if($emp->status == 'Active'){
+                                                        $color = 'success';
+                                                    }else {
+                                                        $color = 'danger';
+                                                    }
+                                                @endphp
                                                 <td>
-                                                    @if ($emp->status == 'Active')
-                                                        <label class="label-status bg-success">{{ $emp->status }}</label>
-                                                    @endif
-                                                    @if ($emp->status == 'Deactive')
-                                                        <label class="label-status bg-danger">{{ $emp->status }}</label>
-                                                    @endif
+                                                    <label class="label-status bg-{{ $color }}">{{ $emp->status }}</label>
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('admin.employee.edit', $emp->id) }}" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit">
@@ -93,26 +95,6 @@
             "searching": true,
             "ordering": true,
             "info": true,
-        });
-    });
-
-    $(document).on('click', '.delete-confirm', function (e) {
-        e.preventDefault();
-        const url = $(this).attr('href');
-        swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonColor: '#d33',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.value) {
-                window.location.href = url;
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire('Cancelled', '', 'error')
-            }
         });
     });
 </script>

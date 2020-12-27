@@ -91,4 +91,11 @@ class LeaveController extends Controller
         ]);
         return back();
     }
+
+    public function destroy($id)
+    {
+        Leave::find($id)->delete();
+        Alert::success('Deleted', 'Your data has been deleted.');
+        return back();
+    }
 }

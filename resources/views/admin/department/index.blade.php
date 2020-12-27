@@ -29,6 +29,7 @@
                                         <tr>
                                             <th>No.</th>
                                             <th>Name</th>
+                                            <th>Total Employee</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -38,6 +39,15 @@
                                             <tr>
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $d->name }}</td>
+                                                @php
+                                                    $count = $d->employee_detail->count();
+                                                    if ($count == 0) {
+                                                        $color = 'warning';
+                                                    }else {
+                                                        $color = 'success';
+                                                    }
+                                                @endphp
+                                                <td><label class="label-status bg-{{ $color }}">{{ $count }} Employee</label></td>
                                                 <td>
                                                     <a href="" id="editDept" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit" data-toggle="modal" data-target="#editDepartmentModal" data-id="{{ $d->id }}">
                                                         <i class="fas fa-pencil-alt"></i>
@@ -72,27 +82,6 @@
             "searching": true,
             "ordering": true,
             "info": true,
-        });
-    });
-
-    //alert delete
-    $(document).on('click', '.delete-confirm', function (e) {
-        e.preventDefault();
-        const url = $(this).attr('href');
-        swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonColor: '#d33',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.value) {
-                window.location.href = url;
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire('Cancelled', '', 'error')
-            }
         });
     });
 

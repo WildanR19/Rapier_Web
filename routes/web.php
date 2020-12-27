@@ -45,7 +45,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     })->name('dash.goals');
     Route::get('/admin/employee', [EmployeeController::class, 'index'])->name('admin.employee');
     
+    //leave
     Route::get('/leave', [EmployeeLeaveController::class, 'index'])->name('dash.leave');
+    Route::post('/leave/assign', [EmployeeLeaveController::class, 'store'])->name('dash.leave.assign');
+    Route::get('/leave/{id}/edit', [EmployeeLeaveController::class, 'update'])->name('dash.leave.update');
+    Route::post('/leave/{id}', [EmployeeLeaveController::class, 'edit'])->name('dash.leave.edit');
+    Route::get('/leave/delete/{id}', [EmployeeLeaveController::class, 'destroy'])->name('dash.leave.delete');
     
     Route::get('/teams', function () {
         return view('employee.teams.index');
@@ -114,6 +119,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::post('/admin/leaves/{id}/approve', [LeaveController::class, 'approve'])->name('admin.leaves.approve');
     Route::post('/admin/leaves/{id}/reject', [LeaveController::class, 'reject'])->name('admin.leaves.reject');
     Route::post('/admin/leaves/add/type', [LeaveController::class, 'add_type'])->name('admin.leaves.add.type');
+    Route::get('/admin/leaves/delete/{id}', [LeaveController::class, 'destroy'])->name('admin.leaves.delete');
 
     //holiday
     Route::get('/admin/holiday', [HolidayController::class, 'index'])->name('admin.holiday');

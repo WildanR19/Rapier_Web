@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Department;
+use App\Models\Employee_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -11,9 +12,7 @@ class DepartmentController extends Controller
 {
     public function index()
     {
-    	// Get all data
         $dept = Department::all();
-    	// return data to view
         return view('admin.department.index')->with('dept', $dept);
     }
 

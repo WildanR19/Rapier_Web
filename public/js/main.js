@@ -66,3 +66,24 @@ $('#myModal').on('shown.bs.modal', function () {
 $(document).ready(function(){
     $('[data-tooltip="tooltip"]').tooltip();   
 });
+
+ //alert delete
+ $(document).on('click', '.delete-confirm', function (e) {
+    e.preventDefault();
+    const url = $(this).attr('href');
+    swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.value) {
+            window.location.href = url;
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire('Cancelled', '', 'error')
+        }
+    });
+});

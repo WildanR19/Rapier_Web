@@ -63,8 +63,11 @@
                                                             <i class="fas fa-times"></i>
                                                         </button>
                                                     @endif
-                                                    <a href="#" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Details">
+                                                    {{-- <a href="#" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Details" id="leaveDetails" data-id="{{ $lv->id }}">
                                                         <i class="fas fa-search"></i>
+                                                    </a> --}}
+                                                    <a href="{{ route('admin.leaves.delete', $lv->id) }}" class="btn btn-outline-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
+                                                        <i class="fas fa-trash-alt"></i>
                                                     </a>
                                                 </td>
                                             </tr>
@@ -91,6 +94,23 @@
             "searching": true,
             "ordering": true,
             "info": true,
+        });
+    });
+
+    //details modal
+    $(document).ready(function () {
+        $('body').on('click', '#leaveDetails', function (event) {
+            event.preventDefault();
+            var id = $(this).data('id');
+            $.get('leaves/' + id + '/details', function (data) {
+                $('#detailsModal').modal('show');
+                $('#name').text(data.user.name);
+                $('#type').text(data.type.type_name);
+                $('#fromdate').text(data.data.from_date);
+                $('#todate').text(data.data.to_date);
+                $('#reasonDetail').text(data.data.reason);
+                $('#status').text(data.data.status);
+            })
         });
     });
 </script>
