@@ -7,45 +7,54 @@ use Illuminate\Http\Request;
 
 class HolidayController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if(request()->ajax()) 
-        {
- 
-         $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
-         $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
- 
-         $data = Holiday::whereDate('start', '>=', $start)->whereDate('end', '<=', $end)->get(['id','title','start', 'end']);
-         return response()->json($data);
+  
+        if($request->ajax()) {
+       
+             $data = Holiday::whereDate('start', '>=', $request->start)
+                       ->whereDate('end',   '<=', $request->end)
+                       ->get(['id', 'title', 'start', 'end']);
+  
+             return response()->json($data);
         }
+  
         return view('admin.holiday.index');
     }
-
-    public function create(Request $request)
-    {  
-        $insertArr = [ 'title' => $request->title,
-                       'start' => $request->start,
-                       'end' => $request->end
-                    ];
-        $event = Holiday::insert($insertArr);   
-        return response()->json($event);
-    }
-     
  
-    public function update(Request $request)
-    {   
-        $where = array('id' => $request->id);
-        $updateArr = ['title' => $request->title,'start' => $request->start, 'end' => $request->end];
-        $event  = Holiday::where($where)->update($updateArr);
- 
-        return response()->json($event);
-    } 
- 
- 
-    public function destroy(Request $request)
+    public function ajax(Request $request)
     {
-        $event = Holiday::where('id',$request->id)->delete();
-   
-        return response()->json($event);
+ 
+        switch ($request->type) {
+           case 'add':
+              $event = Holiday::create([
+                  'title' => $request->title,
+                  'start' => $request->start,
+                  'end' => $request->end,
+              ]);
+ 
+              return response()->json($event);
+             break;
+  
+           case 'update':
+              $event = Holiday::find($request->id)->update([
+                  'title' => $request->title,
+                  'start' => $request->start,
+                  'end' => $request->end,
+              ]);
+ 
+              return response()->json($event);
+             break;
+  
+           case 'delete':
+              $event = Holiday::find($request->id)->delete();
+  
+              return response()->json($event);
+             break;
+             
+           default:
+             # code...
+             break;
+        }
     }
 }

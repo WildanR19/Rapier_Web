@@ -11,7 +11,7 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class LeaveController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user       = Auth::user();
         $leave      = Leave::where('user_id', $user->id)->orderByDesc('created_at')->get();
@@ -54,6 +54,16 @@ class LeaveController extends Controller
                 </div>
             </div>
             ';
+
+        if($request->ajax()) {
+            $data = Leave::with('type')
+            ->where('user_id', $user->id)
+            ->where('status', '!=', 'rejected')
+            ->whereDate('from_date', '>=', $request->start)
+            ->whereDate('to_date', '<=', $request->end)
+            ->get(['id','reason as title','from_date as start', 'to_date as end']);
+            return response()->json($data);
+        }
 
         $data = [
             'leave_header'  => $leave_header,

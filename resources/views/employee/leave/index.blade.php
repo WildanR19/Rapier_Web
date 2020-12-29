@@ -1,12 +1,17 @@
 @extends('layout.dash')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+{{-- FullCalendar --}}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
 <style>
     .card {
         box-shadow: 0 3px 1px rgba(0, 0, 0, 0.125), 0 3px 3px rgba(0, 0, 0, 0.2);
         margin-bottom: 1rem;
     }
+    .fc-today {
+        color: #000 !important;
+        background: #fffadf !important;
+    } 
 </style>
 @endsection
 
@@ -20,7 +25,7 @@
                         <div class="card-header p-0 border-bottom-0">
                           <ul class="nav nav-tabs nav-fill" id="custom-tabs-three-tab" role="tablist">
                             <li class="nav-item">
-                              <a class="nav-link active" id="calendar-tab" data-toggle="pill" href="#calendar" role="tab" aria-controls="calendar" aria-selected="true">Summary & Calendar</a>
+                              <a class="nav-link active" id="calendar-tab" data-toggle="pill" href="#sumcalendar" role="tab" aria-controls="calendar" aria-selected="true">Summary & Calendar</a>
                             </li>
                             <li class="nav-item">
                               <a class="nav-link" id="leave-tab" data-toggle="pill" href="#leave" role="tab" aria-controls="leave" aria-selected="false">Your Leave</a>
@@ -29,14 +34,16 @@
                         </div>
                         <div class="card-body">
                           <div class="tab-content" id="custom-tabs-three-tabContent">
-                            <div class="tab-pane fade show active" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+                            <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="calendar-tab" id="sumcalendar">
                                 {!! $leave_header !!}
                                 <div class="row mt-4">
-                                    <div class="col text-right">
+                                    <div class="col-md-12 text-right">
                                         <button class="btn btn-secondary" data-toggle="modal" data-target="#applyModal">Assign
                                             Leave</button>
                                     </div>
-                                    <iframe src="https://calendar.google.com/calendar/embed?height=600&amp;wkst=2&amp;bgcolor=%23ffffff&amp;ctz=Asia%2FJakarta&amp;src=aWQuaW5kb25lc2lhbiNob2xpZGF5QGdyb3VwLnYuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%237986CB&amp;showTitle=0&amp;showPrint=0&amp;showTabs=0&amp;showTz=0" style="border-width:0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+                                    <div class="col-md-12">
+                                        <div id="calendar"></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
@@ -131,6 +138,9 @@
 @endsection
 
 @section('js')
+{{-- FullCalendar --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
 <script type="text/javascript">
     //datatable
     $(function () {
@@ -222,49 +232,41 @@
 
     });
 
-    var SumCal_Panel = document.getElementById('SumCal_Panel');
-    var Leave_Panel = document.getElementById('Leave_Panel');
+    // fullcalendar
+    $(document).ready(function () {
 
-    var Page_SumCal_Panel = document.getElementById('Page_SumCal_Panel');
-    var Page_Leave_Panel = document.getElementById('Page_Leave_Panel');
+        var SITEURL = "{{ url('/') }}";
 
-    function backToCalendar() {
-        Page_SumCal_Panel.classList.add("show_page");
-        Page_Leave_Panel.classList.remove("show_page");
-        SumCal_Panel.classList.add("panel-btn");
-        Leave_Panel.classList.remove("panel-btn");
-    }
-
-    function backToLeave() {
-        Page_SumCal_Panel.classList.remove("show_page");
-        Page_Leave_Panel.classList.add("show_page");
-        SumCal_Panel.classList.remove("panel-btn");
-        Leave_Panel.classList.add("panel-btn");
-    }
-
-    function checkDate() {
-        var myTableArray = [];
-        $('table#leaveTable tr').each(function() {
-            var arrayOfThisRow = [];
-            var tableData = $(this).find('td');
-            if (tableData.length > 0) {
-                tableData.each(function() {
-                    arrayOfThisRow.push($(this).text());
-                });
-                myTableArray.push(arrayOfThisRow);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        for (i = 0; i < myTableArray.length; i++) {
-            var res = myTableArray[i][1].replace(/-/g, "/");
-            var status = myTableArray[i][8];
-            var selectedDate = new Date(res);
-            var now = new Date();
-            if (selectedDate < now || status == 'Rejected') {
-                document.getElementsByClassName('btn-edit')[i].style.visibility = 'hidden';
-            }
-        }
-    }
-    checkDate();
 
+        var calendar = $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'prevYear,nextYear'
+            },
+            editable: false,
+            themeSystem: 'bootstrap4',
+            events: {
+                url: SITEURL + "/leave",
+                color: '#59becd'
+            },
+            displayEventTime: false,
+            eventRender: function (event, element, view) {
+                if (event.allDay === 'true') {
+                    event.allDay = true;
+                } else {
+                    event.allDay = false;
+                }
+            },
+            selectable: false,
+            selectHelper: false,
+        });
+
+    });
 </script>
 @endsection

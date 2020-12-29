@@ -17,15 +17,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link {{ (request()->segment(1) == 'tasks') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tasks"></i>
-                        <p>Tasks</p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ route('dash.goals') }}" class="nav-link {{ (request()->segment(1) == 'goals') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bullseye"></i>
-                        <p>Goals</p>
+                        <p>Task Goals</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -44,6 +38,12 @@
                     <a href="{{ route('dash.payslip') }}" class="nav-link {{ (request()->segment(1) == 'payslip') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-money-bill-alt"></i>
                         <p>Payslip</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('dash.holiday') }}" class="nav-link {{ (request()->segment(1) == 'holiday') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-plane-departure"></i>
+                        <p>Holiday</p>
                     </a>
                 </li>
             </ul>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\Employee\HolidayController as EmployeeHolidayController;
 use App\Http\Controllers\Employee\LeaveController as EmployeeLeaveController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HolidayController;
@@ -51,6 +52,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/leave/{id}/edit', [EmployeeLeaveController::class, 'update'])->name('dash.leave.update');
     Route::post('/leave/{id}', [EmployeeLeaveController::class, 'edit'])->name('dash.leave.edit');
     Route::get('/leave/delete/{id}', [EmployeeLeaveController::class, 'destroy'])->name('dash.leave.delete');
+
+    //holiday
+    Route::get('/holiday', [EmployeeHolidayController::class, 'index'])->name('dash.holiday');
     
     Route::get('/teams', function () {
         return view('employee.teams.index');
@@ -123,9 +127,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
 
     //holiday
     Route::get('/admin/holiday', [HolidayController::class, 'index'])->name('admin.holiday');
-    Route::post('/admin/holiday/create', [HolidayController::class, 'create'])->name('admin.holiday.add');
-    Route::post('/admin/holiday/update', [HolidayController::class, 'update'])->name('admin.holiday.update');
-    Route::post('/admin/holiday/delete', [HolidayController::class, 'destroy'])->name('admin.holiday.delete');
+    Route::post('/admin/holiday/ajax', [HolidayController::class, 'ajax'])->name('admin.holiday.ajax');
 
     // project
     Route::view('/admin/projects', 'admin.project.index')->name('admin.projects');
