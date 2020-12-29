@@ -101,6 +101,6 @@
     </ul>
 </section>
 
-@include('projects.modal-edit-project')
-@include('projects.modal-submit-update')
+@include('employee.projects.modal-edit-project')
+@include('employee.projects.modal-submit-update')
 @endsection

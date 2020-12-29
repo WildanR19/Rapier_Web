@@ -117,12 +117,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::get('/admin/leaves/add', [LeaveController::class, 'add'])->name('admin.leaves.add');
     Route::post('/admin/leaves/add/store', [LeaveController::class, 'store'])->name('admin.leaves.store');
     Route::post('/admin/leaves/{id}/approve', [LeaveController::class, 'approve'])->name('admin.leaves.approve');
-    Route::post('/admin/leaves/{id}/reject', [LeaveController::class, 'reject'])->name('admin.leaves.reject');
+    Route::post('/admin/leaves/reject/{id}', [LeaveController::class, 'reject'])->name('admin.leaves.reject');
     Route::post('/admin/leaves/add/type', [LeaveController::class, 'add_type'])->name('admin.leaves.add.type');
     Route::get('/admin/leaves/delete/{id}', [LeaveController::class, 'destroy'])->name('admin.leaves.delete');
 
     //holiday
     Route::get('/admin/holiday', [HolidayController::class, 'index'])->name('admin.holiday');
+    Route::post('/admin/holiday/create', [HolidayController::class, 'create'])->name('admin.holiday.add');
+    Route::post('/admin/holiday/update', [HolidayController::class, 'update'])->name('admin.holiday.update');
+    Route::post('/admin/holiday/delete', [HolidayController::class, 'destroy'])->name('admin.holiday.delete');
 
     // project
     Route::view('/admin/projects', 'admin.project.index')->name('admin.projects');

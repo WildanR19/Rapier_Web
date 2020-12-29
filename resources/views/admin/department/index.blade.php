@@ -117,7 +117,6 @@
         $('body').on('click', '#editDept', function (event) {
             event.preventDefault();
             var id = $(this).data('id');
-            console.log(id)
             $.get('department/' + id + '/edit', function (data) {
                 $('#submit').val("Save Changes");
                 $('#editDepartmentModal').modal('show');

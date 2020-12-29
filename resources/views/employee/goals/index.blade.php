@@ -112,7 +112,7 @@
                                         <div class="col my-auto">
                                             <div>
                                                 <h5>{{ Auth::user()->name }}</h5>
-                                                <i>{{ Auth::user()->role }}</i>
+                                                <i>{{ Auth::user()->employee_detail->job->name }}</i>
                                             </div>
                                         </div>
                                         <div class="col text-right">
@@ -221,26 +221,26 @@
     </div>
 </div>
 
-@include('goals.modal-update')
-@include('goals.modal-chart')
+@include('employee.goals.modal-update')
+@include('employee.goals.modal-chart')
 
-@include('goals.data-hrga')
-@include('goals.data-hrdev')
-@include('goals.data-hrirga')
+@include('employee.goals.data-hrga')
+@include('employee.goals.data-hrdev')
+@include('employee.goals.data-hrirga')
 
-@include('goals.data-suprecruit')
-@include('goals.data-suptraining')
-@include('goals.data-supod')
-@include('goals.data-suphr')
-@include('goals.data-supirga')
+@include('employee.goals.data-suprecruit')
+@include('employee.goals.data-suptraining')
+@include('employee.goals.data-supod')
+@include('employee.goals.data-suphr')
+@include('employee.goals.data-supirga')
 
-@include('goals.data-staffga')
-@include('goals.data-staffhr')
-@include('goals.data-staffod')
-@include('goals.data-staffrecruit')
-@include('goals.data-stafftraining')
+@include('employee.goals.data-staffga')
+@include('employee.goals.data-staffhr')
+@include('employee.goals.data-staffod')
+@include('employee.goals.data-staffrecruit')
+@include('employee.goals.data-stafftraining')
 
-@include('goals.add-goal')
+@include('employee.goals.add-goal')
 
 @endsection
 

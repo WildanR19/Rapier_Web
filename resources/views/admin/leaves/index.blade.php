@@ -59,13 +59,10 @@
                                                                 <i class="fas fa-check"></i>
                                                             </button>
                                                         </form>
-                                                        <button class="btn btn-danger btn-circle" data-tooltip="tooltip" title="Reject" data-toggle="modal" data-target="#rejectModal">
+                                                        <button class="btn btn-danger btn-circle" data-tooltip="tooltip" title="Reject" data-toggle="modal" data-target="#rejectModal" data-id="{{ $lv->id }}" id="rejectbtn">
                                                             <i class="fas fa-times"></i>
                                                         </button>
                                                     @endif
-                                                    {{-- <a href="#" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Details" id="leaveDetails" data-id="{{ $lv->id }}">
-                                                        <i class="fas fa-search"></i>
-                                                    </a> --}}
                                                     <a href="{{ route('admin.leaves.delete', $lv->id) }}" class="btn btn-outline-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>
@@ -97,20 +94,41 @@
         });
     });
 
-    //details modal
+    //modal update
     $(document).ready(function () {
-        $('body').on('click', '#leaveDetails', function (event) {
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $('body').on('click', '#submitReject', function (event) {
+            event.preventDefault()
+            var id = $("#leave_id").val();
+            var reason = $("#reason").val();
+
+            $.ajax({
+                url: 'leaves/reject/' + id,
+                type: "POST",
+                data: {
+                    id: id,
+                    reason: reason,
+                },
+                dataType: 'json',
+                success: function (data) {
+                    $('#formReject').trigger('reset');
+                    $('#rejectModal').modal('hide');
+                    window.location.reload(true);
+                }
+            });
+        });
+
+        $('body').on('click', '#rejectbtn', function (event) {
             event.preventDefault();
             var id = $(this).data('id');
-            $.get('leaves/' + id + '/details', function (data) {
-                $('#detailsModal').modal('show');
-                $('#name').text(data.user.name);
-                $('#type').text(data.type.type_name);
-                $('#fromdate').text(data.data.from_date);
-                $('#todate').text(data.data.to_date);
-                $('#reasonDetail').text(data.data.reason);
-                $('#status').text(data.data.status);
-            })
+            $('#rejectModal').modal('show');
+            $('#leave_id').val(id);
         });
     });
 </script>

@@ -102,6 +102,6 @@
 </section>
 
 <!-- Modal -->
-@include('projects.modal-create-project')
-@include('projects.modal-member-list')
+@include('employee.projects.modal-create-project')
+@include('employee.projects.modal-member-list')
 @endsection

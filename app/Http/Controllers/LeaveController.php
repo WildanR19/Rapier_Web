@@ -77,7 +77,7 @@ class LeaveController extends Controller
     {
         Leave::where('id',$id)->update(['status' => 'rejected', 'reject_reason' => $request->reason]);
         Alert::error('Rejected', 'Your leave has been rejected.');
-        return back();
+        return response()->json([ 'success' => true ]);
     }
 
     public function add_type(Request $request){

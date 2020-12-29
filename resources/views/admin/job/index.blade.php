@@ -107,7 +107,6 @@
         $('body').on('click', '#editJob', function (event) {
             event.preventDefault();
             var id = $(this).data('id');
-            console.log(id)
             $.get('job/' + id + '/edit', function (data) {
                 $('#submit').val("Save Changes");
                 $('#editJobModal').modal('show');
