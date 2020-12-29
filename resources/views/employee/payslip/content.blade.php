@@ -37,7 +37,7 @@
                                         <div class="col my-auto">
                                             <div>
                                                 <h5>{{ Auth::user()->name }}</h5>
-                                                <i>{{ Auth::user()->role }}</i>
+                                                <i>{{ Auth::user()->employee_detail->job->name }}</i>
                                             </div>
                                         </div>
                                     </div>
@@ -96,7 +96,7 @@
 </div>
 
 <!-- modal -->
-@include('payslip.modal')
+@include('employee.payslip.modal')
 
 @endsection
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\Employee_detail;
+use App\Models\EmployeeStatus;
 use App\Models\Job;
 use App\Models\Leave;
 use App\Models\LeaveType;
@@ -30,13 +31,26 @@ class EmployeeController extends Controller
         $dept = Department::all();
         $role = Role::all();
         $job = Job::all();
+        $status = EmployeeStatus::all();
         $data = 
         [
             'dept'  => $dept,
             'role'  => $role,
             'job'   => $job,
+            'status'=> $status,
         ];
         return view('admin.employee.add')->with($data);
+    }
+
+    public function add_status(Request $request)
+    {
+        $this->validate($request,[
+            'status'      => 'required|string',
+        ]);
+        EmployeeStatus::create([
+            'status_name' => $request->status,
+        ]);
+        return back();
     }
 
     public function store(Request $request)
@@ -44,14 +58,15 @@ class EmployeeController extends Controller
         $this->validate($request, [
             'name'      => 'required|string|min:5|max:50',
             'email'     => 'required|email',
-            'password'  => 'required',
-            'role'      => 'required',
+            'password'  => 'required|min:8',
+            'role'      => 'required|integer',
             'address'   => 'required',
-            'dept'      => 'required',
-            'job'       => 'required',
+            'dept'      => 'required|integer',
+            'job'       => 'required|integer',
             'gender'    => 'required',
             'join_date' => 'required|date',
             'last_date' => 'nullable',
+            'status'    => 'required|integer',
             'photo'     => 'nullable|file|image|mimes:jpeg,png,jpg,svg|max:1024',
         ]);
 
@@ -81,6 +96,7 @@ class EmployeeController extends Controller
         $ed->department_id  = $request->dept;
         $ed->join_date      = $request->join_date;
         $ed->last_date      = $request->last_date;
+        $ed->status_id      = $request->status;
         $ed->save();
 
         Alert::success('Success', 'Your data has been added.');
@@ -103,12 +119,14 @@ class EmployeeController extends Controller
         $dept   = Department::all();
         $role   = Role::all();
         $job    = Job::all();
+        $status = EmployeeStatus::all();
         $data = [
             'user'  => $user,
             'ed'    => $ed,
             'dept'  => $dept,
             'role'  => $role,
             'job'   => $job,
+            'status'=> $status,
         ];
         return view('admin.employee.edit')->with($data);
     }
@@ -118,13 +136,14 @@ class EmployeeController extends Controller
         $this->validate($request, [
             'name'      => 'required|string|min:5|max:50',
             'email'     => 'required|email',
-            'role'      => 'required',
+            'role'      => 'required|integer',
             'address'   => 'required',
-            'dept'      => 'required',
-            'job'       => 'required',
+            'dept'      => 'required|integer',
+            'job'       => 'required|integer',
             'gender'    => 'required',
             'join_date' => 'required|date',
             'last_date' => 'nullable',
+            'status'    => 'required|integer',
             'photo'     => 'nullable|file|image|mimes:jpeg,png,jpg,svg|max:1024',
         ]);
 
@@ -156,8 +175,9 @@ class EmployeeController extends Controller
             'department_id' => $request->dept,
             'join_date'     => $request->join_date,
             'last_date'     => $request->last_date,
+            'status_id'     => $request->status,
         ]);
-
+        Alert::success('Success', 'Your data has been updated.');
         return redirect()->route('admin.employee');
     }
 

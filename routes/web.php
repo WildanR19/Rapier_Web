@@ -86,6 +86,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     //Create
     Route::get('/admin/employee/add', [EmployeeController::class, 'add'])->name('admin.employee.add');
     Route::post('/admin/employee/add/store', [EmployeeController::class, 'store'])->name('admin.employee.store');
+    Route::post('/admin/employee/add/status', [EmployeeController::class, 'add_status'])->name('admin.employee.add.status');
     //delete
     Route::get('/admin/employee/delete/{id}', [EmployeeController::class, 'destroy'])->name('admin.employee.delete');
     //update

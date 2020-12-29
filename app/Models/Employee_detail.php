@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Employee_detail extends Model
 {
     protected $fillable = [
-        'user_id', 'address', 'gender', 'job_id', 'department_id', 'join-date',
+        'user_id', 'address', 'gender', 'job_id', 'department_id', 'join-date', 'status_id',
     ];
 
     public function user()
@@ -22,5 +22,9 @@ class Employee_detail extends Model
     public function department()
     {
     	return $this->belongsTo(Department::class);
+    }
+    public function status()
+    {
+    	return $this->belongsTo(EmployeeStatus::class);
     }
 }

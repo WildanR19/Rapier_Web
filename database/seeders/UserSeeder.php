@@ -25,9 +25,10 @@ class UserSeeder extends Seeder
         $user->save();
 
         $employee = new Employee_detail();
-        $employee->user_id      = $user->id;
-        $employee->address      = 'address';
-        $employee->join_date    = '2018-10-20';
+        $employee->user_id          = $user->id;
+        $employee->address          = 'address';
+        $employee->gender           = 'male';
+        $employee->join_date        = '2018-10-20';
         $employee->save();
     }
 }

@@ -86,10 +86,21 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
+                                    <label for="InputStatus">Employee Status
+                                        <button type="button" class="btn btn-sm btn-primary rounded-circle" data-tooltip="tooltip" title="Add new employee status" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus"></i></button>
+                                    </label>
+                                    <select id="inputStatus" class="form-control" name="status">
+                                        <option disabled selected>Choose...</option>
+                                        @foreach ($status as $stat)
+                                            <option value="{{ $stat->id }}">{{ $stat->status_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
                                     <label for="InputJoinDate">Joining Date</label>
                                     <input type="date" class="form-control" id="InputJoinDate" name="join_date">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-3">
                                     <label for="InputLastDate">Last Date</label>
                                     <input type="date" class="form-control" id="InputLastDate" name="last_date">
                                 </div>
@@ -109,4 +120,5 @@
         </div>
     </div>
 </div>
+@include('admin.employee.modal')
 @endsection

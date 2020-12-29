@@ -79,6 +79,13 @@
                             <hr>
                             <div class="row">
                                 <div class="col-md-12">
+                                    <strong>Employee Status</strong>
+                                    <br><p class="text-muted">{{ $ed->status->status_name }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-12">
                                     <strong>Address</strong>
                                     <br><p class="text-muted">{{ $ed->address }}</p>
                                 </div>

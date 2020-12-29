@@ -6,6 +6,15 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form action="{{ route('admin.employee.update') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             {{-- user table --}}
@@ -37,11 +46,7 @@
                                     <select id="inputDepartment" class="form-control" name="dept">
                                         <option disabled>Choose...</option>
                                         @foreach ($dept as $d)
-                                            <option value="{{ $d->id }}" 
-                                            @if ($d->id == $ed->department_id)
-                                                selected
-                                            @endif
-                                            >{{ $d->name }}</option>
+                                            <option value="{{ $d->id }}" {{ ($d->id == $ed->department_id) ? 'selected' : '' }}>{{ $d->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -50,11 +55,7 @@
                                     <select id="inputJob" class="form-control" name="job">
                                         <option disabled>Choose...</option>
                                         @foreach ($job as $j)
-                                            <option value="{{ $j->id }}"
-                                            @if ($j->id == $ed->job_id)
-                                                selected
-                                            @endif
-                                            >{{ $j->name }}</option>
+                                            <option value="{{ $j->id }}" {{ ($j->id == $ed->job_id) ? 'selected' : '' }}>{{ $j->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -66,11 +67,7 @@
                                         @endphp
                                         <option disabled>Choose...</option>
                                         @foreach ($gender as $g)    
-                                            <option value="{{ $g }}" class="text-capitalize"
-                                            @if ($g == $ed->gender)
-                                                selected
-                                            @endif
-                                            >{{ $g }}</option>
+                                            <option value="{{ $g }}" class="text-capitalize" {{ ($g == $ed->gender) ? 'selected' : '' }}>{{ $g }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -79,21 +76,28 @@
                                     <select id="inputRole" class="form-control" name="role">
                                         <option disabled>Choose...</option>
                                         @foreach ($role as $r)
-                                            <option value="{{ $r->id }}"
-                                            @if ($r->id == $user->role_id)
-                                                selected
-                                            @endif
-                                            >{{ $r->name }}</option>
+                                            <option value="{{ $r->id }}" {{ ($r->id == $user->role_id) ? 'selected' : '' }}>{{ $r->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
+                                    <label for="InputStatus">Employee Status
+                                        <button type="button" class="btn btn-sm btn-primary rounded-circle" data-tooltip="tooltip" title="Add new employee status" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus"></i></button>
+                                    </label>
+                                    <select id="inputStatus" class="form-control" name="status">
+                                        <option disabled selected>Choose...</option>
+                                        @foreach ($status as $stat)
+                                            <option value="{{ $stat->id }}" {{ ($stat->id == $ed->status_id) ? 'selected' : '' }}>{{ $stat->status_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-3">
                                     <label for="InputJoinDate">Joining Date</label>
                                     <input type="date" class="form-control" id="InputJoinDate" name="join_date" value="{{ $ed->join_date }}">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-3">
                                     <label for="InputLastDate">Last Date</label>
                                     <input type="date" class="form-control" id="InputLastDate" name="last_date" value="{{ $ed->last_date }}">
                                 </div>
@@ -113,4 +117,5 @@
         </div>
     </div>
 </div>
+@include('admin.employee.modal')
 @endsection

@@ -13,34 +13,40 @@
                             <div class="col">{{ Auth::user()->name }}</div>
                         </div>
                         <div class="row">
-                            <div class="col font-weight-bold">Employee ID</div>
-                            <div class="col">XXXXXXXXXXXXXXX</div>
-                        </div>
-                        <div class="row">
                             <div class="col font-weight-bold">Department</div>
-                            <div class="col">Human Resources Department</div>
+                            <div class="col">{{ Auth::user()->employee_detail->department->name }}</div>
                         </div>
                         <div class="row">
                             <div class="col font-weight-bold">Role</div>
-                            <div class="col">HR Operations & IRGA Lead</div>
+                            <div class="col">{{ Auth::user()->employee_detail->job->name }}</div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="row">
                             <div class="col font-weight-bold">Employee Status</div>
-                            <div class="col">Permanent Employee</div>
-                        </div>
-                        <div class="row">
-                            <div class="col font-weight-bold">PTKP Status</div>
-                            <div class="col">-</div>
+                            <div class="col">{{ Auth::user()->employee_detail->status->status_name }}</div>
                         </div>
                         <div class="row">
                             <div class="col font-weight-bold">Joined Since</div>
-                            <div class="col">15 August 2020</div>
+                            <div class="col">{{ Auth::user()->employee_detail->join_date }}</div>
                         </div>
                         <div class="row">
                             <div class="col font-weight-bold">Length Of Employment</div>
-                            <div class="col">2 Months XX Days</div>
+                            @php
+                                $join = strtotime(Auth::user()->employee_detail->join_date);
+                                $now = strtotime(now());
+                                $diff = ($now-$join);
+                                $years = floor($diff / (365*60*60*24));
+                                $months = floor(($diff - $years * 365*60*60*24) / (30*60*60*24));
+                                $days = floor(($diff - $years * 365*60*60*24 - $months*30*60*60*24)/ (60*60*24));
+                            @endphp
+                            <div class="col">
+                                @if (!empty($years))
+                                    {{ $years }} Year{{ ($years > 1) ? 's' : '' }}
+                                @endif
+                                {{ $months }} Month{{ ($months > 1) ? 's' : '' }} 
+                                {{ $days }} day{{ ($days > 1) ? 's' : '' }}
+                            </div>
                         </div>
                     </div>
                 </div>
