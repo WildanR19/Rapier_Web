@@ -8,6 +8,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Livewire\Departments;
 use App\Models\Department;
 use Illuminate\Support\Facades\Route;
@@ -131,8 +132,18 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::post('/admin/holiday/ajax', [HolidayController::class, 'ajax'])->name('admin.holiday.ajax');
 
     // project
-    Route::view('/admin/projects', 'admin.project.index')->name('admin.projects');
-
+    Route::get('/admin/projects', [ProjectController::class, 'index'])->name('admin.projects');
+    Route::get('/admin/projects/add', [ProjectController::class, 'add'])->name('admin.projects.add');
+    Route::post('/admin/projects/add/store', [ProjectController::class, 'store'])->name('admin.projects.store');
+    Route::post('/admin/projects/add/category', [ProjectController::class, 'addCat'])->name('admin.projects.category.add');
+    Route::get('/admin/projects/category/delete/{id}', [ProjectController::class, 'destroyCat'])->name('admin.projects.category.delete');
+    Route::get('/admin/projects/delete/{id}', [ProjectController::class, 'destroy'])->name('admin.projects.delete');
+    Route::get('/admin/projects/update/{id}', [ProjectController::class, 'edit'])->name('admin.projects.edit');
+    Route::post('/admin/projects/update', [ProjectController::class, 'update'])->name('admin.projects.update');
+    Route::get('/admin/projects/detail/{id}', [ProjectController::class, 'details'])->name('admin.projects.details');
+    Route::post('/admin/projects/member/add', [ProjectController::class, 'member_add'])->name('admin.projects.member.add');
+    Route::get('/admin/projects/member/delete/{id}', [ProjectController::class, 'member_destroy'])->name('admin.projects.member.delete');
+    
     //task
     Route::view('/admin/tasks', 'admin.task.index')->name('admin.tasks');
 });

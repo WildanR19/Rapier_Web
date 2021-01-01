@@ -4,12 +4,6 @@
         td{
             vertical-align: middle !important;
         }
-        .thumb-index{
-            height: 50px;
-            width: 50px;
-            object-fit: cover;
-            object-position: center;
-        }
     </style>
 @endsection
 @section('content')
