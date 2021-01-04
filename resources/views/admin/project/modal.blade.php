@@ -8,25 +8,29 @@
           </button>
         </div>
         <div class="modal-body">
-            <table class="table table-striped">
+            <table class="table table-sm" id="modal_table">
+              <thead class="thead-light">
                 <tr>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
+              </thead>
+              <tbody>
                 @foreach ($category as $cat)
                     <tr>
                         <td class="text-capitalize">{{ $cat->category_name }}</td>
                         <td><a href="{{ route('admin.projects.category.delete', $cat->id) }}" class="btn btn-sm btn-outline-danger">Remove</a></td>
                     </tr>
                 @endforeach
+              </tbody>
             </table>
             <form action="{{ route('admin.projects.category.add') }}" method="post" id="formCat">
                 @csrf
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="category">Category Name</label>
-                            <input type="text" id="category" name="category" class="form-control">
+                            <label for="inputcategory">Category Name</label>
+                            <input type="text" id="inputcategory" name="category" class="form-control">
                         </div>
                     </div>
                 </div>

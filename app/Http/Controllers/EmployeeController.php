@@ -50,6 +50,14 @@ class EmployeeController extends Controller
         EmployeeStatus::create([
             'status_name' => $request->status,
         ]);
+        Alert::success('Success', 'Your data has been added.');
+        return back();
+    }
+
+    public function destroy_status($id)
+    {
+        EmployeeStatus::where('id', $id)->delete();
+        Alert::success('Deleted', 'Your data has been deleted.');
         return back();
     }
 

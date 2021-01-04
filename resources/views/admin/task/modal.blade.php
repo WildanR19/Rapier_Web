@@ -8,17 +8,21 @@
           </button>
         </div>
         <div class="modal-body">
-            <table class="table table-striped">
+            <table class="table table-sm" id="modal_table">
+              <thead class="thead-light">
                 <tr>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
+              </thead>
+              <tbody>
                 @foreach ($category as $cat)
                     <tr>
                         <td class="text-capitalize">{{ $cat->category_name }}</td>
                         <td><a href="{{ route('admin.tasks.category.delete', $cat->id) }}" class="btn btn-sm btn-outline-danger">Remove</a></td>
                     </tr>
                 @endforeach
+              </tbody>
             </table>
             <form action="{{ route('admin.tasks.category.add') }}" method="post" id="formCat">
                 @csrf

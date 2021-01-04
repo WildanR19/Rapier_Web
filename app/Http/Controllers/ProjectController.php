@@ -110,6 +110,7 @@ class ProjectController extends Controller
     public function destroyCat($id)
     {
         ProjectCategory::where('id', $id)->delete();
+        Alert::success('Deleted', 'Your data has been deleted.');
         return back();
     }
 
@@ -159,7 +160,7 @@ class ProjectController extends Controller
         $project->notes             = $request->note;
         $project->save();
 
-        Alert::success('Success', 'Your data has been added.');
+        Alert::success('Success', 'Your data has been updated.');
         return redirect()->route('admin.projects');
     }
 

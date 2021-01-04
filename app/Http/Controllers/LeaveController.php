@@ -89,6 +89,14 @@ class LeaveController extends Controller
             'type_name' => $request->type,
             'color'     => $request->color,
         ]);
+        Alert::success('Success', 'Your data has been added.');
+        return back();
+    }
+
+    public function destroy_type($id)
+    {
+        LeaveType::where('id', $id)->delete();
+        Alert::success('Deleted', 'Your data has been deleted.');
         return back();
     }
 

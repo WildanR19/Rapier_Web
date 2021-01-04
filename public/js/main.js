@@ -87,3 +87,15 @@ $(document).ready(function(){
         }
     });
 });
+
+// datatable modal
+$(function () {
+    $('#modal_table').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": false,
+        "info": false,
+        "pageLength": 5,
+    });
+});

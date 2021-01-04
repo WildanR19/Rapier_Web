@@ -30,7 +30,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/goals', function () {
         return view('employee.goals.index');
     })->name('dash.goals');
-    Route::get('/admin/employee', [EmployeeController::class, 'index'])->name('admin.employee');
     
     //leave
     Route::get('/leave', [EmployeeLeaveController::class, 'index'])->name('dash.leave');
@@ -73,6 +72,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::get('/admin/employee/add', [EmployeeController::class, 'add'])->name('admin.employee.add');
     Route::post('/admin/employee/add/store', [EmployeeController::class, 'store'])->name('admin.employee.store');
     Route::post('/admin/employee/add/status', [EmployeeController::class, 'add_status'])->name('admin.employee.add.status');
+    Route::get('/admin/employee/status/delete/{id}', [EmployeeController::class, 'destroy_status'])->name('admin.employee.delete.status');
     //delete
     Route::get('/admin/employee/delete/{id}', [EmployeeController::class, 'destroy'])->name('admin.employee.delete');
     //update
@@ -110,6 +110,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::post('/admin/leaves/{id}/approve', [LeaveController::class, 'approve'])->name('admin.leaves.approve');
     Route::post('/admin/leaves/reject/{id}', [LeaveController::class, 'reject'])->name('admin.leaves.reject');
     Route::post('/admin/leaves/add/type', [LeaveController::class, 'add_type'])->name('admin.leaves.add.type');
+    Route::get('/admin/leaves/type/delete/{id}', [LeaveController::class, 'destroy_type'])->name('admin.leaves.delete.type');
     Route::get('/admin/leaves/delete/{id}', [LeaveController::class, 'destroy'])->name('admin.leaves.delete');
 
     //holiday
@@ -135,6 +136,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::post('/admin/tasks/add/store', [TaskController::class, 'store'])->name('admin.tasks.store');
     Route::get('/admin/tasks/delete/{id}', [TaskController::class, 'destroy'])->name('admin.tasks.delete');
     Route::get('/admin/tasks/update/{id}', [TaskController::class, 'edit'])->name('admin.tasks.edit');
+    Route::post('/admin/tasks/update', [TaskController::class, 'update'])->name('admin.tasks.update');
     Route::post('/admin/tasks/add/category', [TaskController::class, 'addCat'])->name('admin.tasks.category.add');
     Route::get('/admin/tasks/category/delete/{id}', [TaskController::class, 'destroyCat'])->name('admin.tasks.category.delete');
     Route::get('/admin/tasks/add/ajax-getuser', [TaskController::class, 'ajax']);
