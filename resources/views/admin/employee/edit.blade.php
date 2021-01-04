@@ -1,4 +1,14 @@
 @extends('layout.dash')
+@section('css')
+    <style>
+        .img-thumbnail{
+            height: 150px;
+            width: 150px;
+            object-fit: cover;
+            object-position: center;
+        }
+    </style>
+@endsection
 @section('content')
 <div class="content">
     <div class="container-fluid">
@@ -105,7 +115,7 @@
                             <div class="form-group">
                                 <label for="InputPicture">Profile Picture</label>
                                 <div>
-                                    <img src="{{ asset('storage/'.$user->profile_photo_path) }}" alt="{{ $user->name }}" class="img-thumbnail" style="max-width: 150px">
+                                    <img src="{{ asset('storage/'.$user->profile_photo_path) }}" alt="{{ $user->name }}" class="img-thumbnail" id="thumbnail">
                                 </div>
                                 <input type="file" id="InputPicture" name="photo">
                             </div>
@@ -118,4 +128,23 @@
     </div>
 </div>
 @include('admin.employee.modal')
+@endsection
+@section('js')
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    $('#thumbnail').attr('src', e.target.result);
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#InputPicture").change(function() {
+            readURL(this);
+        });
+    </script>
 @endsection

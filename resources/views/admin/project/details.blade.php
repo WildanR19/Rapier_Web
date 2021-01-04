@@ -37,12 +37,7 @@
                             <div class="d-flex justify-content-between">
                                 <h4>Project - <b>{{ $project->project_name }}</b></h4>
                                 <div class="dropdown">
-                                    <button class="btn btn-default text-capitalize" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ $project->status }} <i class="fas fa-circle"></i></button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                      <a class="dropdown-item" href="#">Action</a>
-                                      <a class="dropdown-item" href="#">Another action</a>
-                                      <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
+                                    <button class="btn btn-default text-capitalize" type="button">{{ $project->status }} <i class="fas fa-circle"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -110,10 +105,10 @@
           
                         <div class="info-box-content">
                           <span class="info-box-text">Completion</span>
-                          <span class="info-box-number">0</span>
+                          <span class="info-box-number">{{ $project->completion_percent }}%</span>
           
                           <div class="progress">
-                            <div class="progress-bar" style="width: 0%"></div>
+                            <div class="progress-bar" style="width: {{ $project->completion_percent }}%"></div>
                           </div>
                         </div>
                       </div>
@@ -125,9 +120,7 @@
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <div class="card">
-                            <div class="card-header">
-                                <h5>Members</h5>
-                            </div>
+                            <div class="card-header">Members</div>
                             <div class="card-body">
                                 <table class="table">
                                     <thead>
@@ -140,7 +133,14 @@
                                         @foreach ($teammember as $tm)
                                             <tr>
                                                 <td>
-                                                    <img src="{{ asset('storage/'.$tm->user->profile_photo_path) }}" alt="{{ $tm->user->name }}" class="img-member rounded-circle"> {{ $tm->user->name }}
+                                                    @php
+                                                      if (!empty($tm->user->profile_photo_path)) {
+                                                          $url = url('/storage/'.$tm->user->profile_photo_path);
+                                                      }else{
+                                                          $url = url('/img/dummy-profile.svg');
+                                                      }
+                                                    @endphp
+                                                    <img src="{{ $url }}" alt="{{ $tm->user->name }}" class="img-member rounded-circle"> {{ $tm->user->name }}
                                                 </td>
                                                 <td>
                                                     <a href="{{ route('admin.projects.member.delete', $tm->id) }}" class="btn btn-sm btn-danger delete-confirm"><i class="fas fa-times"></i> Remove</a>

@@ -116,6 +116,7 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         Project::where('id', $id)->delete();
+        Alert::success('Deleted', 'Your data has been deleted.');
         return back();
     }
 

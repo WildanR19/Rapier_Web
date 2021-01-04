@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="addCategoryModalLabel">Add Project Category</h5>
+          <h5 class="modal-title" id="addCategoryModalLabel">Add Task Category</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -16,17 +16,17 @@
                 @foreach ($category as $cat)
                     <tr>
                         <td class="text-capitalize">{{ $cat->category_name }}</td>
-                        <td><a href="{{ route('admin.projects.category.delete', $cat->id) }}" class="btn btn-sm btn-outline-danger">Remove</a></td>
+                        <td><a href="{{ route('admin.tasks.category.delete', $cat->id) }}" class="btn btn-sm btn-outline-danger">Remove</a></td>
                     </tr>
                 @endforeach
             </table>
-            <form action="{{ route('admin.projects.category.add') }}" method="post" id="formCat">
+            <form action="{{ route('admin.tasks.category.add') }}" method="post" id="formCat">
                 @csrf
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="category">Category Name</label>
-                            <input type="text" id="category" name="category" class="form-control">
+                            <label for="inputcategory">Category Name</label>
+                            <input type="text" id="inputcategory" name="category" class="form-control">
                         </div>
                     </div>
                 </div>

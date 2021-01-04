@@ -108,7 +108,7 @@
                                                     }
                                                 @endphp
                                                 <li class="list-inline-item">
-                                                    <img alt="Avatar" class="table-avatar thumb-index rounded-circle" src="{{ $url }}">
+                                                    <img alt="Avatar" class="table-avatar thumb-index" src="{{ $url }}">
                                                 </li>
                                             @endif
                                         @endforeach
@@ -116,11 +116,11 @@
                                 </td>
                                 <td class="project_progress">
                                     <div class="progress progress-sm">
-                                        <div class="progress-bar bg-green" role="progressbar" aria-volumenow="0" aria-volumemin="0" aria-volumemax="100" style="width: 0%">
+                                        <div class="progress-bar bg-green" role="progressbar" aria-volumenow="{{ $pj->completion_percent }}" aria-volumemin="0" aria-volumemax="100" style="width: {{ $pj->completion_percent }}%">
                                         </div>
                                     </div>
                                     <small>
-                                        0% Complete
+                                        {{ $pj->completion_percent }}% Complete
                                     </small>
                                 </td>
                                 <td>{{ $pj->deadline }}</td>

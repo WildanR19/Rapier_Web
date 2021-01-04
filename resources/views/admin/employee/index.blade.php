@@ -38,7 +38,7 @@
                                                 <td>{{ $no++ }}</td>
                                                 <td>
                                                     @if (!empty($emp->profile_photo_path))
-                                                        <img src="{{ asset('storage/'.$emp->profile_photo_path) }}" alt="" class="rounded-circle thumb-index">
+                                                        <img src="{{ asset('storage/'.$emp->profile_photo_path) }}" alt="" class="thumb-index">
                                                     @else
                                                         <img src="{{ asset('img/dummy-profile.svg') }}" alt="" class="thumb-index">
                                                     @endif

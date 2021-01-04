@@ -4,25 +4,10 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Employee\HolidayController as EmployeeHolidayController;
 use App\Http\Controllers\Employee\LeaveController as EmployeeLeaveController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\HolidayController;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\LeaveController;
-use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\{EmployeeController, HolidayController, JobController, LeaveController, ProjectController, TaskController};
 use App\Http\Livewire\Departments;
 use App\Models\Department;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 //employee
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -145,5 +130,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::get('/admin/projects/member/delete/{id}', [ProjectController::class, 'member_destroy'])->name('admin.projects.member.delete');
     
     //task
-    Route::view('/admin/tasks', 'admin.task.index')->name('admin.tasks');
+    Route::get('/admin/tasks', [TaskController::class, 'index'])->name('admin.tasks');
+    Route::get('/admin/tasks/add', [TaskController::class, 'add'])->name('admin.tasks.add');
+    Route::post('/admin/tasks/add/store', [TaskController::class, 'store'])->name('admin.tasks.store');
+    Route::get('/admin/tasks/delete/{id}', [TaskController::class, 'destroy'])->name('admin.tasks.delete');
+    Route::get('/admin/tasks/update/{id}', [TaskController::class, 'edit'])->name('admin.tasks.edit');
+    Route::post('/admin/tasks/add/category', [TaskController::class, 'addCat'])->name('admin.tasks.category.add');
+    Route::get('/admin/tasks/category/delete/{id}', [TaskController::class, 'destroyCat'])->name('admin.tasks.category.delete');
+    Route::get('/admin/tasks/add/ajax-getuser', [TaskController::class, 'ajax']);
 });

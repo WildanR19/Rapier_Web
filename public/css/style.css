@@ -424,4 +424,17 @@ nav-link a {
     width: 50px;
     object-fit: cover;
     object-position: center;
+    border-radius: 50% !important;
+}
+
+.thumb-index-sm{
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50% !important;
+}
+
+.select2 {
+    width:100% !important;
 }

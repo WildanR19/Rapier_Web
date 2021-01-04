@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class TaskCategory extends Model
 {
     protected $table = 'task_category';
+    
+    protected $fillable = [
+        'category_name'
+    ];
 
     public function tasks()
     {
