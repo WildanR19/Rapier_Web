@@ -29,12 +29,6 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('dash.teams') }}" class="nav-link {{ (request()->segment(1) == 'teams') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-users"></i>
-                        <p>Teams</p>
-                    </a>
-                </li>
-                <li class="nav-item">
                     <a href="{{ route('dash.payslip') }}" class="nav-link {{ (request()->segment(1) == 'payslip') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-money-bill-alt"></i>
                         <p>Payslip</p>
@@ -45,6 +39,12 @@
                         <i class="nav-icon fas fa-plane-departure"></i>
                         <p>Holiday</p>
                     </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{{ route('dash.contacts') }}" class="nav-link {{ (request()->segment(1) == 'contacts') ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-id-card"></i>
+                      <p>Contacts</p>
+                  </a>
                 </li>
             </ul>
         </nav>

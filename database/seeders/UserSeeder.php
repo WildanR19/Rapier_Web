@@ -27,6 +27,7 @@ class UserSeeder extends Seeder
         $employee = new Employee_detail();
         $employee->user_id          = $user->id;
         $employee->address          = 'address';
+        $employee->phone            = '089212345678';
         $employee->gender           = 'male';
         $employee->join_date        = '2018-10-20';
         $employee->save();

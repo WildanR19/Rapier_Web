@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEmployeeDetailsTable extends Migration
+class CreateProjectFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateEmployeeDetailsTable extends Migration
      */
     public function up()
     {
-        Schema::create('employee_details', function (Blueprint $table) {
+        Schema::create('project_files', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->text('address')->nullable();
-            $table->text('phone')->nullable();
-            $table->enum('gender', ['male','female','others']);
-            $table->date('join_date');
-            $table->date('last_date')->nullable();
+            $table->integer('project_id')->unsigned();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('filename');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -33,6 +32,6 @@ class CreateEmployeeDetailsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee_details');
+        Schema::dropIfExists('project_files');
     }
 }

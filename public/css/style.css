@@ -305,6 +305,10 @@ p {
 
 .img-project-card {
     width: 60px;
+    height: 60px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50% !important;
 }
 
 .list-assigned li+li {
@@ -313,6 +317,10 @@ p {
 
 .list-assigned img {
     width: 32px;
+    height: 32px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 50% !important;
 }
 
 .legend {

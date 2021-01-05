@@ -51,7 +51,7 @@
                               <textarea class="form-control" id="InputAddress" rows="3" name="address">{{ $ed->address }}</textarea>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-3">
+                                <div class="form-group col-md-6">
                                     <label for="InputDepartment">Department</label>
                                     <select id="inputDepartment" class="form-control" name="dept">
                                         <option disabled>Choose...</option>
@@ -60,7 +60,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-md-6">
                                     <label for="InputJob">Jobs</label>
                                     <select id="inputJob" class="form-control" name="job">
                                         <option disabled>Choose...</option>
@@ -69,7 +69,13 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="InputPhone">Phone</label>
+                                    <input type="text" class="form-control" id="InputPhone" name="phone" value="{{ $ed->phone }}">
+                                </div>
+                                <div class="form-group col-md-4">
                                     <label for="InputGender">Gender</label>
                                     <select id="inputGender" class="form-control" name="gender">
                                         @php
@@ -81,7 +87,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col">
+                                <div class="form-group col-md-4">
                                     <label for="InputRole">Role</label>
                                     <select id="inputRole" class="form-control" name="role">
                                         <option disabled>Choose...</option>

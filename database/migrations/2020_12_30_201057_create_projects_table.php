@@ -21,7 +21,8 @@ class CreateProjectsTable extends Migration
             $table->date('deadline');
             $table->longText('notes')->nullable();
             $table->enum('status', ['not started', 'in progress', 'on hold', 'canceled', 'finished']);
-
+            $table->integer('submitted_by')->unsigned();
+            $table->foreign('submitted_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('project_category')->onDelete('set null')->onUpdate('cascade');
             $table->tinyInteger('completion_percent')->default('0');

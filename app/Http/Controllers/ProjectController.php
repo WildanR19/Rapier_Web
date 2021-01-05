@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\ProjectMember;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ProjectController extends Controller
@@ -87,6 +89,7 @@ class ProjectController extends Controller
         $project->status            = $request->status;
         $project->project_summary   = $request->summary;
         $project->notes             = $request->note;
+        $project->submitted_by      = Auth::user()->id;
         $project->save();
 
         $user = $request->member;
@@ -144,7 +147,6 @@ class ProjectController extends Controller
             'category'      => 'required|integer',
             'start_date'    => 'required|date',
             'deadline'      => 'required|date',
-            'member'        => 'required',
             'status'        => 'required',
             'summary'       => 'nullable',
             'note'          => 'nullable',
@@ -172,6 +174,7 @@ class ProjectController extends Controller
         $teammember = ProjectMember::where('project_id', $id)->get();
         $empEx      = $teammember->pluck('user_id');
         $emp        = User::whereNotIn('id', $empEx)->get();
+        $task       = Task::where('project_id', $id)->get();
         
         $data = [
             'project'   => $project,
@@ -179,6 +182,7 @@ class ProjectController extends Controller
             'category'  => $category,
             'emp'       => $emp,
             'teammember'=> $teammember,
+            'tasks'      => $task,
         ];
         return view('admin.project.details')->with($data);
     }

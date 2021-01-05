@@ -78,9 +78,13 @@
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6 border-right">
                                     <strong>Employee Status</strong>
                                     <br><p class="text-muted">{{ $ed->status->status_name }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Phone</strong>
+                                    <br><p class="text-muted">{{ $ed->phone }}</p>
                                 </div>
                             </div>
                             <hr>

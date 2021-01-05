@@ -50,7 +50,7 @@
           
                         <div class="info-box-content">
                           <span class="info-box-text">Tasks</span>
-                          <span class="info-box-number">0</span>
+                          <span class="info-box-number">{{ $tasks->count() }}</span>
           
                           <div class="progress">
                             <div class="progress-bar" style="width: 100%"></div>
@@ -175,6 +175,105 @@
                 </div>
               </div>
 
+              <div class="tab-pane" id="tasks">
+                <div class="card">
+                  <div class="card-header">
+                    <h4 class="card-title">Tasks</h4>
+                  </div>
+                  <div class="card-body">
+                    <div class="table-responsive mt-3">
+                      <table id="jobTable" class="table table-striped table-hover">
+                          <thead>
+                              <tr>
+                                  <th>#</th>
+                                  <th>Task</th>
+                                  <th>Project</th>
+                                  <th style="width: 15%">Assigned To</th>
+                                  <th style="width: 15%">Assigned By</th>
+                                  <th>Due Date</th>
+                                  <th>Status</th>
+                                  <th style="width: 10%">Action</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              @php $no=1; @endphp
+                              @foreach ($tasks as $task)    
+                                  <tr>
+                                      <td>{{ $no++ }}</td>
+                                      <td>{{ $task->title }}</td>
+                                      <td>{{ $task->project->project_name }}</td>
+                                      <td><img alt="Avatar" class="table-avatar thumb-index-sm" src="{{ (!empty($task->user->profile_photo_path)) ? url('/storage/'.$task->user->profile_photo_path) : url('/img/dummy-profile.svg') }}"> {{ $task->user->name }}</td>
+                                      <td><img alt="Avatar" class="table-avatar thumb-index-sm" src="{{ (!empty($task->created_by()->first()->profile_photo_path)) ? url('/storage/'.$task->created_by()->first()->profile_photo_path) : url('/img/dummy-profile.svg') }}"> {{ $task->created_by()->first()->name }}</td>
+                                      <td>{{ $task->due_date }}</td>
+                                      <td>
+                                          <span class="badge badge-{{ ($task->status == 'incomplete') ? 'danger' : 'success' }}">{{ $task->status }}</span>
+                                      </td>
+                                      <td>
+                                          <a href="{{ route('admin.tasks.edit', $task->id) }}" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit">
+                                              <i class="fas fa-pencil-alt"></i>
+                                          </a>
+                                          <a href="{{ route('admin.tasks.delete', $task->id) }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
+                                              <i class="fas fa-trash-alt"></i>
+                                          </a>
+                                      </td>
+                                  </tr>
+                              @endforeach
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-pane" id="files">
+                <form class="form-horizontal">
+                  <div class="form-group row">
+                    <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputName" placeholder="Name">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                    <div class="col-sm-10">
+                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName2" placeholder="Name">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
+                    <div class="col-sm-10">
+                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="offset-sm-2 col-sm-10">
+                      <div class="checkbox">
+                        <label>
+                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="offset-sm-2 col-sm-10">
+                      <button type="submit" class="btn btn-danger">Submit</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
               <div class="tab-pane" id="timeline">
                 <!-- The timeline -->
                 <div class="timeline timeline-inverse">
@@ -270,54 +369,6 @@
                 </div>
               </div>
 
-              <div class="tab-pane" id="files">
-                <form class="form-horizontal">
-                  <div class="form-group row">
-                    <label for="inputName" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputName" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputName2" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputName2" placeholder="Name">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputExperience" class="col-sm-2 col-form-label">Experience</label>
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="inputExperience" placeholder="Experience"></textarea>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label for="inputSkills" class="col-sm-2 col-form-label">Skills</label>
-                    <div class="col-sm-10">
-                      <input type="text" class="form-control" id="inputSkills" placeholder="Skills">
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <div class="checkbox">
-                        <label>
-                          <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <div class="offset-sm-2 col-sm-10">
-                      <button type="submit" class="btn btn-danger">Submit</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
             </div>
           </div>
     </div>
@@ -332,6 +383,17 @@
             allowClear: false,
             minimumResultsForSearch: 5,
             theme: 'bootstrap4'
+        });
+
+        //datatable
+        $(function () {
+            $('#jobTable').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+            });
         });
     </script>
 @endsection

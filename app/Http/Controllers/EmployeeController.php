@@ -71,6 +71,7 @@ class EmployeeController extends Controller
             'address'   => 'required',
             'dept'      => 'required|integer',
             'job'       => 'required|integer',
+            'phone'     => 'required|regex:/(08)[0-9]{10}/|max:14',
             'gender'    => 'required',
             'join_date' => 'required|date',
             'last_date' => 'nullable',
@@ -99,6 +100,7 @@ class EmployeeController extends Controller
         $ed = new Employee_detail();
         $ed->user_id        = $user_data->id;
         $ed->address        = $request->address;
+        $ed->phone          = $request->phone;
         $ed->gender         = $request->gender;
         $ed->job_id         = $request->job;
         $ed->department_id  = $request->dept;
@@ -146,6 +148,7 @@ class EmployeeController extends Controller
             'email'     => 'required|email',
             'role'      => 'required|integer',
             'address'   => 'required',
+            'phone'     => 'required|regex:/(08)[0-9]{10}/|max:14',
             'dept'      => 'required|integer',
             'job'       => 'required|integer',
             'gender'    => 'required',
@@ -178,6 +181,7 @@ class EmployeeController extends Controller
         Employee_detail::where('user_id', $request->id)
         ->update([
             'address'       => $request->address,
+            'phone'         => $request->phone,
             'gender'        => $request->gender,
             'job_id'        => $request->job,
             'department_id' => $request->dept,

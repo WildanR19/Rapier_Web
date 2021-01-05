@@ -3,43 +3,78 @@
 @section('content')
 <section>
     {{-- <h2 class="mb-4">Projects</h2> --}}
-    <div class="row no-gutters justify-content-between mb-4">
-        <a href="{{ route('dash.projects') }}" class="btn btn-primary"><em>Back to All Projects</em></a>
-        <a href="" class="btn btn-secondary" data-toggle="modal" data-target="#edit-project"><em>Edit Project</em></a>
+    <div class="row no-gutters mb-4">
+        <div class="col">
+            <a href="{{ route('dash.projects') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> <em>Back to All Projects</em></a>
+        </div>
+        <div class="col text-right">
+            @if ($projects->submitted_by == auth()->user()->id)    
+                <a href="{{ route('dash.projects.edit',$projects->id) }}" class="btn btn-secondary"><i class="fas fa-edit"></i> <em>Edit</em></a>
+                <a href="{{ route('dash.projects.delete',$projects->id) }}" class="btn btn-danger delete-confirm"><i class="fas fa-trash"></i> <em>Delete</em></a>
+            @endif
+        </div>
     </div>
 
     <ul class="row no-gutters p-0">
         <li class="card w-100 p-4 mb-4">
             <div class="row no-gutters justify-content-between mb-3">
-                <h6 class="text-progress"><em>On Progress</em></h6>
+                @php
+                $status = ['not started','in progress','on hold','canceled','finished'];
+                    if ($projects->status == $status[0]){
+                        $text = 'dark';
+                    }else if($projects->status == $status[1]){
+                        $text = 'progress';
+                    }else if($projects->status == $status[2]){
+                        $text = 'pending';
+                    }else if($projects->status == $status[3]){
+                        $text = 'danger';
+                    }else{
+                        $text = 'success';
+                    }
+                @endphp
+                <h6 class="text-{{$text}}"><em>{{ $projects->status }}</em></h6>
                 <div>
-                    Due <span class="text-primary">Monday, 09 Nov 2020</span>
+                    @php
+                        $date = strtotime($projects->deadline);
+                        $day = date('l, d M Y', $date);
+                    @endphp
+                    Due <span class="text-primary">{{ $day }}</span>
                 </div>
             </div>
             <div class="row mb-3">
                 <div class="col-auto">
-                    <img src="{{ asset('img/dummy-profile.svg') }}" class="img-project-card">
+                    <img src="{{ (!empty($projects->user->profile_photo_path)) ? url('/storage/'.$projects->user->profile_photo_path) : asset('img/dummy-profile.svg') }}" class="img-project-card">
                 </div>
                 <div class="col">
-                    <h4>Road Recruitment to Top 5 Universities</h4>
-                    <h6 class="text-gray">Submitted by <span class="text-primary">Jess Effendy</span></h6>
+                    <h4>{{ $projects->project_name }} <span class="text-capitalize font-italic">({{ $projects->category->category_name }})</span></h4>
+                    <h6 class="text-gray">Submitted by <span class="text-primary">{{ $projects->user->name }}</span></h6>
                 </div>
             </div>
-            <p class="mb-5">Event completion, attachments needed for each uni</p>
+            <p class="mb-3">{{ $projects->project_summary }}</p>
 
-            <div class="row no-gutters justify-content-between mb-2 text-bold">
+            <div class="row no-gutters mb-3">
+                <div class="col-md-12">
+                    <p>Notes :</p>
+                </div>
+                <div class="col-md-12">
+                    <p>{{ $projects->notes }}</p>
+                </div>
+            </div>
+
+            <div class="row no-gutters mb-2 text-bold">
                 <div>
-                    <span class="text-primary">4</span> <em>Assigned Member(s)</em>
+                    <span class="text-primary">{{ $projects->members->count() }}</span> <em>Assigned Member(s)</em>
                 </div>
             </div>
 
             <div class="row no-gutters align-items-center justify-content-between">
                 <div>
                     <ul class="row no-gutters list-assigned p-0">
-                        <li><img src="{{ asset('img/dummy-profile.svg') }}"></li>
-                        <li><img src="{{ asset('img/dummy-profile.svg') }}"></li>
-                        <li><img src="{{ asset('img/dummy-profile.svg') }}"></li>
-                        <li><img src="{{ asset('img/dummy-profile.svg') }}"></li>
+                        @foreach ($members as $member)
+                            @if ($member->project_id == $projects->id)
+                                <li><a href="" data-toggle="modal" data-target="#member-list"><img src="{{ (!empty($member->user->profile_photo_path)) ? url('/storage/'.$member->user->profile_photo_path) : asset('img/dummy-profile.svg') }}"></a></li>
+                            @endif
+                        @endforeach
                     </ul>
                 </div>
             </div>

@@ -25,4 +25,9 @@ class Project extends Model
     {
         return $this->hasMany(Task::class, 'project_id')->orderBy('id', 'desc');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'submitted_by');
+    }
 }

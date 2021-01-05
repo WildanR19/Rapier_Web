@@ -5,6 +5,8 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Employee\HolidayController as EmployeeHolidayController;
 use App\Http\Controllers\Employee\LeaveController as EmployeeLeaveController;
 use App\Http\Controllers\{EmployeeController, HolidayController, JobController, LeaveController, ProjectController, TaskController};
+use App\Http\Controllers\Employee\ContactController;
+use App\Http\Controllers\Employee\ProjectController as EmployeeProjectController;
 use App\Http\Livewire\Departments;
 use App\Models\Department;
 use Illuminate\Support\Facades\Route;
@@ -19,14 +21,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('home');
     })->name('dash.home');
     
-    Route::get('/projects', function () {
-        return view('employee.projects.index');
-    })->name('dash.projects');
-    
-    Route::get('/projects/detail', function () {
-        return view('employee.projects.detail');
-    })->name('dash.projects.detail');
-    
+    // projects
+    Route::get('/projects', [EmployeeProjectController::class, 'index'])->name('dash.projects');
+    Route::get('/projects/add', [EmployeeProjectController::class, 'add'])->name('dash.projects.add');
+    Route::post('/projects/add/store', [EmployeeProjectController::class, 'store'])->name('dash.projects.store');
+    Route::get('/projects/detail/{id}', [EmployeeProjectController::class, 'details'])->name('dash.projects.details');
+    Route::get('/projects/delete/{id}', [EmployeeProjectController::class, 'destroy'])->name('dash.projects.delete');
+    Route::get('/projects/update/{id}', [EmployeeProjectController::class, 'edit'])->name('dash.projects.edit');
+    Route::post('/projects/update', [EmployeeProjectController::class, 'update'])->name('dash.projects.update');
+
     Route::get('/goals', function () {
         return view('employee.goals.index');
     })->name('dash.goals');
@@ -41,9 +44,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     //holiday
     Route::get('/holiday', [EmployeeHolidayController::class, 'index'])->name('dash.holiday');
     
-    Route::get('/teams', function () {
-        return view('employee.teams.index');
-    })->name('dash.teams');
+    // contacts
+    Route::get('/contacts', [ContactController::class, 'index'])->name('dash.contacts');
+    Route::get('/contacts/{id}/edit', [ContactController::class, 'update'])->name('dash.contacts.update');
+    Route::post('/contacts/{id}', [ContactController::class, 'edit'])->name('dash.contacts.edit');
     
     Route::get('/payslip', function () {
         return view('employee.payslip.index');
