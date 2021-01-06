@@ -23,12 +23,11 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     
     // projects
     Route::get('/projects', [EmployeeProjectController::class, 'index'])->name('dash.projects');
-    Route::get('/projects/add', [EmployeeProjectController::class, 'add'])->name('dash.projects.add');
-    Route::post('/projects/add/store', [EmployeeProjectController::class, 'store'])->name('dash.projects.store');
     Route::get('/projects/detail/{id}', [EmployeeProjectController::class, 'details'])->name('dash.projects.details');
+    Route::post('/projects/update', [EmployeeProjectController::class, 'submit_update'])->name('dash.projects.update');
     Route::get('/projects/delete/{id}', [EmployeeProjectController::class, 'destroy'])->name('dash.projects.delete');
-    Route::get('/projects/update/{id}', [EmployeeProjectController::class, 'edit'])->name('dash.projects.edit');
-    Route::post('/projects/update', [EmployeeProjectController::class, 'update'])->name('dash.projects.update');
+    Route::get('/projects/{id}/edit', [EmployeeProjectController::class, 'update'])->name('dash.projects.editupdate');
+    Route::post('/projects/{id}', [EmployeeProjectController::class, 'edit'])->name('dash.projects.edit');
 
     Route::get('/goals', function () {
         return view('employee.goals.index');

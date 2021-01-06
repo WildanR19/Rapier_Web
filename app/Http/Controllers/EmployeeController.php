@@ -119,7 +119,7 @@ class EmployeeController extends Controller
         Storage::disk('public')->delete($user->profile_photo_path);
         $user->delete();
         Alert::success('Deleted', 'Your data has been deleted.');
-        return back()->with('success','Data deleted successfully');
+        return back();
     }
 
     public function edit($id)

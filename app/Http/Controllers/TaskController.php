@@ -65,18 +65,6 @@ class TaskController extends Controller
         $task->priority         = $request->priority;
         $task->save();
 
-        $taskcompleted = Task::where([
-            'project_id'    => $request->project,
-            'status'        => 'completed'
-            ])->count();
-        $taskcount = Task::where([
-            'project_id'    => $request->project,
-            ])->count();
-        $percent = ($taskcompleted!=0) ? ($taskcount/$taskcompleted)*100 : 0;
-        Project::where('id', $request->project)->update([
-            'completion_percent'    => round($percent),
-        ]);
-
         Alert::success('Success', 'Your data has been added.');
         return redirect()->route('admin.tasks');
     }
@@ -154,18 +142,6 @@ class TaskController extends Controller
         $task->status           = $request->status;
         $task->priority         = $request->priority;
         $task->save();
-
-        $taskcompleted = Task::where([
-            'project_id'    => $request->project,
-            'status'        => 'completed'
-            ])->count();
-        $taskcount = Task::where([
-            'project_id'    => $request->project,
-            ])->count();
-        $percent = ($taskcompleted!=0) ? ($taskcount/$taskcompleted)*100 : 0;
-        Project::where('id', $request->project)->update([
-            'completion_percent'    => round($percent),
-        ]);
 
         Alert::success('Success', 'Your data has been updated.');
         return redirect()->route('admin.tasks');

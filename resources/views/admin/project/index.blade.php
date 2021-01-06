@@ -21,10 +21,9 @@
                             <th style="width: 1%">#</th>
                             <th>Project Name</th>
                             <th style="width: 25%">Team Members</th>
-                            <th>Project Progress</th>
                             <th>Deadline</th>
-                            <th class="text-center">Status</th>
-                            <th>Action</th>
+                            <th>Status</th>
+                            <th style="width: 13%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -114,15 +113,6 @@
                                         @endforeach
                                     </ul>
                                 </td>
-                                <td class="project_progress">
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar bg-green" role="progressbar" aria-volumenow="{{ $pj->completion_percent }}" aria-volumemin="0" aria-volumemax="100" style="width: {{ $pj->completion_percent }}%">
-                                        </div>
-                                    </div>
-                                    <small>
-                                        {{ $pj->completion_percent }}% Complete
-                                    </small>
-                                </td>
                                 <td>{{ $pj->deadline }}</td>
                                 <td class="project-state">
                                     @php
@@ -141,7 +131,7 @@
                                     @endphp
                                     <span class="badge badge-{{$color}}">{{ $pj->status }}</span>
                                 </td>
-                                <td class="project-actions text-right">
+                                <td>
                                     <a href="{{ route('admin.projects.edit', $pj->id) }}" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>

@@ -9,24 +9,27 @@
             </div>
 
             <div class="modal-body">
-                <form action="">
+                <form action="{{ route('dash.projects.update') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="project_id" value="{{ $projects->id }}">
                     <div class="form-group row">
                         <label for="project-comment" class="col-sm-3 col-form-label"><em>Comment</em></label>
                         <div class="col-sm-9">
-                            <textarea name="" id="project-comment" cols="30" rows="5" class="form-control"></textarea>
-                            <input type="file" name="" id="">
+                            <textarea name="comment" id="project-comment" cols="30" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
-                    <!-- </div>
-        <div class="modal-footer"> -->
+                    <div class="form-group row">
+                        <label for="file" class="col-sm-3 col-form-label"><em>File</em></label>
+                        <div class="col-sm-9">
+                            <input type="file" id="file" name="file">
+                            <small>*Max 10MB</small>
+                        </div>
+                    </div>
                     <div class="row justify-content-center">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            Submit</button>
-                        <!-- <button type="button" class="btn btn-primary">Create Project</button> -->
+                        <button type="submit" class="btn btn-secondary">Submit</button>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>

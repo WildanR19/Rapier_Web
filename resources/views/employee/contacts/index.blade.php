@@ -74,7 +74,7 @@
                                                             <span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: {{ $user->employee_detail->address }}
                                                         </li>
                                                         <li class="small">
-                                                            <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: {{ $user->employee_detail->phone }}
+                                                            <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone: {{ $user->employee_detail->phone }}
                                                         </li>
                                                         <li class="small">
                                                             <span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span> Email: {{ $user->email }}
@@ -114,8 +114,8 @@
                                 <div class="px-5">
                                     <div>
                                         <h5><i>Contact Info</i></h5>
-                                        <p><span><i class="fas fa-lg fa-phone"></i></span> Phone #: {{ Auth::user()->employee_detail->phone }}</p>
-                                        <p><span><i class="fas fa-lg fa-envelope"></i></span> Email: {{ Auth::user()->email }}</p>
+                                        <p><span><i class="fas fa-lg fa-phone"></i></span> {{ Auth::user()->employee_detail->phone }}</p>
+                                        <p><span><i class="fas fa-lg fa-envelope"></i></span> {{ Auth::user()->email }}</p>
                                     </div>
                                     <div class="mt-5">
                                         <h5><i>Address</i></h5>

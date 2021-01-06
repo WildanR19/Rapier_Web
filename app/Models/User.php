@@ -80,4 +80,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class);
     }
+
+    public function project_update()
+    {
+        return $this->hasMany(ProjectUpdate::class);
+    }
 }

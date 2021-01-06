@@ -23,7 +23,6 @@
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" href="#overview" data-toggle="tab">Overview</a></li>
                   <li class="nav-item"><a class="nav-link" href="#members" data-toggle="tab">Members</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tasks" data-toggle="tab">Tasks</a></li>
                   <li class="nav-item"><a class="nav-link" href="#files" data-toggle="tab">Files</a></li>
                   <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
                 </ul>
@@ -37,27 +36,13 @@
                             <div class="d-flex justify-content-between">
                                 <h4>Project - <b>{{ $project->project_name }}</b></h4>
                                 <div class="dropdown">
-                                    <button class="btn btn-default text-capitalize" type="button">{{ $project->status }} <i class="fas fa-circle"></i></button>
+                                    <button class="btn btn-default text-capitalize" type="button">{{ $project->status }} <i class="fas fa-circle text-info"></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 col-sm-6 col-12">
-                      <div class="info-box bg-info">
-                        <span class="info-box-icon"><i class="fas fa-tasks"></i></span>
-          
-                        <div class="info-box-content">
-                          <span class="info-box-text">Tasks</span>
-                          <span class="info-box-number">{{ $tasks->count() }}</span>
-          
-                          <div class="progress">
-                            <div class="progress-bar" style="width: 100%"></div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     <div class="col-md-3 col-sm-6 col-12">
                       <div class="info-box bg-success">
                         <span class="info-box-icon"><i class="fas fa-comments"></i></span>
@@ -100,15 +85,15 @@
                       </div>
                     </div>
                     <div class="col-md-3 col-sm-6 col-12">
-                      <div class="info-box bg-danger">
+                      <div class="info-box bg-info">
                         <span class="info-box-icon"><i class="fas fa-exclamation-triangle"></i></span>
           
                         <div class="info-box-content">
-                          <span class="info-box-text">Completion</span>
-                          <span class="info-box-number">{{ $project->completion_percent }}%</span>
+                          <span class="info-box-text">Total Updates</span>
+                          <span class="info-box-number">0</span>
           
                           <div class="progress">
-                            <div class="progress-bar" style="width: {{ $project->completion_percent }}%"></div>
+                            <div class="progress-bar" style="width: 0%"></div>
                           </div>
                         </div>
                       </div>
@@ -172,56 +157,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-              </div>
-
-              <div class="tab-pane" id="tasks">
-                <div class="card">
-                  <div class="card-header">
-                    <h4 class="card-title">Tasks</h4>
-                  </div>
-                  <div class="card-body">
-                    <div class="table-responsive mt-3">
-                      <table id="jobTable" class="table table-striped table-hover">
-                          <thead>
-                              <tr>
-                                  <th>#</th>
-                                  <th>Task</th>
-                                  <th>Project</th>
-                                  <th style="width: 15%">Assigned To</th>
-                                  <th style="width: 15%">Assigned By</th>
-                                  <th>Due Date</th>
-                                  <th>Status</th>
-                                  <th style="width: 10%">Action</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              @php $no=1; @endphp
-                              @foreach ($tasks as $task)    
-                                  <tr>
-                                      <td>{{ $no++ }}</td>
-                                      <td>{{ $task->title }}</td>
-                                      <td>{{ $task->project->project_name }}</td>
-                                      <td><img alt="Avatar" class="table-avatar thumb-index-sm" src="{{ (!empty($task->user->profile_photo_path)) ? url('/storage/'.$task->user->profile_photo_path) : url('/img/dummy-profile.svg') }}"> {{ $task->user->name }}</td>
-                                      <td><img alt="Avatar" class="table-avatar thumb-index-sm" src="{{ (!empty($task->created_by()->first()->profile_photo_path)) ? url('/storage/'.$task->created_by()->first()->profile_photo_path) : url('/img/dummy-profile.svg') }}"> {{ $task->created_by()->first()->name }}</td>
-                                      <td>{{ $task->due_date }}</td>
-                                      <td>
-                                          <span class="badge badge-{{ ($task->status == 'incomplete') ? 'danger' : 'success' }}">{{ $task->status }}</span>
-                                      </td>
-                                      <td>
-                                          <a href="{{ route('admin.tasks.edit', $task->id) }}" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit">
-                                              <i class="fas fa-pencil-alt"></i>
-                                          </a>
-                                          <a href="{{ route('admin.tasks.delete', $task->id) }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
-                                              <i class="fas fa-trash-alt"></i>
-                                          </a>
-                                      </td>
-                                  </tr>
-                              @endforeach
-                          </tbody>
-                      </table>
-                    </div>
-                  </div>
                 </div>
               </div>
 

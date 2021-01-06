@@ -7,14 +7,16 @@
         <div class="col">
             <a href="{{ route('dash.projects') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> <em>Back to All Projects</em></a>
         </div>
-        <div class="col text-right">
-            @if ($projects->submitted_by == auth()->user()->id)    
-                <a href="{{ route('dash.projects.edit',$projects->id) }}" class="btn btn-secondary"><i class="fas fa-edit"></i> <em>Edit</em></a>
-                <a href="{{ route('dash.projects.delete',$projects->id) }}" class="btn btn-danger delete-confirm"><i class="fas fa-trash"></i> <em>Delete</em></a>
-            @endif
-        </div>
     </div>
-
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <ul class="row no-gutters p-0">
         <li class="card w-100 p-4 mb-4">
             <div class="row no-gutters justify-content-between mb-3">
@@ -81,52 +83,41 @@
         </li>
 
         <div class="row no-gutters">
-            <div class="legend"><span class="text-primary">2</span> Total Update(s)</div>
+            <div class="legend"><span class="text-primary">{{ $updates->count() }}</span> Total Update(s)</div>
         </div>
 
-        <li class="card w-100 p-4 mb-4">
-            <div class="row">
-                <div class="col">
-                    <div class="row no-gutters justify-content-between">
-                        <div class="col-auto">
-                            <div class="row list-assigned align-items-center mb-3">
-                                <div class="col-auto">
-                                    <img src="{{ asset('img/dummy-profile.svg') }}">
+        @foreach ($updates as $update)    
+            <li class="card w-100 p-4 mb-4">
+                <div class="row">
+                    <div class="col">
+                        <div class="row no-gutters justify-content-between">
+                            <div class="col-auto">
+                                <div class="row list-assigned align-items-center mb-3">
+                                    <div class="col-auto">
+                                        <img src="{{ (!empty($update->user->profile_photo_path)) ? url('/storage/'.$update->user->profile_photo_path) : asset('img/dummy-profile.svg') }}">
+                                    </div>
+                                    <div class="text-primary">{{ $update->user->name }}</div>
                                 </div>
-                                <div class="text-primary">Team Member 2</div>
                             </div>
-                        </div>
-                        <div class="text-gray">13.12 | 09 Nov 2020</div>
-                    </div>
-                    <p class="mb-3">First draft list for universities options. Added some notes on the possible dates. Also
-                        attached some proposal sample to be sent out, please check and give comments.</p>
-                    <div class="row no-gutters border-left pl-4">
-                        <h6><b>2</b> total attachment(s) <a href="">Download All</a></h6>
-                    </div>
-                </div>
-            </div>
-        </li>
 
-        <li class="card w-100 p-4 mb-4">
-            <div class="row">
-                <div class="col">
-                    <div class="row no-gutters justify-content-between">
-                        <div class="col-auto">
-                            <div class="row list-assigned align-items-center mb-3">
-                                <div class="col-auto">
-                                    <img src="{{ asset('img/dummy-profile.svg') }}">
-                                </div>
-                                <div class="text-primary">Jess Effendy</div>
+                            <div class="text-gray">
+                                @if ($update->user_id == Auth::user()->id)
+                                    <a href="{{ route('dash.projects.editupdate', $update->id) }}" class="text-primary">Edit</a> |
+                                    <a href="{{ route('dash.projects.delete', $update->id) }}" class="text-primary delete-confirm">Delete</a>
+                                @endif
+                                {{ date("H.i | d M Y", strtotime($update->created_at))}}
                             </div>
                         </div>
-                        <div class="text-gray">
-                            <a class="text-primary button">Delete</a>13.12 | 09 Nov 2020
-                        </div>
+                        <p class="mb-3">{{ $update->comment }}</p>
+                        @if (!empty($update->file))    
+                            <div class="row no-gutters border-left pl-4">
+                                <h6><b>1</b> total attachment(s) <a href="">Download All</a></h6>
+                            </div>
+                        @endif
                     </div>
-                    <p>Noted. Thank you <span class="text-primary">Team Member 2</span></p>
                 </div>
-            </div>
-        </li>
+            </li>
+        @endforeach
 
         <li class="row no-gutters w-100">
             <div class="col">
