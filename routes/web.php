@@ -7,6 +7,7 @@ use App\Http\Controllers\Employee\LeaveController as EmployeeLeaveController;
 use App\Http\Controllers\{EmployeeController, HolidayController, JobController, LeaveController, ProjectController, TaskController};
 use App\Http\Controllers\Employee\ContactController;
 use App\Http\Controllers\Employee\ProjectController as EmployeeProjectController;
+use App\Http\Controllers\Employee\TaskController as EmployeeTaskController;
 use App\Http\Livewire\Departments;
 use App\Models\Department;
 use Illuminate\Support\Facades\Route;
@@ -29,9 +30,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/projects/{id}/edit', [EmployeeProjectController::class, 'update'])->name('dash.projects.editupdate');
     Route::post('/projects/{id}', [EmployeeProjectController::class, 'edit'])->name('dash.projects.edit');
 
-    Route::get('/goals', function () {
-        return view('employee.goals.index');
-    })->name('dash.goals');
+    Route::get('/goals', [EmployeeTaskController::class, 'index'])->name('dash.goals');
     
     //leave
     Route::get('/leave', [EmployeeLeaveController::class, 'index'])->name('dash.leave');
@@ -142,5 +141,4 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::post('/admin/tasks/update', [TaskController::class, 'update'])->name('admin.tasks.update');
     Route::post('/admin/tasks/add/category', [TaskController::class, 'addCat'])->name('admin.tasks.category.add');
     Route::get('/admin/tasks/category/delete/{id}', [TaskController::class, 'destroyCat'])->name('admin.tasks.category.delete');
-    Route::get('/admin/tasks/add/ajax-getuser', [TaskController::class, 'ajax']);
 });

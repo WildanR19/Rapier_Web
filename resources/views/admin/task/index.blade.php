@@ -19,7 +19,6 @@
                                         <tr>
                                             <th>#</th>
                                             <th>Task</th>
-                                            <th>Project</th>
                                             <th style="width: 15%">Assigned To</th>
                                             <th style="width: 15%">Assigned By</th>
                                             <th>Due Date</th>
@@ -33,7 +32,6 @@
                                             <tr>
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $task->title }}</td>
-                                                <td>{{ $task->project->project_name }}</td>
                                                 <td><img alt="Avatar" class="table-avatar thumb-index-sm" src="{{ (!empty($task->user->profile_photo_path)) ? url('/storage/'.$task->user->profile_photo_path) : url('/img/dummy-profile.svg') }}"> {{ $task->user->name }}</td>
                                                 <td><img alt="Avatar" class="table-avatar thumb-index-sm" src="{{ (!empty($task->created_by()->first()->profile_photo_path)) ? url('/storage/'.$task->created_by()->first()->profile_photo_path) : url('/img/dummy-profile.svg') }}"> {{ $task->created_by()->first()->name }}</td>
                                                 <td>{{ $task->due_date }}</td>

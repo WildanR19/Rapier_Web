@@ -8,12 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     protected $fillable = [
-        'title', 'user_id', 'created_by', 'project_id', 'task_category_id', 'priority', 'status',
+        'title', 'user_id', 'created_by', 'task_category_id', 'priority', 'status',
     ];
-
-    public function project(){
-        return $this->belongsTo(Project::class);
-    }
 
     public function user(){
         return $this->belongsTo(User::class, 'user_id');

@@ -31,17 +31,16 @@
                     <div class="card-body">
                         <form action="{{ route('admin.tasks.store') }}" method="POST">
                             @csrf
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" class="form-control" id="title" name="title">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" id="description" rows="3" name="description"></textarea>
+                            </div>
                             <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="project">Project</label>
-                                    <select id="project" class="form-control select2" name="project">
-                                        <option value="" selected disabled></option>
-                                        @foreach ($projects as $project)
-                                            <option value="{{ $project->id }}" class="text-capitalize">{{ $project->project_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="category">Task Category
                                         <button type="button" class="btn btn-sm btn-primary rounded-circle" data-tooltip="tooltip" title="Add new task category" data-toggle="modal" data-target="#addCategoryModal"><i class="fas fa-plus"></i></button>
                                     </label>
@@ -52,21 +51,11 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" class="form-control" id="title" name="title">
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" id="description" rows="3" name="description"></textarea>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="start_date">Start Date</label>
                                     <input type="date" class="form-control" id="start_date" name="start_date">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="due_date">Due Date</label>
                                     <input type="date" class="form-control" id="due_date" name="due_date">
                                 </div>
@@ -76,6 +65,9 @@
                                     <label for="assigned">Assigned To</label>
                                     <select class="select2 form-control" id="assigned" name="assigned">
                                         <option value="" selected disabled></option>
+                                        @foreach ($emp as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -126,19 +118,6 @@
                 theme: 'bootstrap4',
                 placeholder: 'Select an option...',
                 allowClear: true
-            });
-        });
-
-        $('#project').on('change', function (e) {
-            var project_id = e.target.value;
-
-            $.get('/admin/tasks/add/ajax-getuser?project_id=' + project_id, function (data) {
-
-                $('#assigned').empty();
-
-                $.each(data, function (index, value) {
-                    $('#assigned').append('<option value="' + value.user_id + '">' + value.name + '</option>');
-                });
             });
         });
     </script>

@@ -19,7 +19,7 @@ class CreateTaskCategoryTable extends Migration
             $table->timestamps();
         });
         Schema::table('tasks', function(Blueprint $table){
-            $table->integer('task_category_id')->unsigned()->nullable()->default(null)->after('project_id');
+            $table->integer('task_category_id')->unsigned()->nullable()->default(null)->after('due_date');
             $table->foreign('task_category_id')->references('id')->on('task_category')->onDelete('cascade')->onUpdate('cascade');
         });
     }

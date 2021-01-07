@@ -41,7 +41,6 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'project'       => 'required',
             'title'         => 'required|string',
             'category'      => 'required|integer',
             'description'   => 'nullable',
@@ -53,7 +52,6 @@ class TaskController extends Controller
         ]);
 
         $task = new Task();
-        $task->project_id       = $request->project;
         $task->title            = $request->title;
         $task->description      = $request->description;
         $task->task_category_id = $request->category;
@@ -63,6 +61,7 @@ class TaskController extends Controller
         $task->created_by       = Auth::user()->id;
         $task->status           = $request->status;
         $task->priority         = $request->priority;
+        $task->progress_percent = '0';
         $task->save();
 
         Alert::success('Success', 'Your data has been added.');
@@ -81,17 +80,6 @@ class TaskController extends Controller
         TaskCategory::where('id', $id)->delete();
         Alert::success('Deleted', 'Your data has been deleted.');
         return back();
-    }
-
-    public function ajax(Request $request)
-    {
-        $project_id = $request->input('project_id');
-
-        $getuser = User::join('project_members', 'users.id', '=', 'project_members.user_id')
-            ->where('project_members.project_id', $project_id)
-            ->get();
-        
-        return response()->json($getuser);
     }
 
     public function destroy($id)
@@ -120,7 +108,6 @@ class TaskController extends Controller
     public function update(Request $request)
     {
         $this->validate($request,[
-            'project'       => 'required',
             'title'         => 'required|string',
             'category'      => 'required|integer',
             'description'   => 'nullable',
@@ -129,10 +116,10 @@ class TaskController extends Controller
             'assigned'      => 'required',
             'status'        => 'required',
             'priority'      => 'required',
+            'progress'      => 'required',
         ]);
 
         $task = Task::findOrFail($request->id);
-        $task->project_id       = $request->project;
         $task->title            = $request->title;
         $task->description      = $request->description;
         $task->task_category_id = $request->category;
@@ -141,6 +128,7 @@ class TaskController extends Controller
         $task->user_id          = $request->assigned;
         $task->status           = $request->status;
         $task->priority         = $request->priority;
+        $task->progress_percent = $request->progress;
         $task->save();
 
         Alert::success('Success', 'Your data has been updated.');

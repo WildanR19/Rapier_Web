@@ -8,6 +8,40 @@
             list-style-type: disc;        
             padding-inline-start: 40px;
         }
+
+        .range-value {
+            position: absolute;
+            top: -10%;
+        }
+
+        .range-value span {
+            width: 30px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
+            background: #0075ff;
+            color: #fff;
+            font-size: 12px;
+            display: block;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 0);
+            border-radius: 6px;
+        }
+
+        .range-value span:before {
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-top: 10px solid#0075ff;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            margin-top: -1px;
+        }
     </style>
 @endsection
 @section('content')
@@ -32,17 +66,16 @@
                         <form action="{{ route('admin.tasks.update') }}" method="POST">
                             @csrf
                             <input type="hidden" name="id" value="{{ $tasks->id }}">
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input type="text" class="form-control" id="title" name="title" value="{{ $tasks->title }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" id="description" rows="3" name="description">{{ $tasks->description }}</textarea>
+                            </div>
                             <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="project">Project</label>
-                                    <select id="project" class="form-control select2" name="project">
-                                        <option value="" selected disabled></option>
-                                        @foreach ($projects as $project)
-                                            <option value="{{ $project->id }}" class="text-capitalize" {{ ($tasks->project_id == $project->id) ? 'selected' : '' }}>{{ $project->project_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="category">Task Category
                                         <button type="button" class="btn btn-sm btn-primary rounded-circle" data-tooltip="tooltip" title="Add new task category" data-toggle="modal" data-target="#addCategoryModal"><i class="fas fa-plus"></i></button>
                                     </label>
@@ -53,21 +86,11 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" value="{{ $tasks->title }}">
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" id="description" rows="3" name="description">{{ $tasks->description }}</textarea>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="start_date">Start Date</label>
                                     <input type="date" class="form-control" id="start_date" name="start_date" value="{{ $tasks->start_date }}">
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="due_date">Due Date</label>
                                     <input type="date" class="form-control" id="due_date" name="due_date" value="{{ $tasks->due_date }}">
                                 </div>
@@ -77,6 +100,9 @@
                                     <label for="assigned">Assigned To</label>
                                     <select class="select2 form-control" id="assigned" name="assigned">
                                         <option value="" selected disabled></option>
+                                        @foreach ($emp as $user)
+                                            <option value="{{ $user->id }}" {{ ($user->id == $tasks->user_id) ? 'selected' : ''}}>{{ $user->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
@@ -92,19 +118,28 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="">Priority</label><br>
-                                <div class="form-check form-check-inline text-danger">
-                                    <input class="form-check-input" type="radio" name="priority" id="high" value="high" {{ ($tasks->priority == 'high') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="high">High</label>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="">Priority</label><br>
+                                    <div class="form-check form-check-inline text-danger">
+                                        <input class="form-check-input" type="radio" name="priority" id="high" value="high" {{ ($tasks->priority == 'high') ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="high">High</label>
+                                    </div>
+                                    <div class="form-check form-check-inline text-warning">
+                                        <input class="form-check-input" type="radio" name="priority" id="medium" value="medium" {{ ($tasks->priority == 'medium') ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="medium">Medium</label>
+                                    </div>
+                                    <div class="form-check form-check-inline text-success">
+                                        <input class="form-check-input" type="radio" name="priority" id="low" value="low" {{ ($tasks->priority == 'low') ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="low">Low</label>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline text-warning">
-                                    <input class="form-check-input" type="radio" name="priority" id="medium" value="medium" {{ ($tasks->priority == 'medium') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="medium">Medium</label>
-                                </div>
-                                <div class="form-check form-check-inline text-success">
-                                    <input class="form-check-input" type="radio" name="priority" id="low" value="low" {{ ($tasks->priority == 'low') ? 'checked' : '' }}>
-                                    <label class="form-check-label" for="low">Low</label>
+                                <div class="form-group col-md-6">
+                                    <label for="progress">Progress Percent (%)</label>
+                                    <div>
+                                        <input type="range" class="form-control-range" id="progress" name="progress" value="{{ $tasks->progress_percent }}" min="0" max="100" step="5">
+                                        <div class="range-value" id="rangeV"></div>
+                                    </div>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -142,5 +177,18 @@
                 });
             });
         });
+
+        const
+            range = document.getElementById('progress'),
+            rangeV = document.getElementById('rangeV'),
+            setValue = () => {
+                const
+                    newValue = Number((range.value - range.min) * 100 / (range.max - range.min)),
+                    newPosition = 10 - (newValue * 0.2);
+                rangeV.innerHTML = `<span>${range.value}</span>`;
+                rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+            };
+        document.addEventListener("DOMContentLoaded", setValue);
+        range.addEventListener('input', setValue);
     </script>
 @endsection
