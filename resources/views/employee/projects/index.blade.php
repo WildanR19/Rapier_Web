@@ -13,6 +13,17 @@
             </div>
         </form>
     </div>
+    @empty($projects)
+        <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Project is empty ...</h3>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="remove" data-toggle="tooltip" title="Remove">
+                  <i class="fas fa-times"></i></button>
+              </div>
+            </div>
+        </div>
+    @endempty
     <ul class="row no-gutters p-0">
         @foreach ($projects as $project)    
             <li class="card w-100 p-4 mb-4">
@@ -56,7 +67,7 @@
                         <span class="text-primary">{{ $project->members->count() }}</span> <em>Assigned Member(s)</em>
                     </div>
                     <div>
-                        <span class="text-primary">2</span> <em>Total Update(s)</em>
+                        <span class="text-primary">{{ $project->updates->count() }}</span> <em>Total Update(s)</em>
                     </div>
                 </div>
 
@@ -67,12 +78,12 @@
                             @foreach ($members as $member)
                                 @php if($count == 5) break; @endphp
                                     @if ($member->project_id == $project->id)
-                                        <li><a href="" data-toggle="modal" data-target="#member-list"><img src="{{ (!empty($member->user->profile_photo_path)) ? url('/storage/'.$member->user->profile_photo_path) : asset('img/dummy-profile.svg') }}"></a></li>
+                                        <li><a href=""><img src="{{ (!empty($member->user->profile_photo_path)) ? url('/storage/'.$member->user->profile_photo_path) : asset('img/dummy-profile.svg') }}"></a></li>
                                     @endif
                                 @php $count++; @endphp
                             @endforeach
                             @if ($members->count() > 5)
-                                <li class="text-gray"><a href="" data-toggle="modal" data-target="#member-list"><em>and {{ ($members->count() - 5) }} more</em></a></li>
+                                <li class="text-gray"><a href=""><em>and {{ ($members->count() - 5) }} more</em></a></li>
                             @endif
                         </ul>
                     </div>
@@ -82,8 +93,4 @@
         @endforeach
     </ul>
 </section>
-
-<!-- Modal -->
-@include('employee.projects.modal-create-project')
-@include('employee.projects.modal-member-list')
 @endsection

@@ -1,5 +1,15 @@
 @extends('layout.dash')
-
+@section('css')
+    <style>
+        .img-member-modal{
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50% !important;
+        }
+    </style>
+@endsection
 @section('content')
 <section>
     {{-- <h2 class="mb-4">Projects</h2> --}}
@@ -102,7 +112,6 @@
 
                             <div class="text-gray">
                                 @if ($update->user_id == Auth::user()->id)
-                                    <a href="{{ route('dash.projects.editupdate', $update->id) }}" class="text-primary">Edit</a> |
                                     <a href="{{ route('dash.projects.delete', $update->id) }}" class="text-primary delete-confirm">Delete</a>
                                 @endif
                                 {{ date("H.i | d M Y", strtotime($update->created_at))}}
@@ -127,6 +136,6 @@
     </ul>
 </section>
 
-@include('employee.projects.modal-edit-project')
 @include('employee.projects.modal-submit-update')
+@include('employee.projects.modal-member-list')
 @endsection

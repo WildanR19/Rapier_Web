@@ -9,28 +9,15 @@
             </div>
 
             <div class="modal-body">
-                <ul>
-                    <li class="row no-gutters align-items-center justify-content-between mb-3">
-                        <div class="row no-gutters align-items-center">
-                            <img src="{{ asset('img/dummy-profile.svg') }}" class="mr-3" width="50px">
-                            <div class="text-primary">Jess Effendy</div>
-                        </div>
-                        {{-- <em class="text-pending">Pending</em> --}}
-                    </li>
-                    <li class="row no-gutters align-items-center justify-content-between mb-3">
-                        <div class="row no-gutters align-items-center">
-                            <img src="{{ asset('img/dummy-profile.svg') }}" class="mr-3" width="50px">
-                            <div class="text-primary">Team Membar 2</div>
-                        </div>
-                        {{-- <em class="text-pending">Pending</em> --}}
-                    </li>
-                    <li class="row no-gutters align-items-center justify-content-between mb-3">
-                        <div class="row no-gutters align-items-center">
-                            <img src="{{ asset('img/dummy-profile-not-confirmed.svg') }}" class="mr-3" width="50px">
-                            <div class="text-primary">Team Member 2</div>
-                        </div>
-                        <em class="text-pending">Pending</em>
-                    </li>
+                <ul class="users-list clearfix">
+                    @foreach ($members as $member)
+                        @if ($member->project_id == $projects->id)
+                            <li>
+                                <img src="{{ (!empty($member->user->profile_photo_path)) ? url('/storage/'.$member->user->profile_photo_path) : asset('img/dummy-profile.svg') }}" class="img-member-modal">
+                                <a class="users-list-name" href="#">{{ $member->user->name }}</a>
+                            </li>
+                        @endif
+                    @endforeach
                 </ul>
             </div>
 
