@@ -52,8 +52,8 @@ class ProjectController extends Controller
         if($request->hasFile('file')){
             $file = $request->file('file');
             $filename = time()."_".$file->getClientOriginalName();
-            $file->storeAs('public/files', $filename);
-            $path = 'files/'.$filename;
+            $file->storeAs('public/project_files', $filename);
+            $path = 'project_files/'.$filename;
             $project->file  = $path;
         }
         $project->project_id = $request->project_id;

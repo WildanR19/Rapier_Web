@@ -60,52 +60,35 @@
                 @endif
                 <div class="card">
                     <div class="card-header bg-primary">
-                        <h5>Edit Task</h5>
+                        <h5>Edit Goal</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin.tasks.update') }}" method="POST">
+                        <form action="{{ route('admin.goals.update') }}" method="POST">
                             @csrf
-                            <input type="hidden" name="id" value="{{ $tasks->id }}">
+                            <input type="hidden" name="id" value="{{ $goals->id }}">
                             <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" value="{{ $tasks->title }}">
+                                <label for="title">Name</label>
+                                <input type="text" class="form-control" id="title" name="title" value="{{ $goals->title }}">
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea class="form-control" id="description" rows="3" name="description">{{ $tasks->description }}</textarea>
+                                <textarea class="form-control" id="description" rows="3" name="description">{{ $goals->description }}</textarea>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label for="category">Task Category
-                                        <button type="button" class="btn btn-sm btn-primary rounded-circle" data-tooltip="tooltip" title="Add new task category" data-toggle="modal" data-target="#addCategoryModal"><i class="fas fa-plus"></i></button>
-                                    </label>
-                                    <select id="category" class="form-control select2" name="category">
-                                        <option value="" selected disabled></option>
-                                        @foreach ($category as $cat)
-                                            <option value="{{ $cat->id }}" class="text-capitalize" {{ ($tasks->task_category_id == $cat->id) ? 'selected' : '' }}>{{ $cat->category_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="start_date">Start Date</label>
-                                    <input type="date" class="form-control" id="start_date" name="start_date" value="{{ $tasks->start_date }}">
-                                </div>
                                 <div class="form-group col-md-4">
                                     <label for="due_date">Due Date</label>
-                                    <input type="date" class="form-control" id="due_date" name="due_date" value="{{ $tasks->due_date }}">
+                                    <input type="date" class="form-control" id="due_date" name="due_date" value="{{ $goals->due_date }}">
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="assigned">Assigned To</label>
                                     <select class="select2 form-control" id="assigned" name="assigned">
                                         <option value="" selected disabled></option>
                                         @foreach ($emp as $user)
-                                            <option value="{{ $user->id }}" {{ ($user->id == $tasks->user_id) ? 'selected' : ''}}>{{ $user->name }}</option>
+                                            <option value="{{ $user->id }}" {{ ($user->id == $goals->user_id) ? 'selected' : ''}}>{{ $user->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="status">Status</label>
                                     @php
                                         $status = ['completed', 'incomplete'];
@@ -113,7 +96,7 @@
                                     <select id="status" class="form-control" name="status">
                                         <option disabled selected>Select an option...</option>
                                         @foreach ($status as $stat)
-                                            <option value="{{ $stat }}" class="text-capitalize" {{ ($tasks->status == $stat) ? 'selected' : '' }}>{{ $stat }}</option>
+                                            <option value="{{ $stat }}" class="text-capitalize" {{ ($goals->status == $stat) ? 'selected' : '' }}>{{ $stat }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -122,22 +105,22 @@
                                 <div class="form-group col-md-6">
                                     <label for="">Priority</label><br>
                                     <div class="form-check form-check-inline text-danger">
-                                        <input class="form-check-input" type="radio" name="priority" id="high" value="high" {{ ($tasks->priority == 'high') ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="radio" name="priority" id="high" value="high" {{ ($goals->priority == 'high') ? 'checked' : '' }}>
                                         <label class="form-check-label" for="high">High</label>
                                     </div>
                                     <div class="form-check form-check-inline text-warning">
-                                        <input class="form-check-input" type="radio" name="priority" id="medium" value="medium" {{ ($tasks->priority == 'medium') ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="radio" name="priority" id="medium" value="medium" {{ ($goals->priority == 'medium') ? 'checked' : '' }}>
                                         <label class="form-check-label" for="medium">Medium</label>
                                     </div>
                                     <div class="form-check form-check-inline text-success">
-                                        <input class="form-check-input" type="radio" name="priority" id="low" value="low" {{ ($tasks->priority == 'low') ? 'checked' : '' }}>
+                                        <input class="form-check-input" type="radio" name="priority" id="low" value="low" {{ ($goals->priority == 'low') ? 'checked' : '' }}>
                                         <label class="form-check-label" for="low">Low</label>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="progress">Progress Percent (%)</label>
                                     <div>
-                                        <input type="range" class="form-control-range" id="progress" name="progress" value="{{ $tasks->progress_percent }}" min="0" max="100" step="5">
+                                        <input type="range" class="form-control-range" id="progress" name="progress" value="{{ $goals->progress_percent }}" min="0" max="100" step="5">
                                         <div class="range-value" id="rangeV"></div>
                                     </div>
                                 </div>
@@ -150,7 +133,6 @@
         </div>
     </div>
 </div>
-@include('admin.task.modal')
 @endsection
 
 @section('js')
@@ -163,20 +145,7 @@
                 placeholder: 'Select an option...',
                 allowClear: true
             });
-        });
-
-        $('#project').on('change', function (e) {
-            var project_id = e.target.value;
-
-            $.get('/admin/tasks/add/ajax-getuser?project_id=' + project_id, function (data) {
-
-                $('#assigned').empty();
-
-                $.each(data, function (index, value) {
-                    $('#assigned').append('<option value="' + value.user_id + '">' + value.name + '</option>');
-                });
-            });
-        });
+        });    
 
         const
             range = document.getElementById('progress'),

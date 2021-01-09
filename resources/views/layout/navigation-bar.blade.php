@@ -19,7 +19,7 @@
                 <li class="nav-item">
                     <a href="{{ route('dash.goals') }}" class="nav-link {{ (request()->segment(1) == 'goals') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bullseye"></i>
-                        <p>Task Goals</p>
+                        <p>Goals</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -115,8 +115,8 @@
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="{{ route('admin.tasks') }}" class="nav-link">
-                            <p>Tasks</p>
+                          <a href="{{ route('admin.goals') }}" class="nav-link">
+                            <p>Goals</p>
                           </a>
                         </li>
                         <li class="nav-item">

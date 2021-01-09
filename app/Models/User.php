@@ -71,9 +71,9 @@ class User extends Authenticatable
         return $this->hasMany(ProjectMember::class);
     }
 
-    public function task()
+    public function goal()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Goal::class);
     }
 
     public function project()

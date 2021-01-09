@@ -25,4 +25,9 @@ class Project extends Model
     {
         return $this->belongsTo(User::class, 'submitted_by');
     }
+
+    public function updates()
+    {
+        return $this->hasMany(ProjectUpdate::class);
+    }
 }

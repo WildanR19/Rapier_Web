@@ -26,13 +26,13 @@
                 @endif
                 <div class="card">
                     <div class="card-header bg-primary">
-                        <h5>Add Task</h5>
+                        <h5>New Goal</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin.tasks.store') }}" method="POST">
+                        <form action="{{ route('admin.goals.store') }}" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="title">Title</label>
+                                <label for="title">Name</label>
                                 <input type="text" class="form-control" id="title" name="title">
                             </div>
                             <div class="form-group">
@@ -41,27 +41,10 @@
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-4">
-                                    <label for="category">Task Category
-                                        <button type="button" class="btn btn-sm btn-primary rounded-circle" data-tooltip="tooltip" title="Add new task category" data-toggle="modal" data-target="#addCategoryModal"><i class="fas fa-plus"></i></button>
-                                    </label>
-                                    <select id="category" class="form-control select2" name="category">
-                                        <option value="" selected disabled></option>
-                                        @foreach ($category as $cat)
-                                            <option value="{{ $cat->id }}" class="text-capitalize">{{ $cat->category_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="start_date">Start Date</label>
-                                    <input type="date" class="form-control" id="start_date" name="start_date">
-                                </div>
-                                <div class="form-group col-md-4">
                                     <label for="due_date">Due Date</label>
                                     <input type="date" class="form-control" id="due_date" name="due_date">
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="assigned">Assigned To</label>
                                     <select class="select2 form-control" id="assigned" name="assigned">
                                         <option value="" selected disabled></option>
@@ -70,7 +53,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label for="status">Status</label>
                                     @php
                                         $status = ['completed', 'incomplete'];
@@ -106,7 +89,6 @@
         </div>
     </div>
 </div>
-@include('admin.task.modal')
 @endsection
 
 @section('js')

@@ -4,8 +4,9 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Employee\HolidayController as EmployeeHolidayController;
 use App\Http\Controllers\Employee\LeaveController as EmployeeLeaveController;
-use App\Http\Controllers\{EmployeeController, HolidayController, JobController, LeaveController, ProjectController, TaskController};
+use App\Http\Controllers\{EmployeeController, GoalController, HolidayController, JobController, LeaveController, ProjectController, TaskController};
 use App\Http\Controllers\Employee\ContactController;
+use App\Http\Controllers\Employee\GoalController as EmployeeGoalController;
 use App\Http\Controllers\Employee\ProjectController as EmployeeProjectController;
 use App\Http\Controllers\Employee\TaskController as EmployeeTaskController;
 use App\Http\Livewire\Departments;
@@ -30,8 +31,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/projects/{id}/edit', [EmployeeProjectController::class, 'update'])->name('dash.projects.editupdate');
     Route::post('/projects/{id}', [EmployeeProjectController::class, 'edit'])->name('dash.projects.edit');
 
-    Route::get('/goals', [EmployeeTaskController::class, 'index'])->name('dash.goals');
-    
+    // goals
+    Route::get('/goals', [EmployeeGoalController::class, 'index'])->name('dash.goals');
+    Route::post('/goals/add', [EmployeeGoalController::class, 'store'])->name('dash.goals.add');
+    Route::get('/goals/{id}/edit', [EmployeeGoalController::class, 'update'])->name('dash.goals.update');
+    Route::post('/goals/{id}', [EmployeeGoalController::class, 'edit'])->name('dash.goals.edit');
+
     //leave
     Route::get('/leave', [EmployeeLeaveController::class, 'index'])->name('dash.leave');
     Route::post('/leave/assign', [EmployeeLeaveController::class, 'store'])->name('dash.leave.assign');
@@ -131,14 +136,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::get('/admin/projects/detail/{id}', [ProjectController::class, 'details'])->name('admin.projects.details');
     Route::post('/admin/projects/member/add', [ProjectController::class, 'member_add'])->name('admin.projects.member.add');
     Route::get('/admin/projects/member/delete/{id}', [ProjectController::class, 'member_destroy'])->name('admin.projects.member.delete');
-    
-    //task
-    Route::get('/admin/tasks', [TaskController::class, 'index'])->name('admin.tasks');
-    Route::get('/admin/tasks/add', [TaskController::class, 'add'])->name('admin.tasks.add');
-    Route::post('/admin/tasks/add/store', [TaskController::class, 'store'])->name('admin.tasks.store');
-    Route::get('/admin/tasks/delete/{id}', [TaskController::class, 'destroy'])->name('admin.tasks.delete');
-    Route::get('/admin/tasks/update/{id}', [TaskController::class, 'edit'])->name('admin.tasks.edit');
-    Route::post('/admin/tasks/update', [TaskController::class, 'update'])->name('admin.tasks.update');
-    Route::post('/admin/tasks/add/category', [TaskController::class, 'addCat'])->name('admin.tasks.category.add');
-    Route::get('/admin/tasks/category/delete/{id}', [TaskController::class, 'destroyCat'])->name('admin.tasks.category.delete');
+
+    // goals
+    Route::get('/admin/goals', [GoalController::class, 'index'])->name('admin.goals');
+    Route::get('/admin/goals/add', [GoalController::class, 'add'])->name('admin.goals.add');
+    Route::post('/admin/goals/add/store', [GoalController::class, 'store'])->name('admin.goals.store');
+    Route::get('/admin/goals/delete/{id}', [GoalController::class, 'destroy'])->name('admin.goals.delete');
+    Route::get('/admin/goals/update/{id}', [GoalController::class, 'edit'])->name('admin.goals.edit');
+    Route::post('/admin/goals/update', [GoalController::class, 'update'])->name('admin.goals.update');
 });
