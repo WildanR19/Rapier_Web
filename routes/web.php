@@ -4,7 +4,7 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Employee\HolidayController as EmployeeHolidayController;
 use App\Http\Controllers\Employee\LeaveController as EmployeeLeaveController;
-use App\Http\Controllers\{EmployeeController, GoalController, HolidayController, JobController, LeaveController, ProjectController, TaskController};
+use App\Http\Controllers\{Controller, EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, ProjectController, TaskController};
 use App\Http\Controllers\Employee\ContactController;
 use App\Http\Controllers\Employee\GoalController as EmployeeGoalController;
 use App\Http\Controllers\Employee\ProjectController as EmployeeProjectController;
@@ -19,9 +19,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return view('home');
     });
     
-    Route::get('/dashboard', function () {
-        return view('home');
-    })->name('dash.home');
+    // dashboard
+    Route::get('/dashboard', [HomeController::class, 'index'])->name('dash.home');
     
     // projects
     Route::get('/projects', [EmployeeProjectController::class, 'index'])->name('dash.projects');

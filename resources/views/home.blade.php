@@ -28,7 +28,7 @@
     <div class="content-header">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h3 class="m-0 text-dark">Notifications (<span class="text-danger">5</span>)</h3>
+                <h3 class="m-0 text-dark">Project Update (<span class="text-danger">5</span>)</h3>
             </div><!-- /.col -->
         </div><!-- /.row -->
     </div>

@@ -174,7 +174,6 @@ class ProjectController extends Controller
         $teammember = ProjectMember::where('project_id', $id)->get();
         $empEx      = $teammember->pluck('user_id');
         $emp        = User::whereNotIn('id', $empEx)->get();
-        $task       = Task::where('project_id', $id)->get();
         
         $data = [
             'project'   => $project,
@@ -182,7 +181,6 @@ class ProjectController extends Controller
             'category'  => $category,
             'emp'       => $emp,
             'teammember'=> $teammember,
-            'tasks'      => $task,
         ];
         return view('admin.project.details')->with($data);
     }
