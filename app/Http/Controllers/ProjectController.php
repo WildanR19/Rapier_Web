@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\ProjectMember;
+use App\Models\ProjectUpdate;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -174,6 +175,7 @@ class ProjectController extends Controller
         $teammember = ProjectMember::where('project_id', $id)->get();
         $empEx      = $teammember->pluck('user_id');
         $emp        = User::whereNotIn('id', $empEx)->get();
+        $updates    = ProjectUpdate::where('project_id', $id)->get();
         
         $data = [
             'project'   => $project,
@@ -181,6 +183,7 @@ class ProjectController extends Controller
             'category'  => $category,
             'emp'       => $emp,
             'teammember'=> $teammember,
+            'updates'   => $updates,
         ];
         return view('admin.project.details')->with($data);
     }

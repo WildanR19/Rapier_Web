@@ -427,20 +427,25 @@ nav-link a {
     color: var(--primary) !important;
 }
 
-.thumb-index{
-    height: 50px;
-    width: 50px;
+.thumb-index, .thumb-index-sm, .thumb-dashboard{
     object-fit: cover;
     object-position: center;
     border-radius: 50% !important;
 }
 
+.thumb-index{
+    height: 50px;
+    width: 50px;
+}
+
 .thumb-index-sm{
     height: 30px;
     width: 30px;
-    object-fit: cover;
-    object-position: center;
-    border-radius: 50% !important;
+}
+
+.thumb-dashboard{
+    height: 60px;
+    width: 60px;
 }
 
 .select2 {

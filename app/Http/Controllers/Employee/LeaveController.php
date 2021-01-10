@@ -17,8 +17,8 @@ class LeaveController extends Controller
         $leave      = Leave::where('user_id', $user->id)->orderByDesc('created_at')->get();
         $leaveType  = LeaveType::all();
 
-        $leaveApprove = Leave::where('user_id', $user->id)->where('status', '!=', 'rejected')->get();
-
+        $yearnow = date('Y');
+        $leaveApprove = Leave::where('user_id', $user->id)->where('status', '!=', 'rejected')->whereYear('from_date', $yearnow)->get();
         $leaveCount = 0;
         foreach($leaveApprove as $la){
             $td = strtotime($la->to_date);
