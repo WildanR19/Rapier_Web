@@ -15,4 +15,9 @@ class Job extends Model
     {
     	return $this->hasMany(Employee_detail::class);
     }
+
+    public function basic_pay()
+    {
+    	return $this->hasOne(BasicPay::class);
+    }
 }

@@ -79,7 +79,6 @@ class HomeController extends Controller
                 'updates'   => $pu,
                 'pg'        => $pg,
             ];
-            // dd($pgpercent);
             return view('home')->with($data)->with($record_leave);
         }
     }

@@ -4,9 +4,10 @@ use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\Employee\HolidayController as EmployeeHolidayController;
 use App\Http\Controllers\Employee\LeaveController as EmployeeLeaveController;
-use App\Http\Controllers\{Controller, EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, ProjectController, TaskController};
+use App\Http\Controllers\{Controller, EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, TaskController};
 use App\Http\Controllers\Employee\ContactController;
 use App\Http\Controllers\Employee\GoalController as EmployeeGoalController;
+use App\Http\Controllers\Employee\PayslipController as EmployeePayslipController;
 use App\Http\Controllers\Employee\ProjectController as EmployeeProjectController;
 use App\Http\Controllers\Employee\TaskController as EmployeeTaskController;
 use App\Http\Livewire\Departments;
@@ -51,9 +52,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/contacts/{id}/edit', [ContactController::class, 'update'])->name('dash.contacts.update');
     Route::post('/contacts/{id}', [ContactController::class, 'edit'])->name('dash.contacts.edit');
     
-    Route::get('/payslip', function () {
-        return view('employee.payslip.index');
-    })->name('dash.payslip');
+    // payslip
+    Route::get('/payslip', [EmployeePayslipController::class, 'index'])->name('dash.payslip');
+    Route::get('/payslip/{id}', [EmployeePayslipController::class, 'openModal'])->name('dash.payslip.modal');
     
     Route::get('/payslip/content', function () {
         return view('employee.payslip.content');
@@ -143,4 +144,15 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::get('/admin/goals/delete/{id}', [GoalController::class, 'destroy'])->name('admin.goals.delete');
     Route::get('/admin/goals/update/{id}', [GoalController::class, 'edit'])->name('admin.goals.edit');
     Route::post('/admin/goals/update', [GoalController::class, 'update'])->name('admin.goals.update');
+
+    // payslip
+    Route::get('/admin/payslip', [PayslipController::class, 'index'])->name('admin.payslip');
+    Route::get('/admin/payslip/add', [PayslipController::class, 'add'])->name('admin.payslip.add');
+    Route::get('/admin/payslip/{user}/salary', [PayslipController::class, 'getSalary'])->name('admin.salary');
+    Route::post('/admin/payslip/add/store', [PayslipController::class, 'store'])->name('admin.payslip.store');
+    Route::get('/admin/payslip/basic', [PayslipController::class, 'basic'])->name('admin.payslip.basic');
+    Route::post('/admin/payslip/basic/add', [PayslipController::class, 'basic_add'])->name('admin.payslip.basic.add');
+    Route::get('/admin/payslip/basic/{id}', [PayslipController::class, 'basic_destroy'])->name('admin.payslip.basic.delete');
+    Route::get('/admin/payslip/delete/{id}', [PayslipController::class, 'destroy'])->name('admin.payslip.delete');
+
 });

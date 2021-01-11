@@ -97,7 +97,7 @@
                           </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('dash.payslip') }}" class="nav-link">
+                            <a href="{{ route('admin.payslip') }}" class="nav-link">
                               <p>Payslip</p>
                             </a>
                         </li>

@@ -65,7 +65,9 @@
         </div>
         <!-- /.row -->
     </div>
-    <div class="separator mb-2">And <span class="text-primary">{{ $updates->count()-3 }}</span> More</div>
+    @if ($updates->count() > 3)
+        <div class="separator mb-2">And <span class="text-primary">{{ $updates->count()-3 }}</span> More</div>
+    @endif
     <a href="{{ route('dash.projects') }}" class="btn btn-primary btn-block">See All</a>
 </section>
 
@@ -87,7 +89,7 @@
                 <div class="row">
                     <div class="col text-center">
                         @php
-                            $pgpercent = (int)round($pg->sum('progress_percent') / $pg->count());
+                            ($pg->count() != 0) ? $pgpercent = (int)round($pg->sum('progress_percent') / $pg->count()) : $pgpercent = 0;
                         @endphp
                         <input id="personalGoals" type="text" value="{{ $pgpercent }}" class="dial animated" readonly data-thickness=".2">
                     </div>

@@ -5,7 +5,7 @@
                 <div class="text-right mb-3">
                     <img src="{{ asset('img/logo-with-text.svg') }}" alt="Logo" width="150px">
                 </div>
-                <h3>21 October 2020 - 21 November 2020</h3>
+                <h3>25 March 2021 - 25 April 2021</h3>
                 <div class="row mt-3">
                     <div class="col">
                         <div class="row">
@@ -51,6 +51,37 @@
                     </div>
                 </div>
                 <div class="row mt-5 mb-3">
+                    
+                    <div class="col table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Income</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Allowance</td>
+                                    <td>Rp 50.000</td>
+                                </tr>
+                                <tr>
+                                    <td>Overtime</td>
+                                    <td>Rp 50.000</td>
+                                </tr>
+                                <tr>
+                                    <td>Other</td>
+                                    <td>Rp 50.000</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <td>Rp  150.000</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                     <div class="col table-responsive">
                         <table class="table">
                             <thead>
@@ -62,44 +93,25 @@
                             <tbody>
                                 <tr>
                                     <td>Basic Salary</td>
-                                    <td>Rp  XX.000.000</td>
+                                    <td>Rp  5.000.000</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th>Total Income</th>
-                                    <td>Rp  XX.000.000</td>
+                                    <td>Rp  5.000.000</td>
+                                </tr>
+                                <tr>
+                                    <th>Deduction</th>
+                                    <td>Rp 50.000</td>
+                                </tr>
+                                <tr>
+                                    <th>Net Pay</th>
+                                    <td>Rp  5.100.000</td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
-                    <div class="col table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Income</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>Total Deduction</th>
-                                    <td>Rp  XX.000.000</td>
-                                </tr>
-                                <tr>
-                                    <th>Take Home Pay</th>
-                                    <td>Rp  XX.000.000</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    
                 </div>
                 <div class="col text-center">
                     <button type="submit" class="btn btn-secondary">Download</button>
