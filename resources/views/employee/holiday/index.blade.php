@@ -45,10 +45,10 @@
                 },
                 editable: false,
                 themeSystem: 'bootstrap4',
-                googleCalendarApiKey: 'AIzaSyDcnW6WejpTOCffshGDDb4neIrXVUA1EAE',
+                googleCalendarApiKey: 'AIzaSyDBWdGRSLYiwYU4OmMAtp4AdrLHabAun5M',
                 eventSources: [
                     {
-                        googleCalendarId: 'en.usa#holiday@group.v.calendar.google.com',
+                        googleCalendarId: 'id.indonesian#holiday@group.v.calendar.google.com',
                         color: '#FFC045',
                         textColor: '#000'
                     },

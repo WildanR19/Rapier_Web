@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Employee_detail;
 use App\Models\EmployeeStatus;
+use App\Models\Goal;
 use App\Models\Job;
 use App\Models\Leave;
 use App\Models\LeaveType;
+use App\Models\Project;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -195,13 +198,14 @@ class EmployeeController extends Controller
 
     public function details($id)
     {
-        $user   = User::where('id', $id)->first();
-        $ed     = Employee_detail::where('user_id', $id)->first();
-        $dept   = Department::all();
-        $role   = Role::all();
-        $job    = Job::all();
-        $leave  = Leave::where('user_id', $id)->get();
+        $user       = User::where('id', $id)->first();
+        $ed         = Employee_detail::where('user_id', $id)->first();
+        $leave      = Leave::where('user_id', $id)->get();
         $leaveType  = LeaveType::all();
+        $project    = Project::whereHas('members', function(Builder $query) use($id) {
+            $query->where('user_id', '=', $id);
+        })->orderByDesc('created_at')->get();
+        $goal       = Goal::where('user_id', $id)->get();
         
         $leaveApprove = Leave::where('user_id', $user->id)->where('status', '!=', 'rejected')->get();
 
@@ -217,13 +221,18 @@ class EmployeeController extends Controller
         }
         $leaveRemaining = 15 - $leaveCount;
 
+        $goalcount = Goal::where([
+            'user_id'   => $id,
+            'status'    => 'completed'
+        ])->count();
+
         $card = '
         <div class="row">
             <div class="col-md-6 border-right col-in">
-                <h5 class="description-header">Tasks Done</h5>
+                <h5 class="description-header">Goals Done</h5>
                 <div class="row font-larger">
                     <div class="col-md-4 px-2"><i class="fas fa-tasks text-success"></i></div>
-                    <div class="col-md-8 px-2 text-right">0</div>
+                    <div class="col-md-8 px-2 text-right">'.$goalcount.'</div>
                 </div>
             </div>
             <div class="col-md-6 col-in">
@@ -262,12 +271,11 @@ class EmployeeController extends Controller
         $data = [
             'user'      => $user,
             'ed'        => $ed,
-            'dept'      => $dept,
-            'role'      => $role,
-            'job'       => $job,
             'leave'     => $leave,
             'card'      => $card,
             'leaveTab'  => $leaveTab,
+            'goals'     => $goal,
+            'projects'  => $project,
         ];
         return view('admin.employee.details')->with($data);
     }

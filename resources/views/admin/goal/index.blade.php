@@ -50,9 +50,6 @@
                                                     <a href="{{ route('admin.goals.edit', $goal->id) }}" class="btn btn-info btn-circle" data-tooltip="tooltip" title="Edit">
                                                         <i class="fas fa-pencil-alt"></i>
                                                     </a>
-                                                    <a href="" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Details">
-                                                        <i class="fas fa-search"></i>
-                                                    </a>
                                                     <a href="{{ route('admin.goals.delete', $goal->id) }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
                                                         <i class="fas fa-trash-alt"></i>
                                                     </a>

@@ -134,17 +134,7 @@
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
                           <a href="#" class="nav-link">
-                            <p>Task Report</p>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="#" class="nav-link">
                             <p>Leave Report</p>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="#" class="nav-link">
-                            <p>Attendance Report</p>
                           </a>
                         </li>
                         <li class="nav-item">

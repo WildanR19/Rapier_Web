@@ -43,7 +43,7 @@
                             <a class="nav-link" id="project-tab" data-toggle="pill" href="#tab-project" role="tab" aria-controls="tab-project" aria-selected="false">Projects</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" id="task-tab" data-toggle="pill" href="#tab-task" role="tab" aria-controls="tab-task" aria-selected="false">Tasks</a>
+                            <a class="nav-link" id="goal-tab" data-toggle="pill" href="#tab-goal" role="tab" aria-controls="tab-goal" aria-selected="false">Goals</a>
                           </li>
                           <li class="nav-item">
                             <a class="nav-link" id="leave-tab" data-toggle="pill" href="#tab-leave" role="tab" aria-controls="tab-leave" aria-selected="false">Leaves</a>
@@ -96,10 +96,78 @@
                             </div>
                           </div>
                           <div class="tab-pane fade" id="tab-project" role="tabpanel" aria-labelledby="project-tab">
-                             Mauris tincidunt mi at erat gravida, eget tristique urna bibendum. Mauris pharetra purus ut ligula tempor, et vulputate metus facilisis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Maecenas sollicitudin, nisi a luctus interdum, nisl ligula placerat mi, quis posuere purus ligula eu lectus. Donec nunc tellus, elementum sit amet ultricies at, posuere nec nunc. Nunc euismod pellentesque diam. 
+                            <div class="table-responsive">
+                                <table class="table table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Project</th>
+                                            <th>Deadline</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php $no = 1; @endphp
+                                        @foreach ($projects as $project)
+                                            <tr>
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ $project->project_name }}</td>
+                                                <td>{{ date('j-m-Y', strtotime($project->deadline)) }}</td>
+                                                <td>
+                                                    @php
+                                                        $status = $project->status;
+                                                        if ($status == 'not started') {
+                                                            $color = 'dark';
+                                                        }elseif ($status == 'in progress') {
+                                                            $color = 'info';
+                                                        }elseif ($status == 'on hold') {
+                                                            $color = 'warning';
+                                                        }elseif ($status == 'canceled') {
+                                                            $color = 'danger';
+                                                        }else{
+                                                            $color = 'success';
+                                                        }
+                                                    @endphp
+                                                    <span class="badge badge-{{$color}}">{{ $project->status }}</span>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div> 
                           </div>
-                          <div class="tab-pane fade" id="tab-task" role="tabpanel" aria-labelledby="task-tab">
-                             Morbi turpis dolor, vulputate vitae felis non, tincidunt congue mauris. Phasellus volutpat augue id mi placerat mollis. Vivamus faucibus eu massa eget condimentum. Fusce nec hendrerit sem, ac tristique nulla. Integer vestibulum orci odio. Cras nec augue ipsum. Suspendisse ut velit condimentum, mattis urna a, malesuada nunc. Curabitur eleifend facilisis velit finibus tristique. Nam vulputate, eros non luctus efficitur, ipsum odio volutpat massa, sit amet sollicitudin est libero sed ipsum. Nulla lacinia, ex vitae gravida fermentum, lectus ipsum gravida arcu, id fermentum metus arcu vel metus. Curabitur eget sem eu risus tincidunt eleifend ac ornare magna. 
+                          <div class="tab-pane fade" id="tab-goal" role="tabpanel" aria-labelledby="goal-tab">
+                            <div class="table-responsive">
+                                <table class="table table-striped datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Goal</th>
+                                            <th>Due Date</th>
+                                            <th>Progress</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @php $no = 1; @endphp
+                                        @foreach ($goals as $goal)
+                                            <tr>
+                                                <td>{{ $no++ }}</td>
+                                                <td>{{ $goal->title }}</td>
+                                                <td>{{ date('j-m-Y', strtotime($goal->due_date)) }}</td>
+                                                <td>
+                                                    <div class="progress progress-sm">
+                                                        <div class="progress-bar bg-green" role="progressbar" aria-volumenow="{{ $goal->progress_percent }}" aria-volumemin="0" aria-volumemax="100" style="width: {{ $goal->progress_percent }}%">
+                                                        </div>
+                                                    </div>
+                                                    <small>
+                                                        {{ $goal->progress_percent }}% Complete
+                                                    </small>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div> 
                           </div>
                           <div class="tab-pane fade" id="tab-leave" role="tabpanel" aria-labelledby="leave-tab">
                             <ul class="nav flex-column">
@@ -108,7 +176,7 @@
                                 @endforeach
                             </ul>
                             <div class="table-responsive mt-3">
-                                <table class="table table-stripped">
+                                <table class="table table-striped datatable">
                                     <thead>
                                         <tr>
                                             <th>Type</th>
@@ -138,4 +206,19 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+<script>
+    //datatable
+    $(function () {
+        $('.datatable').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "info": false,
+            "pageLength": 5,
+        });
+    });
+</script>
 @endsection
