@@ -120,7 +120,7 @@
                         <p class="mb-3">{{ $update->comment }}</p>
                         @if (!empty($update->file))    
                             <div class="row no-gutters border-left pl-4">
-                                <h6><b>1</b> total attachment <a href="">Download</a></h6>
+                                <h6><b>1</b> total attachment <a href="{{ route('dash.projects.download',$update->id) }}">Download</a></h6>
                             </div>
                         @endif
                     </div>

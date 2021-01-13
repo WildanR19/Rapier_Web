@@ -9,6 +9,7 @@ use App\Models\ProjectUpdate;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 
@@ -70,5 +71,12 @@ class ProjectController extends Controller
         $project->delete();
         Alert::success('Success', 'Your comment has been deleted.');
         return back();
+    }
+
+    public function download($id)
+    {
+        $file = ProjectUpdate::where('id', $id)->first();
+        $path = public_path().'/storage/'.$file->file;
+        return Response::download($path);
     }
 }

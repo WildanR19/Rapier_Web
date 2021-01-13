@@ -163,12 +163,16 @@
                 <div class="card">
                   <div class="card-body">
                     <div class="timeline timeline-inverse">
-                      @foreach ($updates as $update)    
-                        <div class="time-label">
-                          <span class="bg-danger">
-                            {{ date('j M, Y', strtotime($update->updated_at)) }}
-                          </span>
-                        </div>
+                      @php $previous_date = null; @endphp
+                      @foreach ($updates as $update)
+                        @if (date('j M, Y', strtotime($update->updated_at)) != $previous_date)
+                          @php $previous_date = date('j M, Y', strtotime($update->updated_at)); @endphp
+                          <div class="time-label">
+                            <span class="bg-danger">
+                              {{ $previous_date }}
+                            </span>
+                          </div>
+                        @endif
                         <div>
                           <i class="fas fa-envelope bg-primary"></i>
       
@@ -180,7 +184,7 @@
                               {{ $update->comment }}
                               @if (!empty($update->file))    
                                 <div class="row no-gutters border-left pl-4">
-                                    <h6><b>1</b> total attachment <a href="">Download</a></h6>
+                                    <h6><b>1</b> total attachment <a href="{{ route('admin.projects.download', $update->id)}}">Download</a></h6>
                                 </div>
                               @endif
                             </div>

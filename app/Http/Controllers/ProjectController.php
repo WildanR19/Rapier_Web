@@ -6,10 +6,10 @@ use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\ProjectMember;
 use App\Models\ProjectUpdate;
-use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Response;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class ProjectController extends Controller
@@ -175,7 +175,7 @@ class ProjectController extends Controller
         $teammember = ProjectMember::where('project_id', $id)->get();
         $empEx      = $teammember->pluck('user_id');
         $emp        = User::whereNotIn('id', $empEx)->get();
-        $updates    = ProjectUpdate::where('project_id', $id)->get();
+        $updates    = ProjectUpdate::where('project_id', $id)->orderByDesc('created_at')->get();
         
         $data = [
             'project'   => $project,
@@ -204,5 +204,12 @@ class ProjectController extends Controller
             $member->save();
         }
         return back();
+    }
+
+    public function download($id)
+    {
+        $file = ProjectUpdate::where('id', $id)->first();
+        $path = public_path().'/storage/'.$file->file;
+        return Response::download($path);
     }
 }

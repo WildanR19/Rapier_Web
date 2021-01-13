@@ -1,23 +1,13 @@
 <?php
 
-use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\Employee\HolidayController as EmployeeHolidayController;
-use App\Http\Controllers\Employee\LeaveController as EmployeeLeaveController;
-use App\Http\Controllers\{Controller, EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, TaskController};
-use App\Http\Controllers\Employee\ContactController;
-use App\Http\Controllers\Employee\GoalController as EmployeeGoalController;
-use App\Http\Controllers\Employee\PayslipController as EmployeePayslipController;
-use App\Http\Controllers\Employee\ProjectController as EmployeeProjectController;
-use App\Http\Controllers\Employee\TaskController as EmployeeTaskController;
-use App\Http\Livewire\Departments;
-use App\Models\Department;
+use App\Http\Controllers\Employee\{HolidayController as EmployeeHolidayController, LeaveController as EmployeeLeaveController, ContactController, GoalController as EmployeeGoalController, PayslipController as EmployeePayslipController, ProjectController as EmployeeProjectController};
+use App\Http\Controllers\{EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController};
 use Illuminate\Support\Facades\Route;
 
 //employee
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-    Route::get('/', function () {
-        return view('home');
+    Route::get('/profile', function () {
+        return view('profile.index');
     });
     
     // dashboard
@@ -30,6 +20,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/projects/delete/{id}', [EmployeeProjectController::class, 'destroy'])->name('dash.projects.delete');
     Route::get('/projects/{id}/edit', [EmployeeProjectController::class, 'update'])->name('dash.projects.editupdate');
     Route::post('/projects/{id}', [EmployeeProjectController::class, 'edit'])->name('dash.projects.edit');
+    Route::get('/projects/download/{id}', [EmployeeProjectController::class, 'download'])->name('dash.projects.download');
 
     // goals
     Route::get('/goals', [EmployeeGoalController::class, 'index'])->name('dash.goals');
@@ -55,10 +46,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // payslip
     Route::get('/payslip', [EmployeePayslipController::class, 'index'])->name('dash.payslip');
     Route::get('/payslip/{id}', [EmployeePayslipController::class, 'openModal'])->name('dash.payslip.modal');
-    
-    Route::get('/payslip/content', function () {
-        return view('employee.payslip.content');
-    })->name('dash.payslip.content');
     
     Route::get('/settings', function () {
         return view('settings.index');
@@ -136,6 +123,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::get('/admin/projects/detail/{id}', [ProjectController::class, 'details'])->name('admin.projects.details');
     Route::post('/admin/projects/member/add', [ProjectController::class, 'member_add'])->name('admin.projects.member.add');
     Route::get('/admin/projects/member/delete/{id}', [ProjectController::class, 'member_destroy'])->name('admin.projects.member.delete');
+    Route::get('admin/projects/download/{id}', [ProjectController::class, 'download'])->name('admin.projects.download');
 
     // goals
     Route::get('/admin/goals', [GoalController::class, 'index'])->name('admin.goals');
