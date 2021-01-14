@@ -11,7 +11,7 @@ class GoalController extends Controller
 {
     public function index()
     {
-        $goal = Goal::all();
+        $goal = Goal::orderByDesc('created_at')->get();
         $data = [
             'goals' => $goal,
         ];

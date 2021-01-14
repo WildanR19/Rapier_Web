@@ -12,23 +12,27 @@
                 <div class="col">
                     <div class="card mt-2">
                         <div class="card-body">
-                            <div>
+                            <div class="d-flex justify-content-between">
                                 <a href="{{ route('admin.leaves.add') }}" type="button" class="btn btn-primary">
                                     <i class="fas fa-plus"></i> Assign Leave
+                                </a>
+                                <a href="" type="button" class="btn btn-success" data-toggle="modal" data-target="#exportModal">
+                                    <i class="fas fa-print"></i> Export to Excel
                                 </a>
                             </div>
                             <div class="table-responsive mt-3">
                                 <table id="leaveTable" class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
+                                            <th style="width: 1%">#</th>
                                             <th>Employee</th>
                                             <th>Duration</th>
-                                            <th>From Date</th>
-                                            <th>To Date</th>
-                                            <th>Leave Status</th>
-                                            <th>Leave Type</th>
-                                            <th>Action</th>
+                                            <th>Reason</th>
+                                            <th style="width: 10%">From Date</th>
+                                            <th style="width: 10%">To Date</th>
+                                            <th>Status</th>
+                                            <th>Type</th>
+                                            <th style="width: 13%">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -38,6 +42,7 @@
                                                 <td>{{ $no++ }}</td>
                                                 <td>{{ $lv->user->name }}</td>
                                                 <td class="text-capitalize">{{ $lv->duration }}</td>
+                                                <td>{{ $lv->reason }}</td>
                                                 <td>{{ $lv->from_date }}</td>
                                                 <td>{{ $lv->to_date }}</td>
                                                 @php

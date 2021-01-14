@@ -200,12 +200,12 @@ class EmployeeController extends Controller
     {
         $user       = User::where('id', $id)->first();
         $ed         = Employee_detail::where('user_id', $id)->first();
-        $leave      = Leave::where('user_id', $id)->get();
+        $leave      = Leave::where('user_id', $id)->orderByDesc('created_at')->get();
         $leaveType  = LeaveType::all();
         $project    = Project::whereHas('members', function(Builder $query) use($id) {
             $query->where('user_id', '=', $id);
         })->orderByDesc('created_at')->get();
-        $goal       = Goal::where('user_id', $id)->get();
+        $goal       = Goal::where('user_id', $id)->orderByDesc('created_at')->get();
         
         $leaveApprove = Leave::where('user_id', $user->id)->where('status', '!=', 'rejected')->get();
 

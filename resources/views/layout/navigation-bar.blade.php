@@ -92,11 +92,6 @@
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="{{ route('admin.holiday') }}" class="nav-link">
-                            <p>Holiday</p>
-                          </a>
-                        </li>
-                        <li class="nav-item">
                             <a href="{{ route('admin.payslip') }}" class="nav-link">
                               <p>Payslip</p>
                             </a>
@@ -126,23 +121,11 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item has-treeview">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-copy"></i>
-                        <p>Report<i class="fas fa-angle-left right"></i></p>
-                    </a>
-                    <ul class="nav nav-treeview" style="display: none;">
-                        <li class="nav-item">
-                          <a href="#" class="nav-link">
-                            <p>Leave Report</p>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="#" class="nav-link">
-                            <p>Payslip Report</p>
-                          </a>
-                        </li>
-                    </ul>
+                <li class="nav-item">
+                  <a href="{{ route('admin.holiday') }}" class="nav-link">
+                    <i class="nav-icon fas fa-plane-departure"></i>
+                    <p>Holiday</p>
+                  </a>
                 </li>
             </ul>
         </nav>

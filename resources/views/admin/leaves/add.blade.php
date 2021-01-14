@@ -90,5 +90,5 @@
         </div>
     </div>
 </div>
-@include('admin.leaves.modal')
+@include('admin.leaves.modal-add')
 @endsection

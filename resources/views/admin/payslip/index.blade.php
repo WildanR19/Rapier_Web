@@ -54,6 +54,11 @@
                                     <a href="{{ route('admin.payslip.delete', $pay->id) }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Delete">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
+                                    @if ($pay->status != 'cancel')
+                                        <a href="" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Print To PDF">
+                                            <i class="fas fa-print"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

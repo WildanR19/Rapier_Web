@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LeaveExport;
 use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LeaveController extends Controller
 {
     public function index()
     {
-        $leave = Leave::all();
+        $leave  = Leave::orderByDesc('created_at')->get();
+        $emp    = User::all();
         $count = $leave->where('status', 'pending')->count();
         $small_box = '
             <div class="small-box bg-warning">
@@ -26,8 +29,9 @@ class LeaveController extends Controller
             </div>
             ';
         $data = [
-            'leave' => $leave,
+            'leave'     => $leave,
             'smallbox'  => $small_box,
+            'emp'       => $emp,
         ];
         return view('admin.leaves.index')->with($data);
     }
@@ -106,4 +110,11 @@ class LeaveController extends Controller
         Alert::success('Deleted', 'Your data has been deleted.');
         return back();
     }
+
+    public function export(Request $request)
+    {
+        $user = User::where('id', $request->employee)->first()->name;
+        return Excel::download(new LeaveExport($request->employee, $request->month, $request->year), 'Leaves_'.$user.'('.$request->month.'-'.$request->year.').xlsx');
+    }
+    
 }

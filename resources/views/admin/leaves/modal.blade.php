@@ -28,57 +28,60 @@
   </div>
 </div>
 
-@if (request()->segment(3) == 'add')
-  <div class="modal fade" id="addTypeModal" tabindex="-1" aria-labelledby="addTypeModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="addTypeModalLabel">Add New Leave Type</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <table class="table table-sm" id="modal_table">
-              <thead class="thead-light">
-                <tr>
-                    <th>Name</th>
-                    <th>Color</th>
-                    <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                @foreach ($type as $tp)
-                    <tr>
-                        <td class="text-capitalize">{{ $tp->type_name }}</td>
-                        <td class="text-{{ $tp->color }}">{{ $tp->color }}</td>
-                        <td><a href="{{ route('admin.leaves.delete.type', $tp->id) }}" class="btn btn-sm btn-outline-danger">Remove</a></td>
-                    </tr>
-                @endforeach
-              </tbody>
-            </table>
-            <form action="{{ route('admin.leaves.add.type') }}" method="post" id="formType">
-                @csrf
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="type">Leave Type</label>
-                            <input type="text" id="type" name="type" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="color">Color of Leave Type</label>
-                            <input type="text" id="color" name="color" class="form-control">
-                            <small>Please fill with color class bootstrap</small>
-                        </div>
+<div class="modal fade" id="exportModal" tabindex="-1" aria-labelledby="exportModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exportModalLabel">Filtering Export Leaves Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="{{ route('admin.leaves.export') }}" method="Get">
+        <div class="modal-body">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="InputEmp">Choose Employee</label>
+                    <select id="inputEmp" class="form-control" name="employee">
+                        <option disabled selected>Choose...</option>
+                        @foreach ($emp as $e)
+                            <option value="{{ $e->id }}">{{ $e->name }}</option>
+                        @endforeach
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="InputMonth">Month</label>
+                      <select id="inputMonth" class="form-control" name="month">
+                        <option disabled selected>Choose...</option>
+                        @for ($m=1; $m<=12; $m++)
+                          <option value="{{ $m }}">{{ date('F', mktime(0, 0, 0, $m, 1)) }}</option>
+                        @endfor
+                      </select>
                     </div>
-                </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary" form="formType">Save changes</button>
+                    <div class="form-group col-md-6">
+                      <label for="InputYear">Year</label>
+                      <select id="inputYear" class="form-control" name="year">
+                        <option disabled selected>Choose...</option>
+                        @php $years = null; @endphp
+                        @foreach ($leave as $lv)
+                          @if (date('Y', strtotime($lv->from_date)) != $years)
+                            @php $years = date('Y', strtotime($lv->from_date)); @endphp
+                            <option value="{{ $years }}">{{ $years }}</option>
+                          @endif
+                        @endforeach
+                      </select>
+                    </div>
+                  </div>
+              </div>
           </div>
         </div>
-      </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-success"><i class="fas fa-print"></i> Export</button>
+        </div>
+      </form>
+    </div>
   </div>
-@endif
+</div>

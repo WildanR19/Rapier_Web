@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 //employee
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/', function () {
+        return view('home');
+    });    
     Route::get('/profile', function () {
         return view('profile.index');
     });
@@ -106,6 +109,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::post('/admin/leaves/add/type', [LeaveController::class, 'add_type'])->name('admin.leaves.add.type');
     Route::get('/admin/leaves/type/delete/{id}', [LeaveController::class, 'destroy_type'])->name('admin.leaves.delete.type');
     Route::get('/admin/leaves/delete/{id}', [LeaveController::class, 'destroy'])->name('admin.leaves.delete');
+    Route::get('/admin/leaves/export/', [LeaveController::class, 'export'])->name('admin.leaves.export');
 
     //holiday
     Route::get('/admin/holiday', [HolidayController::class, 'index'])->name('admin.holiday');
