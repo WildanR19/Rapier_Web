@@ -20,14 +20,8 @@ class PayslipController extends Controller
         return view('employee.payslip.index')->with($data);
     }
 
-    public function openModal($id)
-    {
-        $ps = Payslip::find($id);
-        $basic = BasicPay::where('id', $ps->basic_id)->first();
-
-	    return response()->json([
-          'data' => $ps,
-          'basic'=> $basic,
-	    ]);
+    public function showModal($id){
+        $pay = Payslip::where('id', $id)->first();
+        return view('employee.payslip.modal',['payslip'=>$pay]);
     }
 }

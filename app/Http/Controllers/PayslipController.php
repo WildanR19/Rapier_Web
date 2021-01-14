@@ -13,7 +13,7 @@ class PayslipController extends Controller
 {
     public function index()
     {
-        $pay = Payslip::all();
+        $pay = Payslip::orderByDesc('created_at')->get();
         $data = [
             'pays'  => $pay,
         ];
@@ -38,10 +38,10 @@ class PayslipController extends Controller
             'salary'    => 'required',
             'from_date' => 'required',
             'to_date'   => 'required',
-            'allowance' => 'required|integer',
-            'deduction' => 'required|integer',
-            'overtime'  => 'required|integer',
-            'other'     => 'required|integer',
+            'allowance' => 'nullable|integer',
+            'deduction' => 'nullable|integer',
+            'overtime'  => 'nullable|integer',
+            'other'     => 'nullable|integer',
             'payment'   => 'required',
             'status'    => 'required',
         ]);

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Payslip extends Model
 {
     protected $fillable = [
-        'user_id', 'for_date', 'to_date', 'basic_id', 'payment',
+        'user_id', 'for_date', 'to_date', 'basic_id', 'payment', 'allowances', 'deductions', 'overtimes', 'others', 'status'
     ];
 
     public function basic_pay()

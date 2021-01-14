@@ -48,7 +48,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     
     // payslip
     Route::get('/payslip', [EmployeePayslipController::class, 'index'])->name('dash.payslip');
-    Route::get('/payslip/{id}', [EmployeePayslipController::class, 'openModal'])->name('dash.payslip.modal');
+    Route::get('/payslip/{id}', [EmployeePayslipController::class, 'showModal']);
     
     Route::get('/settings', function () {
         return view('settings.index');

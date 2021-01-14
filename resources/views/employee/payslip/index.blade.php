@@ -55,7 +55,7 @@
                                                             <td>{{ $pay->for_date }}</td>
                                                             <td>{{ $pay->to_date }}</td>
                                                             <td>
-                                                                <button class="btn btn-secondary" data-toggle="modal" data-target="#payslipModal" data-id="{{ $pay->id }}" id="openmodal">Open</button>
+                                                                <button class="btn btn-secondary" data-toggle="modal" data-target="#payslipModal" data-url="{{ url('payslip',['id'=>$pay->id])}}" id="openmodal">Open</button>
                                                                 <button class="btn btn-secondary">Download</button>
                                                             </td>
                                                         </tr>
@@ -76,7 +76,13 @@
 </div>
 
 <!-- modal -->
-@include('employee.payslip.modal')
+<div class="modal fade" id="payslipModal" tabindex="-1" aria-labelledby="payslipModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content payslip-modal">
+            
+        </div>
+    </div>
+</div>
 
 @endsection
 
@@ -92,17 +98,21 @@
         });
     });
 
-    $('body').on('click', '#openmodal', function (event) {
-        event.preventDefault();
-        var id = $(this).data('id');
-        $.get('payslip/' + id, function (data) {
-            $('#payslipModal').modal('show');
-            $('#daterange').html(data.data.for_date + '-' + data.data.to_date);
-            $('#basicSalary').val(data.data.basic);
+    $(document).on('click', '#openmodal', function(e){
+        e.preventDefault();
+        var url = $(this).data('url');
+        $('.payslip-modal').html('');
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'html'
         })
-        $.get('payslip/' + id, function (basic) {
-            $('#basicSalary').val(data.basic.amount);
+        .done(function(data){
+            console.log(data);  
+            $('.payslip-modal').html('');    
+            $('.payslip-modal').html(data);
         })
     });
+
 </script>
 @endsection
