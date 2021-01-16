@@ -25,12 +25,12 @@
                             <div class="con-page">
                                 <div id="Page_Leave_Panel"  >
                                     <div class="row mt-4">
-                                        <div class="col-auto">
+                                        <div class="col-auto" style="float: left">
                                             <div class="image">
                                                 <img src="{{ Auth::user()->profile_photo_url }}" class="img-circle elevation-2" alt="User Image" width="80px" style="background-color: #0B92AB;">
                                             </div>
                                         </div>
-                                        <div class="col my-auto">
+                                        <div class="col my-auto" style="float: right">
                                             <div>
                                                 <h5>{{ Auth::user()->name }}</h5>
                                                 <i>{{ Auth::user()->employee_detail->job->name }}</i>
@@ -56,7 +56,7 @@
                                                             <td>{{ $pay->to_date }}</td>
                                                             <td>
                                                                 <button class="btn btn-secondary" data-toggle="modal" data-target="#payslipModal" data-url="{{ url('payslip',['id'=>$pay->id])}}" id="openmodal">Open</button>
-                                                                <button class="btn btn-secondary">Download</button>
+                                                                <a href="{{ route('dash.payslip.pdf', $pay->id) }}" class="btn btn-secondary">Download</a>
                                                             </td>
                                                         </tr>
                                                     @endforeach
