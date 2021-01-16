@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Employee\{HolidayController as EmployeeHolidayController, LeaveController as EmployeeLeaveController, ContactController, GoalController as EmployeeGoalController, PayslipController as EmployeePayslipController, ProjectController as EmployeeProjectController};
-use App\Http\Controllers\{EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController};
+use App\Http\Controllers\{EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, ProfileController};
 use Illuminate\Support\Facades\Route;
 
 //employee
@@ -9,9 +9,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', function () {
         return view('home');
     });    
-    Route::get('/profile', function () {
-        return view('profile.index');
-    });
+    Route::get('/profile', [ProfileController::class, 'index'])->name('dash.profile');
     
     // dashboard
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dash.home');

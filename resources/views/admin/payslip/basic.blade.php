@@ -30,7 +30,7 @@
                                 @foreach ($basics as $basic)
                                     <tr>
                                         <td>{{ $basic->job->name }}</td>
-                                        <td>{{ $basic->amount }}</td>
+                                        <td> {{ "Rp ".number_format($basic->amount,2,',','.') }}</td>
                                         <td>
                                             <a href="{{ route('admin.payslip.basic.delete', $basic->id) }}" class="btn btn-sm btn-danger delete-confirm"><i class="fas fa-times"></i> Remove</a>
                                         </td>

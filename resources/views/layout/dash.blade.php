@@ -32,68 +32,51 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-        <!-- nav-menu-mobile -->
-        {{-- <header class="nav-menu">
-            <div class="nav-container">
-                <div class="nav-toggle">
-                    <i class="fas fa-bars"></i>
-                </div>
-                <div class="nav-logo">
-                    <img src="{{ asset('img/logo-with-text.svg') }}">
-                </div>
-                <div class="ml-auto">
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                            <i class="far fa-bell text-primary fa-2x"></i>
-                            <span class="badge badge-warning navbar-badge">4</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-4" aria-labelledby="navbarDropdown">
-                            <h5>Notifications</h5>
-                            <ul>
-                                <li>2 leave request(s) to approve</li>
-                                <li>2 leave request(s) to approve</li>
-                            </ul>
-                            <div class="col text-center my-4">
-                                <a href="#" class="btn btn-primary">See all</a>
-                            </div>
-                            <h5>Ongoing Project</h5>
-                            <p class="mt-2">Monday, 09 Nov 2020</p>
-                            <ul>
-                                <li>2 leave request(s) to approve</li>
-                            </ul>
-                            <p class="mt-2">Tuesday, 01 Dec 2020</p>
-                            <ul>
-                                <li>2 leave request(s) to approve</li>
-                            </ul>
-                            <div class="col text-center mt-4">
-                                <a href="{{ route('dash.notifications') }}" class="btn btn-primary">See all</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="nav-item">
-                        <a class="nav-link" href="{{ route('dash.settings') }}"><i class="fas fa-cog text-primary"></i></a>
-                    </div>
-                    <div class="nav-item">
-                        <a class="nav-link" href="#"><img src="{{ asset('img/dummy-profile-secondary.svg') }}" class="img-circle elevation-2" alt="User Image" width="30px"></a>
-                    </div>
-                </div>
-            </div>
-        </header> --}}
 
         <!-- Main Sidebar Container -->
-        @include('layout.nav')
-        @include('layout.navigation-bar')
-
+        @include('layout.navbar')
+        @include('layout.sidebar')
+        
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper px-1 px-sm-3 px-md-5">
             @include('sweetalert::alert')
+            {{-- breadcrumb --}}
+            {{-- @if (Auth::user()->role->name == 'Admin' && Request::segment(1) != 'dashboard')    
+                <section class="content-header">
+                    <div class="container-fluid">
+                    <div class="row m-0 mb-2">
+                        <div class="col-sm-6">
+                        <h1 class="text-capitalize">{{ Request::segment(2) }}</h1>
+                        </div>
+                        <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ route('dash.home') }}">Home</a></li>
+                            <?php $segments = ''; ?>
+                            @foreach(Request::segments() as $segment)
+                                <?php $segments .= '/'.$segment; ?>
+                                <li class="breadcrumb-item">
+                                    <a href="{{ $segments }}">{{$segment}}</a>
+                                </li>
+                            @endforeach
+                        </ol>
+                        </div>
+                    </div>
+                    </div><!-- /.container-fluid -->
+                </section>
+            @endif --}}
+           
             @yield('content')
         </div>
         <!-- /.content-wrapper -->
 
     </div>
     <!-- ./wrapper -->
-
+    <footer class="main-footer">
+        <strong>Copyright © {{ date('Y') }} <a href="">Kount</a>.</strong>
+        <div class="float-right d-none d-sm-inline-block">
+          <b>Version</b> 1.0
+        </div>
+    </footer>
     <!-- REQUIRED SCRIPTS -->
 
     <!-- jQuery -->

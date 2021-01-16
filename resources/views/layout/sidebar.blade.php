@@ -2,8 +2,8 @@
 <aside class="main-sidebar">
     <div class="sidebar p-0">
         <!-- Sidebar Menu -->
-        <nav class="bg-primary">
-            <ul id="navbar" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="background-color: #59BECD;">
+        <nav>
+            <ul id="navbar" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('dash.home') }}" class="nav-link {{ (request()->segment(1) == 'dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -57,8 +57,8 @@
 <aside class="main-sidebar">
     <div class="sidebar p-0">
         <!-- Sidebar Menu -->
-        <nav class="bg-primary">
-            <ul id="navbar" class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" style="background-color: #59BECD;">
+        <nav>
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
                     <a href="{{ route('dash.home') }}" class="nav-link {{ (request()->segment(1) == 'dashboard') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -72,27 +72,27 @@
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
-                          <a href="{{ route('admin.employee') }}" class="nav-link">
+                          <a href="{{ route('admin.employee') }}" class="nav-link {{ (request()->segment(2) == 'employee') ? 'active' : '' }}">
                             <p>Employee</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="{{ route('admin.department') }}" class="nav-link">
+                          <a href="{{ route('admin.department') }}" class="nav-link {{ (request()->segment(2) == 'department') ? 'active' : '' }}">
                             <p>Department</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="{{ route('admin.job') }}" class="nav-link">
+                          <a href="{{ route('admin.job') }}" class="nav-link {{ (request()->segment(2) == 'job') ? 'active' : '' }}">
                             <p>Job</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="{{ route('admin.leaves') }}" class="nav-link">
+                          <a href="{{ route('admin.leaves') }}" class="nav-link {{ (request()->segment(2) == 'leaves') ? 'active' : '' }}">
                             <p>Leaves</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.payslip') }}" class="nav-link">
+                            <a href="{{ route('admin.payslip') }}" class="nav-link {{ (request()->segment(2) == 'payslip') ? 'active' : '' }}">
                               <p>Payslip</p>
                             </a>
                         </li>
@@ -105,26 +105,27 @@
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
-                          <a href="{{ route('admin.projects') }}" class="nav-link">
+                          <a href="{{ route('admin.projects') }}" class="nav-link {{ (request()->segment(2) == 'projects') ? 'active' : '' }}">
                             <p>Projects</p>
                           </a>
                         </li>
                         <li class="nav-item">
-                          <a href="{{ route('admin.goals') }}" class="nav-link">
+                          <a href="{{ route('admin.goals') }}" class="nav-link {{ (request()->segment(2) == 'goals') ? 'active' : '' }}">
                             <p>Goals</p>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a href="#" class="nav-link">
-                            <p>Time Logs</p>
                           </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                  <a href="{{ route('admin.holiday') }}" class="nav-link">
+                  <a href="{{ route('admin.holiday') }}" class="nav-link {{ (request()->segment(2) == 'holiday') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-plane-departure"></i>
                     <p>Holiday</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="" class="nav-link">
+                    <i class="nav-icon fas fa-chart-line"></i>
+                    <p>Activity Log</p>
                   </a>
                 </li>
             </ul>

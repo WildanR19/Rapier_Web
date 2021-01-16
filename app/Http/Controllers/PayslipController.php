@@ -69,7 +69,8 @@ class PayslipController extends Controller
     public function basic()
     {
         $basic = BasicPay::all();
-        $job = Job::all();
+        $bj = BasicPay::select('id')->get()->toArray();
+        $job = Job::whereNotIn('id', $bj)->get();
         $data = [
             'basics'    => $basic,
             'jobs'      => $job,

@@ -3,7 +3,7 @@
     <style>
         .img-member-modal{
             width: 80px;
-            height: 80px;
+            height: 80px !important;
             object-fit: cover;
             object-position: center;
             border-radius: 50% !important;
