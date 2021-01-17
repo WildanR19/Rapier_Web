@@ -17,33 +17,33 @@ class DepartmentSeeder extends Seeder
         DB::table('departments')->insert([
             [
                 'name'          => 'Human Resource',
-                'created_at'    => date('Y-m-d H:i:s'),
-                'updated_at'    => date('Y-m-d H:i:s'),
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ],
             [
                 'name'          => 'General Affair',
-                'created_at'    => date('Y-m-d H:i:s'),
-                'updated_at'    => date('Y-m-d H:i:s'),
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ],
             [
                 'name'          => 'Industrial Relation and General Affair',
-                'created_at'    => date('Y-m-d H:i:s'),
-                'updated_at'    => date('Y-m-d H:i:s'),
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ],
             [
                 'name'          => 'Recruitment',
-                'created_at'    => date('Y-m-d H:i:s'),
-                'updated_at'    => date('Y-m-d H:i:s'),
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ],
             [
                 'name'          => 'Organizational Development',
-                'created_at'    => date('Y-m-d H:i:s'),
-                'updated_at'    => date('Y-m-d H:i:s'),
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ],
             [
                 'name'          => 'Training',
-                'created_at'    => date('Y-m-d H:i:s'),
-                'updated_at'    => date('Y-m-d H:i:s'),
+                'created_at'    => now(),
+                'updated_at'    => now(),
             ],
         ]);
     }

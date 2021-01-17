@@ -4,12 +4,11 @@ use App\Http\Controllers\Employee\{HolidayController as EmployeeHolidayControlle
 use App\Http\Controllers\{EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, ProfileController};
 use Illuminate\Support\Facades\Route;
 
-//employee
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
     Route::get('/', function () {
         return view('home');
     });
-
+    
     // profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('dash.profile');
     Route::post('/profile/updateprofile', [ProfileController::class, 'updateProfile'])->name('dash.profile.update');
@@ -17,6 +16,17 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     
     // dashboard
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dash.home');
+    Route::get('/settings', function () {
+        return view('settings.index');
+    })->name('dash.settings');
+    
+    Route::get('/notifications', function () {
+        return view('notifications.index');
+    })->name('dash.notifications');
+});
+
+//employee
+Route::middleware(['auth:sanctum', 'verified', 'employee'])->group(function () {
     
     // projects
     Route::get('/projects', [EmployeeProjectController::class, 'index'])->name('dash.projects');
@@ -52,18 +62,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/payslip', [EmployeePayslipController::class, 'index'])->name('dash.payslip');
     Route::get('/payslip/{id}', [EmployeePayslipController::class, 'showModal']);
     Route::get('/payslip/pdf/{id}', [EmployeePayslipController::class, 'createPDF'])->name('dash.payslip.pdf');
-    
-    Route::get('/settings', function () {
-        return view('settings.index');
-    })->name('dash.settings');
-    
-    Route::get('/notifications', function () {
-        return view('notifications.index');
-    })->name('dash.notifications');
 });
 
 //admin
-Route::middleware(['auth:sanctum', 'verified'])->group(function () 
+Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function () 
 {
     //employee
     //Read
