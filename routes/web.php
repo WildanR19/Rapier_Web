@@ -8,8 +8,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', function () {
         return view('home');
-    });    
+    });
+
+    // profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('dash.profile');
+    Route::post('/profile/updateprofile', [ProfileController::class, 'updateProfile'])->name('dash.profile.update');
+    Route::post('/profile/updatepassword', [ProfileController::class, 'updatePassword'])->name('dash.password.update');
     
     // dashboard
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dash.home');
@@ -145,5 +149,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function ()
     Route::post('/admin/payslip/basic/add', [PayslipController::class, 'basic_add'])->name('admin.payslip.basic.add');
     Route::get('/admin/payslip/basic/{id}', [PayslipController::class, 'basic_destroy'])->name('admin.payslip.basic.delete');
     Route::get('/admin/payslip/delete/{id}', [PayslipController::class, 'destroy'])->name('admin.payslip.delete');
+    Route::get('/admin/payslip/pdf/{id}', [PayslipController::class, 'createPDF'])->name('admin.payslip.pdf');
 
 });

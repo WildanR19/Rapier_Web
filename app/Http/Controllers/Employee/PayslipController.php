@@ -29,10 +29,8 @@ class PayslipController extends Controller
     public function createPDF($id) 
     {
         $payslip = Payslip::findOrFail($id);
-        // return view('employee.payslip.pdf')->with('payslip', $payslip);
         $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadview('employee.payslip.pdf', compact('payslip'));
         $pdf->setPaper("a4", "landscape");
-        // return $pdf->download('payslip-pdf');
         return $pdf->stream('payslip.pdf');
     }
 }

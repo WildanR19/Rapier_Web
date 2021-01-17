@@ -8,6 +8,7 @@ use App\Models\Payslip;
 use App\Models\User;
 use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use PDF;
 
 class PayslipController extends Controller
 {
@@ -98,5 +99,13 @@ class PayslipController extends Controller
         Payslip::where('id', $id)->delete();
         Alert::success('Success', 'Your data has been deleted.');
         return back();
+    }
+
+    public function createPDF($id) 
+    {
+        $payslip = Payslip::findOrFail($id);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadview('admin.payslip.pdf', compact('payslip'));
+        $pdf->setPaper("a4", "landscape");
+        return $pdf->stream('payslip.pdf');
     }
 }

@@ -102,15 +102,17 @@ input,
               <div class="tab-content">
                 <div class="active tab-pane" id="profile">
                   <div class="card">
-                    <form role="form">
+                    <form role="form" action="{{ route('dash.profile.update') }}" method="POST" enctype="multipart/form-data">
+                      @csrf
                       <div class="card-body">
                         <div class="form-group">
-                          <label for="InputPicture">Profile Picture</label>
+                          <label>Profile Picture</label>
                           <div>
                               <img src="{{ asset('storage/'.Auth::user()->profile_photo_path) }}" class="img-thumbnail thumb-index-lg" id="thumbnail">
                           </div>
-                          <input id="f02" type="file" placeholder="Select a New Photo" name="photo"/>
-                          <label for="f02">Select a New Photo</label>
+                          <input id="InputPicture" type="file" placeholder="Select a New Photo" name="photo"/>
+                          <label for="InputPicture">Select a New Photo</label>
+                          <small class="align-bottom">*Max 2MB</small>
                         </div>
                         <div class="form-group">
                           <label for="inputName">Name</label>
@@ -128,20 +130,32 @@ input,
                   </div>
                 </div>
                 <div class="tab-pane" id="password">
+                  @if (count($errors) > 0)
+                      <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <h5><i class="icon fas fa-ban"></i> Error!</h5>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                      </div>
+                  @endif
                   <div class="card">
-                    <form role="form">
+                    <form role="form" action="{{ route('dash.password.update') }}" method="POST">
+                      @csrf
                       <div class="card-body">
                         <div class="form-group">
                           <label for="currentpw">Current Password</label>
-                          <input type="password" class="form-control col-md-8" id="currentpw" name="currentpw">
+                          <input type="password" class="form-control col-md-8" id="currentpw" name="password_current">
                         </div>
                         <div class="form-group">
                           <label for="newpw">New Password</label>
-                          <input type="password" class="form-control col-md-8" id="newpw" name="newpw">
+                          <input type="password" class="form-control col-md-8" id="newpw" name="password">
                         </div>
                         <div class="form-group">
                           <label for="confirmpw">Confirm Password</label>
-                          <input type="password" class="form-control col-md-8" id="confirmpw" name="confirmpw">
+                          <input type="password" class="form-control col-md-8" id="confirmpw" name="password_confirmation">
                         </div>
                       </div>
                       <div class="card-footer">
@@ -172,6 +186,22 @@ input,
         } else {
           $(this).next().text(dflt);
         }
+      });
+
+      function readURL(input) {
+          if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              
+              reader.onload = function(e) {
+                  $('#thumbnail').attr('src', e.target.result);
+              }
+              
+              reader.readAsDataURL(input.files[0]);
+          }
+      }
+
+      $("#InputPicture").change(function() {
+          readURL(this);
       });
     </script>
 @endsection

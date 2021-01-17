@@ -55,7 +55,7 @@
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                     @if ($pay->status != 'cancel')
-                                        <a href="" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Print To PDF">
+                                        <a href="{{ route('admin.payslip.pdf', $pay->id) }}" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Print To PDF">
                                             <i class="fas fa-print"></i>
                                         </a>
                                     @endif

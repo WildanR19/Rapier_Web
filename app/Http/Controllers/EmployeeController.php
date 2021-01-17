@@ -158,7 +158,7 @@ class EmployeeController extends Controller
             'join_date' => 'required|date',
             'last_date' => 'nullable',
             'status'    => 'required|integer',
-            'photo'     => 'nullable|file|image|mimes:jpeg,png,jpg,svg|max:1024',
+            'photo'     => 'nullable|file|image|mimes:jpeg,png,jpg,svg|max:2048',
         ]);
 
         if($request->last_date < now() && !empty($request->last_date)){
@@ -176,6 +176,7 @@ class EmployeeController extends Controller
         $emp->role_id   = $request->role;
         $emp->status    = $status;
         if($request->hasFile('photo')){
+            Storage::disk('public')->delete($emp->profile_photo_path);
             $path = Storage::disk('public')->put('profile-photos', new File(request()->file('photo')));
             $emp->profile_photo_path  = $path;
         }
