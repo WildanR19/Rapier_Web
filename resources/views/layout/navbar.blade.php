@@ -18,27 +18,56 @@
         <li class="nav-item dropdown">
             <a class="nav-link py-1" data-toggle="dropdown" href="#">
                 <i class="far fa-bell text-primary fa-2x"></i>
-                <span class="badge badge-warning navbar-badge">15</span>
+                @if (auth()->user()->unreadNotifications->count() > 0)
+                    <span class="badge badge-warning navbar-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
+                @endif
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-users mr-2"></i> 8 friend requests
-                    <span class="float-right text-muted text-sm">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-file mr-2"></i> 3 new reports
-                    <span class="float-right text-muted text-sm">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="{{ route('dash.notifications') }}" class="dropdown-item dropdown-footer">See All Notifications</a>
+                <span class="dropdown-item dropdown-header">{{ auth()->user()->unreadNotifications->count() }} Notifications</span>
+                @if (auth()->user()->role->name == 'Admin')    
+                    @foreach(auth()->user()->unreadNotifications as $notification)
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <div class="media">
+                                <i class="fas fa-calendar-times fa-2x mr-3 my-auto"></i>
+                                <div class="media-body">
+                                    <p>
+                                        <span class="text-capitalize">{{ $notification->data['notification_type'] }}</span> Request By {{ substr($notification->data['user'] ,0,8) }}...
+                                    </p>
+                                    <p class="text-muted text-sm"><i class="far fa-clock mr-1"></i> {{ $notification->created_at->diffForHumans() }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                    @if (auth()->user()->unreadNotifications->count() != 0)
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ route('dash.notifications') }}" class="dropdown-item dropdown-footer">See All Notifications</a>
+                    @endif
+                @endif
+                @if (auth()->user()->role->name == 'Employee')    
+                    @foreach(auth()->user()->unreadNotifications as $notification)
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item">
+                            <div class="media">
+                                <i class="fas fa-calendar-times fa-2x mr-3 my-auto"></i>
+                                <div class="media-body">
+                                    @php
+                                        if($notification->data['notification_type'] == 'leave_accept'){
+                                            $leaveStatus = 'Accepted';
+                                            $color = 'success';
+                                        }else{
+                                            $leaveStatus = 'Rejected';
+                                            $color = 'danger';
+                                        }
+                                    @endphp
+                                    <p>Your leave has been <span class="text-{{ $color }}">{{ $leaveStatus }}</span> by {{ $notification->data['user'] }}
+                                    </p>
+                                    <p class="text-muted text-sm"><i class="far fa-clock mr-1"></i> {{ $notification->created_at->diffForHumans() }}</p>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+                @endif
             </div>
         </li>
         {{-- <li class="nav-item">

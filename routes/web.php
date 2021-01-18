@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Employee\{HolidayController as EmployeeHolidayController, LeaveController as EmployeeLeaveController, ContactController, GoalController as EmployeeGoalController, PayslipController as EmployeePayslipController, ProjectController as EmployeeProjectController};
-use App\Http\Controllers\{EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, ProfileController};
+use App\Http\Controllers\{EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, NotificationController, ProfileController};
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
@@ -18,11 +18,7 @@ Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dash.home');
     Route::get('/settings', function () {
         return view('settings.index');
-    })->name('dash.settings');
-    
-    Route::get('/notifications', function () {
-        return view('notifications.index');
-    })->name('dash.notifications');
+    })->name('dash.settings');    
 });
 
 //employee
@@ -109,7 +105,7 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function ()
     Route::get('/admin/leaves', [LeaveController::class, 'index'])->name('admin.leaves');
     Route::get('/admin/leaves/add', [LeaveController::class, 'add'])->name('admin.leaves.add');
     Route::post('/admin/leaves/add/store', [LeaveController::class, 'store'])->name('admin.leaves.store');
-    Route::post('/admin/leaves/{id}/approve', [LeaveController::class, 'approve'])->name('admin.leaves.approve');
+    Route::get('/admin/leaves/{id}/approve', [LeaveController::class, 'approve'])->name('admin.leaves.approve');
     Route::post('/admin/leaves/reject/{id}', [LeaveController::class, 'reject'])->name('admin.leaves.reject');
     Route::post('/admin/leaves/add/type', [LeaveController::class, 'add_type'])->name('admin.leaves.add.type');
     Route::get('/admin/leaves/type/delete/{id}', [LeaveController::class, 'destroy_type'])->name('admin.leaves.delete.type');
@@ -153,4 +149,5 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function ()
     Route::get('/admin/payslip/delete/{id}', [PayslipController::class, 'destroy'])->name('admin.payslip.delete');
     Route::get('/admin/payslip/pdf/{id}', [PayslipController::class, 'createPDF'])->name('admin.payslip.pdf');
 
+    Route::get('/admin/notifications', [NotificationController::class, 'index'])->name('dash.notifications');
 });

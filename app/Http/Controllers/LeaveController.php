@@ -6,7 +6,9 @@ use App\Exports\LeaveExport;
 use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\User;
+use App\Notifications\LeavesNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -73,14 +75,35 @@ class LeaveController extends Controller
 
     public function approve($id)
     {
-        Leave::where('id',$id)->update(['status' => 'approved']);
-        Alert::success('Approved', 'Your leave has been approved.');
+        $leave = Leave::findOrFail($id);
+        $leave->update(['status' => 'approved']);
+        
+        $user = User::findOrFail($leave->user_id);
+        $leaveData = [
+            'leave_id'  => $id,
+            'type'      => 'leave_accept',
+            'username'  => Auth::user()->name,
+        ];
+        $user->notify(new LeavesNotification($leaveData));
+        
+        Alert::success('Approved', 'Leave has been approved.');
         return back();
     }
     public function reject(Request $request, $id)
     {
-        Leave::where('id',$id)->update(['status' => 'rejected', 'reject_reason' => $request->reason]);
-        Alert::error('Rejected', 'Your leave has been rejected.');
+        $leave = Leave::findOrFail($id);
+        $leave->update(['status' => 'rejected', 'reject_reason' => $request->reason]);
+        
+        $user = User::findOrFail($leave->user_id);
+        $leaveData = [
+            'leave_id'  => $id,
+            'type'      => 'leave_reject',
+            'username'  => Auth::user()->name,
+        ];
+
+        Alert::error('Rejected', 'Leave has been rejected.');
+        $user->notify(new LeavesNotification($leaveData));
+
         return response()->json([ 'success' => true ]);
     }
 

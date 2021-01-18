@@ -58,12 +58,7 @@
                                                 <td><label class="label-status bg-{{ $lv->type->color }}">{{ $lv->type->type_name }}</label></td>
                                                 <td>
                                                     @if ($lv->status == 'pending')
-                                                        <form action="{{ route('admin.leaves.approve', $lv->id) }}" method="post" class="float-left mr-1">
-                                                            @csrf
-                                                            <button type="submit" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Approve">
-                                                                <i class="fas fa-check"></i>
-                                                            </button>
-                                                        </form>
+                                                        <a href="{{ route('admin.leaves.approve', $lv->id) }}" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Approve"><i class="fas fa-check"></i></a>
                                                         <button class="btn btn-danger btn-circle" data-tooltip="tooltip" title="Reject" data-toggle="modal" data-target="#rejectModal" data-id="{{ $lv->id }}" id="rejectbtn">
                                                             <i class="fas fa-times"></i>
                                                         </button>
@@ -99,7 +94,7 @@
         });
     });
 
-    //modal update
+    //modal reject
     $(document).ready(function () {
 
         $.ajaxSetup({

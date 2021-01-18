@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\Leave;
 use App\Models\LeaveType;
+use App\Models\User;
+use App\Notifications\LeavesNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -87,6 +89,17 @@ class LeaveController extends Controller
         $leave->save();
 
         Alert::success('Success', 'Your leave has been assign.');
+
+        $admins = User::where('role_id', 1)->where('status', 'active')->get();
+        $leaveData = [
+                'leave_id'  => $leave->id,
+                'type'      => 'leave',
+                'username'  => Auth::user()->name,
+        ];
+        foreach ($admins as $user) {
+            $user->notify(new LeavesNotification($leaveData));
+        }
+
         return back();
     }
 

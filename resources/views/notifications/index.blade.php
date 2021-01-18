@@ -27,75 +27,80 @@
 <section>
     <h2 class="mb-4">Notifications</h2>
 
-    <div class="d-grid gap-2 d-md-block row no-gutters mb-4">
+    {{-- <div class="d-grid gap-2 d-md-block row no-gutters mb-4">
         <button class="btn btn-white" type="button">All</button>
         <button class="btn btn-white" type="button">Projects</button>
         <button class="btn btn-white" type="button">Goals</button>
         <button class="btn btn-white" type="button">Leave</button>
-      </div>
+      </div> --}}
 
     <ul class="row no-gutters p-0">
-        <li class="card w-100 mb-4 bg-primary">
-            <div class="row no-gutters">
-                <div class="col-md-11">
-                    <div class="card p-4 bg-white">
-                        <div class="row no-gutters justify-content-between mb-3">
-                            <h6 class="text-notif"><em>Leave</em></h6>
-                            <div>
-                                <span class="text-notif">13:15 | 05 Oct 2020</span>
+        @foreach ($leaves as $leave)
+            @foreach (auth()->user()->notifications as $notification)
+                @if ($leave->id == $notification->data['leave_id'])    
+                    <li class="card w-100 mb-4 bg-primary">
+                        <div class="row no-gutters">
+                            <div class="col-md-11">
+                                <div class="card p-4 bg-white">
+                                    <div class="row no-gutters justify-content-between mb-3">
+                                        <h6 class="text-notif"><em>Leave</em></h6>
+                                        <div>
+                                            <span class="text-notif">{{ date('H:i | j M Y', strtotime($leave->created_at)) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-auto">
+                                            <img src="{{ (!empty($leave->user->profile_photo_path)) ? asset('storage/'.$leave->user->profile_photo_path) : asset('img/dummy-profile.svg') }}" class="img-project-card">
+                                        </div>
+                                        <div class="col my-auto">
+                                            <h4>Leave Request By <span class="text-primary">{{ $leave->user->name }}</span></h4>
+                                        </div>
+                                    </div>
+                                    <div class="row table-responsive">
+                                        <table class="table text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                    <th>Type</th>
+                                                    <th>Duration</th>
+                                                    <th>From Date</th>
+                                                    <th>To Date</th>
+                                                    <th>Reason</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{ $leave->type->type_name }}</td>
+                                                    <td class="text-capitalize">{{ $leave->duration }}</td>
+                                                    <td>{{ $leave->from_date }}</td>
+                                                    <td>{{ $leave->to_date }}</td>
+                                                    <td>{{ $leave->reason }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 text-center my-auto">                    
+                                <div class="d-flex flex-column bd-highlight mb-3">
+                                    <div class="p-2 bd-highlight">
+                                        <p>Approve ?</p>
+                                    </div>
+                                    <div class="p-2 bd-highlight">
+                                        <a href="{{ route('admin.leaves.approve', $leave->id) }}" class="btn btn-secondary btn-block">Yes</a>
+                                    </div>
+                                    <div class="p-2 bd-highlight">
+                                        {{-- <button class="btn btn-secondary btn-block" type="button">No</button> --}}
+                                        <button class="btn btn-secondary btn-block" data-toggle="modal" data-target="#rejectModal" data-id="{{ $leave->id }}" id="rejectbtn">No</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-auto">
-                                <img src="{{ asset('img/dummy-profile.svg') }}" class="img-project-card">
-                            </div>
-                            <div class="col my-auto">
-                                <h4>Leave Request By <span class="text-primary">Rina Elma Suartini</span></h4>
-                            </div>
-                        </div>
-                        <div class="row table-responsive">
-                            <table class="table text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th>Type</th>
-                                        <th>Duration</th>
-                                        <th>From Date</th>
-                                        <th>To Date</th>
-                                        <th>Reason</th>
-                                        <th>Comment</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Annual Leave</td>
-                                        <td>Full Day</td>
-                                        <td>05-02-2021</td>
-                                        <td>10-02-2021</td>
-                                        <td>Vacation</td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1 text-center my-auto">                    
-                    <div class="d-flex flex-column bd-highlight mb-3">
-                        <div class="p-2 bd-highlight">
-                            <p>Approve ?</p>
-                        </div>
-                        <div class="p-2 bd-highlight">
-                            <button class="btn btn-secondary btn-block" type="button">Yes</button>
-                        </div>
-                        <div class="p-2 bd-highlight">
-                            <button class="btn btn-secondary btn-block" type="button">No</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </li>
+                    </li>
+                @endif
+            @endforeach
+        @endforeach
 
-        <li class="card w-100 mb-4 bg-primary">
+        {{-- <li class="card w-100 mb-4 bg-primary">
             <div class="row no-gutters">
                 <div class="col-md-11">
                     <div class="card p-4 bg-white">
@@ -205,9 +210,51 @@
                     </div>
                 </div>
             </div>
-        </li>
+        </li> --}}
     </ul>
 </section>
 
 <!-- Modal -->
+@include('notifications.modal')
+@endsection
+@section('js')
+    <script>
+         //modal reject
+        $(document).ready(function () {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('body').on('click', '#submitReject', function (event) {
+                event.preventDefault()
+                var id = $("#leave_id").val();
+                var reason = $("#reason").val();
+
+                $.ajax({
+                    url: 'leaves/reject/' + id,
+                    type: "POST",
+                    data: {
+                        id: id,
+                        reason: reason,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#formReject').trigger('reset');
+                        $('#rejectModal').modal('hide');
+                        window.location.reload(true);
+                    }
+                });
+            });
+
+            $('body').on('click', '#rejectbtn', function (event) {
+                event.preventDefault();
+                var id = $(this).data('id');
+                $('#rejectModal').modal('show');
+                $('#leave_id').val(id);
+            });
+        });
+    </script>
 @endsection
