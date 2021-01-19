@@ -12,7 +12,8 @@ class GoalController extends Controller
 {
     public function index()
     {
-        $goal = Goal::all();
+        $user = Auth::user()->id;
+        $goal = Goal::where('user_id', $user)->orderByDesc('created_at')->get();
         $data = [
             'goals'     => $goal,
         ];
@@ -52,10 +53,13 @@ class GoalController extends Controller
 
     public function edit(Request $request, $id)
     {
-        Goal::where('id', $id)->update([ 
-            'progress_percent'    => $request->progress,
-            'status'              => ($request->progress == '100')?'completed':'incomplete', 
-        ]);
+        $goal = Goal::findOrFail($id);
+        $goal->progress_percent = $request->progress;
+        $goal->status = ($request->progress == '100')?'completed':'incomplete';
+        if ($request->progress == '100') {
+            $goal->completed_on = now();
+        }
+        $goal->save();
         Alert::success('Updated', 'Your data has been updated.');
         return response()->json([ 'success' => true ]);
     }

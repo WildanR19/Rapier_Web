@@ -84,15 +84,18 @@ class GoalController extends Controller
             'progress'      => 'required',
         ]);
 
-        $task = Goal::findOrFail($request->id);
-        $task->title            = $request->title;
-        $task->description      = $request->description;
-        $task->due_date         = $request->due_date;
-        $task->user_id          = $request->assigned;
-        $task->status           = $request->status;
-        $task->priority         = $request->priority;
-        $task->progress_percent = $request->progress;
-        $task->save();
+        $goal = Goal::findOrFail($request->id);
+        $goal->title            = $request->title;
+        $goal->description      = $request->description;
+        $goal->due_date         = $request->due_date;
+        $goal->user_id          = $request->assigned;
+        $goal->status           = $request->status;
+        $goal->priority         = $request->priority;
+        $goal->progress_percent = $request->progress;
+        if ($request->progress == '100') {
+            $goal->completed_on = now();
+        }
+        $goal->save();
 
         Alert::success('Success', 'Your data has been updated.');
         return redirect()->route('admin.goals');

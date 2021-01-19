@@ -34,7 +34,7 @@ class LeaveExport implements FromCollection, WithMapping, WithHeadings
             Carbon::parse($leave->to_date)->toFormattedDateString(),
             $leave->reason,
             $leave->status,
-            $leave->reject_reson,
+            $leave->reject_reason,
             Carbon::parse($leave->created_at)->toFormattedDateString()
         ] ;
     }

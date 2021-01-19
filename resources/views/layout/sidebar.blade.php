@@ -122,12 +122,6 @@
                     <p>Holiday</p>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a href="" class="nav-link">
-                    <i class="nav-icon fas fa-chart-line"></i>
-                    <p>Activity Log</p>
-                  </a>
-                </li>
             </ul>
         </nav>
     </div>

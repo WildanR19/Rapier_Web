@@ -115,10 +115,7 @@
                                     </div>
                                 </div>
                                 <div class="row mt-4 mx-auto">
-                                    <div class="col text-right"><button class="btn btn-secondary"  data-toggle="modal" data-target="#applyModal">Assign Leave</button></div>
-                                    <div class="col text-left">
-                                        <button class="btn btn-primary" onclick="backToCalendar()">Back To Calendar</button>
-                                    </div>
+                                    <div class="col text-center"><button class="btn btn-secondary"  data-toggle="modal" data-target="#applyModal">Assign Leave</button></div>
                                 </div>
                             </div>
                           </div>

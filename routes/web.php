@@ -13,6 +13,10 @@ Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('dash.profile');
     Route::post('/profile/updateprofile', [ProfileController::class, 'updateProfile'])->name('dash.profile.update');
     Route::post('/profile/updatepassword', [ProfileController::class, 'updatePassword'])->name('dash.password.update');
+
+    //project
+    Route::post('/projects/update', [EmployeeProjectController::class, 'submit_update'])->name('dash.projects.update');
+    Route::get('/projects/delete/{id}', [EmployeeProjectController::class, 'destroy'])->name('dash.projects.delete');
     
     // dashboard
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dash.home');
@@ -27,8 +31,6 @@ Route::middleware(['auth:sanctum', 'verified', 'employee'])->group(function () {
     // projects
     Route::get('/projects', [EmployeeProjectController::class, 'index'])->name('dash.projects');
     Route::get('/projects/detail/{id}', [EmployeeProjectController::class, 'details'])->name('dash.projects.details');
-    Route::post('/projects/update', [EmployeeProjectController::class, 'submit_update'])->name('dash.projects.update');
-    Route::get('/projects/delete/{id}', [EmployeeProjectController::class, 'destroy'])->name('dash.projects.delete');
     Route::get('/projects/{id}/edit', [EmployeeProjectController::class, 'update'])->name('dash.projects.editupdate');
     Route::post('/projects/{id}', [EmployeeProjectController::class, 'edit'])->name('dash.projects.edit');
     Route::get('/projects/download/{id}', [EmployeeProjectController::class, 'download'])->name('dash.projects.download');

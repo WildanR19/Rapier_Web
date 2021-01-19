@@ -47,7 +47,7 @@
                 @if (auth()->user()->role->name == 'Employee')    
                     @foreach(auth()->user()->unreadNotifications as $notification)
                         <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
+                        <a href="{{ route('dash.leave') }}" class="dropdown-item">
                             <div class="media">
                                 <i class="fas fa-calendar-times fa-2x mr-3 my-auto"></i>
                                 <div class="media-body">

@@ -15,6 +15,7 @@ class LeaveController extends Controller
 {
     public function index(Request $request)
     {
+        Auth::user()->unreadNotifications->markAsRead();
         $user       = Auth::user();
         $leave      = Leave::where('user_id', $user->id)->orderByDesc('created_at')->get();
         $leaveType  = LeaveType::all();

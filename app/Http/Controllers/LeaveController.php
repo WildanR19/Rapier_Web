@@ -91,9 +91,9 @@ class LeaveController extends Controller
     }
     public function reject(Request $request, $id)
     {
+        Leave::where('id',$id)->update(['status' => 'rejected', 'reject_reason' => $request->reason]);
+
         $leave = Leave::findOrFail($id);
-        $leave->update(['status' => 'rejected', 'reject_reason' => $request->reason]);
-        
         $user = User::findOrFail($leave->user_id);
         $leaveData = [
             'leave_id'  => $id,

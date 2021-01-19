@@ -114,6 +114,6 @@
         </div>
     </div>
     <div class="col text-center">
-        <button type="submit" class="btn btn-secondary">Download</button>
+        <a href="{{ route('dash.payslip.pdf', $payslip->id) }}" class="btn btn-secondary">Download</a>
     </div>
 </div>
