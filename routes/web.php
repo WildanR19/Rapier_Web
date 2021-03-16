@@ -5,10 +5,7 @@ use App\Http\Controllers\{EmployeeController, GoalController, HolidayController,
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
-    Route::get('/', function () {
-        return view('home');
-    });
-    
+    Route::get('/', [HomeController::class, 'index']);
     // profile
     Route::get('/profile', [ProfileController::class, 'index'])->name('dash.profile');
     Route::post('/profile/updateprofile', [ProfileController::class, 'updateProfile'])->name('dash.profile.update');
@@ -150,6 +147,7 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function ()
     Route::get('/admin/payslip/basic/{id}', [PayslipController::class, 'basic_destroy'])->name('admin.payslip.basic.delete');
     Route::get('/admin/payslip/delete/{id}', [PayslipController::class, 'destroy'])->name('admin.payslip.delete');
     Route::get('/admin/payslip/pdf/{id}', [PayslipController::class, 'createPDF'])->name('admin.payslip.pdf');
+    Route::post('/admin/payslip/add/autogenerate', [PayslipController::class, 'autoGenerate'])->name('admin.payslip.autogenerate');
 
     Route::get('/admin/notifications', [NotificationController::class, 'index'])->name('dash.notifications');
 });

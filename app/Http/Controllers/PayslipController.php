@@ -108,4 +108,20 @@ class PayslipController extends Controller
         $pdf->setPaper("a4", "landscape");
         return $pdf->stream('payslip.pdf');
     }
+
+    public function autoGenerate(Request $request)
+    {
+        $users = User::all();
+        foreach ($users as $user) {
+            Payslip::create([
+                'user_id'   => $user->id,
+                'for_date'  => $request->from_date,
+                'to_date'   => $request->to_date,
+                'basic_id'  => $user->employee_detail->job->basic_pay->id,
+                'payment'   => $request->payment,
+            ]);
+        }
+        Alert::success('Success', 'Your data has been added.');
+        return redirect()->route('admin.payslip');
+    }
 }

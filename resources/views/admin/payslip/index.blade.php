@@ -9,6 +9,9 @@
                     <a href="{{ route('admin.payslip.basic') }}" class="btn btn-outline-info"><i class="fas fa-plus"></i> New Basic Salary</a>
                     <a href="{{ route('admin.payslip.add') }}" class="btn btn-outline-info"><i class="fas fa-plus"></i> New Payslip</a>
                 </div>
+                <div class="col text-right">
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#autoModal"><i class="fas fa-plus"></i> Auto Generate Payslip</button>
+                </div>
             </div>
             <div class="table-responsive mt-3">
                 <table class="table table-striped" id="projectTable">
@@ -69,6 +72,8 @@
         <!-- /.card-body -->
     </div>
 </div>
+{{-- modal --}}
+@include('admin.payslip.modal')
 @endsection
 @section('js')
     <script>
