@@ -96,6 +96,11 @@
                               <p>Payslip</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.attendance') }}" class="nav-link {{ (request()->segment(2) == 'attendance') ? 'active' : '' }}">
+                              <p>Attendance</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item has-treeview">

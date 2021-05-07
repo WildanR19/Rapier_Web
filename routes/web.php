@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Employee\{HolidayController as EmployeeHolidayController, LeaveController as EmployeeLeaveController, ContactController, GoalController as EmployeeGoalController, PayslipController as EmployeePayslipController, ProjectController as EmployeeProjectController};
-use App\Http\Controllers\{EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, NotificationController, ProfileController};
+use App\Http\Controllers\{AttendanceController, EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, NotificationController, ProfileController};
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
@@ -150,4 +150,8 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function ()
     Route::post('/admin/payslip/add/autogenerate', [PayslipController::class, 'autoGenerate'])->name('admin.payslip.autogenerate');
 
     Route::get('/admin/notifications', [NotificationController::class, 'index'])->name('dash.notifications');
+
+    //attendance
+    Route::get('/admin/attendance/'.date('m').'/'.date('Y'), [AttendanceController::class, 'index'])->name('admin.attendance');
+    Route::post('/admin/attendance/filter', [AttendanceController::class, 'filter'])->name('admin.attendance.filter');
 });

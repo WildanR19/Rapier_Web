@@ -90,4 +90,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Payslip::class);
     }
+
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class);
+    }
 }
