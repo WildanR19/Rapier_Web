@@ -51,7 +51,8 @@ class AttendanceController extends Controller
         return view('admin.attendance.index')->with($data);
     }
 
-    public function filter(Request $request){
+    public function filter(Request $request)
+    {
         $bulan = $request->f_bulan;
         $tahun = $request->f_tahun;
         $hari = cal_days_in_month(CAL_GREGORIAN,$bulan,$tahun);
@@ -77,7 +78,7 @@ class AttendanceController extends Controller
             $datas = $datas.$datass;
         }
   
-         echo "<table id='empTable' class='table table-bordered table-striped table-hover'>
+        echo "<table id='empTable' class='table table-bordered table-striped table-hover'>
                 <thead class='thead-light'>
                  <tr>
                     <th>Name</th>";
@@ -90,5 +91,5 @@ class AttendanceController extends Controller
                     ".$datas."
                 </tbody>
               </table>";
-      }
+    }
 }

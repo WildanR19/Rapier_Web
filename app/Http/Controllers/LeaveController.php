@@ -107,7 +107,8 @@ class LeaveController extends Controller
         return response()->json([ 'success' => true ]);
     }
 
-    public function add_type(Request $request){
+    public function add_type(Request $request)
+    {
         $this->validate($request,[
             'type'      => 'required|string',
             'color'     => 'required|string',

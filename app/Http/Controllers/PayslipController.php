@@ -70,7 +70,7 @@ class PayslipController extends Controller
     public function basic()
     {
         $basic = BasicPay::all();
-        $bj = BasicPay::select('id')->get()->toArray();
+        $bj = BasicPay::select('job_id')->get()->toArray();
         $job = Job::whereNotIn('id', $bj)->get();
         $data = [
             'basics'    => $basic,
@@ -87,6 +87,10 @@ class PayslipController extends Controller
 
     public function basic_add(Request $request)
     {
+        $this->validate($request, [
+            'salary' => 'required',
+            'job' => 'required'
+        ]);
         $basic = new BasicPay();
         $basic->job_id  = $request->job;
         $basic->amount  = $request->salary;

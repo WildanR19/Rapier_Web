@@ -68,7 +68,7 @@ class EmployeeController extends Controller
     {
         $this->validate($request, [
             'name'      => 'required|string|min:5|max:50',
-            'email'     => 'required|email',
+            'email'     => 'required|email|unique:users',
             'password'  => 'required|min:8',
             'role'      => 'required|integer',
             'address'   => 'required',
