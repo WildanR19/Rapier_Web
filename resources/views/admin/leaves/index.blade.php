@@ -46,9 +46,9 @@
                                                 <td>{{ $lv->from_date }}</td>
                                                 <td>{{ $lv->to_date }}</td>
                                                 @php
-                                                if ($lv->status == 'approved') {
+                                                if (strcasecmp($lv->status, 'approved') == 0) {
                                                     $colorStatus = 'success';
-                                                } else if ($lv->status == 'pending') {
+                                                } else if (strcasecmp($lv->status, 'pending') == 0) {
                                                     $colorStatus = 'warning';
                                                 } else {
                                                     $colorStatus = 'danger';
@@ -57,7 +57,7 @@
                                                 <td><label class="label-status bg-{{ $colorStatus }} text-capitalize">{{ $lv->status }}</label></td>
                                                 <td><label class="label-status bg-{{ $lv->type->color }}">{{ $lv->type->type_name }}</label></td>
                                                 <td>
-                                                    @if ($lv->status == 'pending')
+                                                    @if (strcasecmp($lv->status, 'pending') == 0)
                                                         <a href="{{ route('admin.leaves.approve', $lv->id) }}" class="btn btn-success btn-circle" data-tooltip="tooltip" title="Approve"><i class="fas fa-check"></i></a>
                                                         <button class="btn btn-danger btn-circle" data-tooltip="tooltip" title="Reject" data-toggle="modal" data-target="#rejectModal" data-id="{{ $lv->id }}" id="rejectbtn">
                                                             <i class="fas fa-times"></i>

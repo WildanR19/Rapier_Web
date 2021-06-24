@@ -18,12 +18,16 @@ use App\Models\Payslip;
 use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\ProjectMember;
+use App\Models\ProjectUpdate;
 use App\Models\Role;
 use App\Notifications\LeavesNotification;
+use Barryvdh\DomPDF\Facade as PDF;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -40,8 +44,10 @@ class ApiController extends Controller
                 $response['message'] = 'Login Success';
                 $response['data'] = [
                     'user_id'   => $user->id,
-                    'name'   => $user->name,
-                    'email'   => $user->email,
+                    'name'      => $user->name,
+                    'email'     => $user->email,
+                    'role_id'   => $user->role_id,
+                    'pp_path'   => $user->profile_photo_path
                 ];
                 $json = json_encode($response, JSON_PRETTY_PRINT);
                 echo $json;
@@ -53,11 +59,52 @@ class ApiController extends Controller
         }
     }
 
+    public function home_dashboard()
+    {
+        $emp = User::count();
+        $dept = Department::count();
+        $job = Job::count();
+        $project = Project::count();
+        return response()->json([
+            'status' => true, 
+            'message' => 'Data Available',
+            'data'  => [
+                'total_employee' => $emp,
+                'total_department'  => $dept,
+                'total_job'  => $job,
+                'total_project'  => $project
+            ]
+        ]);
+    }
+
     // Employee
     public function user_list()
     {
-        $data = User::all();
+        $data = DB::table('users as u')
+                ->Join('employee_details as ed', 'u.id', '=', 'ed.user_id')
+                ->join('jobs as j', 'ed.job_id', '=', 'j.id')
+                ->select('u.id', 'u.name', 'u.email', 'u.role_id', 'u.status', 'u.profile_photo_path', 'j.name as job')
+                ->groupBy('u.id')
+                ->get();
         return response()->json([
+            'status' => true, 
+            'message' => 'Data Available',
+            'data'  => $data
+        ]);
+    }
+
+    public function user_list_byID($id)
+    {
+        $data = DB::table('users as u')
+                ->where('u.id', $id)
+                ->Join('employee_details as ed', 'u.id', '=', 'ed.user_id')
+                ->join('jobs as j', 'ed.job_id', '=', 'j.id')
+                ->select('u.id', 'u.name', 'u.email', 'u.role_id', 'u.status', 'u.profile_photo_path', 'j.name as job')
+                ->groupBy('u.id')
+                ->first();
+        return response()->json([
+            'status' => true, 
+            'message' => 'Data Available',
             'data'  => $data
         ]);
     }
@@ -153,17 +200,9 @@ class ApiController extends Controller
     {
         $user   = User::where('id', $id)->first();
         $ed     = Employee_detail::where('user_id', $id)->first();
-        $dept   = Department::select('id','name')->get();
-        $role   = Role::select('id','name')->get();
-        $job    = Job::select('id','name')->get();
-        $status = EmployeeStatus::select('id','status_name')->get();
         return response()->json([
             'data_user'  => $user,
             'data_ed'    => $ed,
-            'data_dept'  => $dept,
-            'data_role'  => $role,
-            'data_job'   => $job,
-            'data_status'=> $status,
         ]);
     }
 
@@ -226,12 +265,71 @@ class ApiController extends Controller
         }
     }
 
+    public function employee_detail($id)
+    {
+        $data = Employee_detail::where('user_id', $id)->first();
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Available',
+            'data' => $data
+        ]);
+    }
+
+    public function employee_status()
+    {
+        $data = EmployeeStatus::all();
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Available',
+            'data' => $data
+        ]);
+    }
+
+    public function update_password(Request $request, $id)
+    {
+        $validasi = Validator::make($request->all(), [
+            'current_password'  => 'required',
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        if ($validasi->fails()) {
+            $val = $validasi->errors()->all();
+            return $this->error($val[0]);
+        }else{
+            $profile = User::findOrFail($id);
+            if (Hash::check($request->current_password, $profile->password)) {
+                $profile->password = Hash::make($request->password);
+                $profile->save();
+                return response()->json([ 'status' => true, 'message' => 'Update Success' ]);
+            }else{
+                return $this->error("Current password is incorrect!");;
+            }
+        }
+    }
+
+    // Role
+    public function role_list()
+    {
+        $data = Role::all();
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Available',
+            'data' => $data
+        ]);
+    }
+
     // department
     public function dept_list()
     {
-        $data = Department::all();
+        $data = DB::table('departments as d')
+                ->leftJoin('employee_details as ed', 'd.id', '=', 'ed.department_id' )
+                ->select('d.id', 'd.name', DB::raw('count(ed.department_id) as total'))
+                ->groupBy("d.id")
+                ->get();
         return response()->json([
-            'data'  => $data
+            'status' => true, 
+            'message' => 'Data Available',
+            'data'  => $data,
         ]);
     }
 
@@ -262,15 +360,6 @@ class ApiController extends Controller
         
     }
 
-    public function dept_update($id)
-    {
-    	$dept = Department::find($id);
-
-	    return response()->json([
-	      'data' => $dept
-	    ]);
-    }
-
     public function dept_edit(Request $request, $id)
     {
         Department::updateOrCreate(
@@ -289,8 +378,15 @@ class ApiController extends Controller
     // Job
     public function job_list()
     {
-        $data = Job::all();
+        // $data = Job::all();
+        $data = DB::table('jobs as j')
+                ->leftJoin('employee_details as ed', 'j.id', '=', 'ed.job_id' )
+                ->select('j.id', 'j.name', DB::raw('count(ed.job_id) as total'))
+                ->groupBy("j.id")
+                ->get();
         return response()->json([
+            'status' => true,
+            'message' => "Data Available",
             'data'  => $data
         ]);
     }
@@ -314,15 +410,6 @@ class ApiController extends Controller
         
     }
 
-    public function job_update($id)
-    {
-    	$data = Job::find($id);
-
-	    return response()->json([
-	      'data' => $data
-	    ]);
-    }
-
     public function job_edit(Request $request, $id)
     {
         Job::updateOrCreate(
@@ -339,15 +426,54 @@ class ApiController extends Controller
     }
 
     // Leave
+    public function leave_type()
+    {
+        $data = LeaveType::all();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data'  => $data
+        ]);
+    }
+
     public function leave_list()
     {
-        $data = DB::table('leaves AS l')
-                ->join('users AS u', 'u.id', '=', 'l.user_id')
-                ->select('l.*', 'u.name')
-                ->orderByDesc('l.created_at')
-                ->get();
+        $data = Leave::latest()->get();
 
         return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data'  => $data
+        ]);
+    }
+
+    public function pending_leave_list()
+    {
+        $data = Leave::where('status', 'pending')->latest()->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data'  => $data
+        ]);
+    }
+
+    public function leave_list_user($id)
+    {
+        $data = Leave::where('user_id', $id)->latest()->get();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data'  => $data
+        ]);
+    }
+
+    public function pending_leave_list_user($id)
+    {
+        $data = Leave::where('user_id', $id)->where('status', 'pending')->latest()->get();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
             'data'  => $data
         ]);
     }
@@ -390,6 +516,39 @@ class ApiController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'Add Data Success',
+            ]);
+        }
+    }
+
+    public function leave_edit(Request $request, $id)
+    {
+        $validasi = Validator::make($request->all(), [
+            'employee'  => 'required',
+            'type'      => 'required',
+            'duration'  => 'required',
+            'fromdate'  => 'required',
+            'todate'    => 'required',
+            'status'    => 'required',
+            'reason'    => 'required',
+        ]);
+
+        if ($validasi->fails()) {
+            $val = $validasi->errors()->all();
+            return $this->error($val[0]);
+        }else{
+            Leave::updateOrCreate([
+                'id'            => $id,
+                'user_id'       => $request->employee,
+                'leave_type_id' => $request->type,
+                'duration'      => $request->duration,
+                'from_date'     => $request->fromdate,
+                'to_date'       => $request->todate,
+                'reason'        => $request->reason,
+                'status'        => $request->status,
+            ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Update Data Success',
             ]);
         }
     }
@@ -461,20 +620,41 @@ class ApiController extends Controller
         return response()->json([ 'status' => true, 'message' => 'Data has been deleted', ]);
     }
 
-    // Holiday
-    public function holiday_list()
-    {
-        $data = Holiday::whereMonth('start', date('m'))
-                ->get(['id', 'title', 'start', 'end']);
-
-        return response()->json(['data' => $data]);
-    }
-
     // Payslip
     public function payslip_list()
     {
-        $data = Payslip::orderByDesc('created_at')->get();
-        return response()->json(['data' => $data]);
+        $data = DB::table('payslips as p')
+                ->join('users as u', 'p.user_id', '=', 'u.id')
+                ->Join('employee_details as ed', 'u.id', '=', 'ed.user_id')
+                ->join('jobs as j', 'ed.job_id', '=', 'j.id')
+                ->join('basic_pays as bp', 'p.basic_id', '=', 'bp.id')
+                ->select('p.*', 'u.name as emp_name', 'j.name as job', 'bp.amount as salary')
+                ->groupBy('p.id')
+                ->latest()
+                ->get();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data'  => $data
+        ]);
+    }
+
+    public function payslip_list_user($id)
+    {
+        $data = DB::table('payslips as p')
+                ->join('users as u', 'p.user_id', '=', 'u.id')
+                ->Join('employee_details as ed', 'u.id', '=', 'ed.user_id')
+                ->join('jobs as j', 'ed.job_id', '=', 'j.id')
+                ->where('p.user_id', $id)
+                ->select('p.*', 'u.name as emp_name', 'j.name as job')
+                ->groupBy('p.id')
+                ->latest()
+                ->get();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data'  => $data
+        ]);
     }
 
     public function payslip_add()
@@ -524,6 +704,40 @@ class ApiController extends Controller
         }
     }
 
+    public function payslip_edit(Request $request, $id)
+    {
+        $validasi = Validator::make($request->all(), [
+            'from_date' => 'required',
+            'to_date'   => 'required',
+            'allowance' => 'nullable|integer',
+            'deduction' => 'nullable|integer',
+            'overtime'  => 'nullable|integer',
+            'other'     => 'nullable|integer',
+            'payment'   => 'required',
+            'status'    => 'required',
+        ]);
+        if ($validasi->fails()) {
+            $val = $validasi->errors()->all();
+            return $this->error($val[0]);
+        }else{
+            Payslip::where('id', $id)
+                    ->update([
+                        'for_date'  => $request->from_date,
+                        'to_date'   => $request->to_date,
+                        'allowances'=> $request->allowance,
+                        'deductions'=> $request->deduction,
+                        'overtimes' => $request->overtime,
+                        'others'    => $request->other,
+                        'payment'   => $request->payment,
+                        'status'    => $request->status,
+                    ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Update Data Success',
+            ]);
+        }
+    }
+
     public function payslip_getSalary(User $user)
     {
         $data = BasicPay::where('job_id', $user->employee_detail->job->id)->select('id','job_id','amount')->get();
@@ -532,12 +746,18 @@ class ApiController extends Controller
 
     public function payslip_basic()
     {
-        $basic = BasicPay::select('id','job_id','amount')->get();
         $bj = BasicPay::select('job_id')->get()->toArray();
         $job = Job::whereNotIn('id', $bj)->select('id','name')->get();
+        $data = DB::table("basic_pays as bp")
+                    ->join("jobs as j", "bp.job_id", '=', 'j.id')
+                    ->select("bp.id", "bp.amount", "j.name")
+                    ->groupBy("bp.id")
+                    ->get();
         return response()->json([ 
-            'data_basic'    => $basic,
-            'data_job'      => $job,
+            'status' => true,
+            'message' => "Data Available",
+            'data'  => $data,
+            'job_data' => $job
         ]);
     }
 
@@ -599,6 +819,52 @@ class ApiController extends Controller
         }
     }
 
+    public function payslip_createPDF($id) 
+    {
+        $payslip = Payslip::findOrFail($id);
+        $pdf = PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadview('admin.payslip.pdf', compact('payslip'));
+        $pdf->setPaper("a4", "landscape");
+        return $pdf->stream('payslip.pdf');
+    }
+
+    // Holiday
+    public function event_list($month)
+    {
+        $data = Holiday::whereMonth('start', $month)->orderBy('start', 'asc')->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function event_add(Request $request)
+    {
+        $validasi = Validator::make($request->all(), [
+            'start' => 'required',
+            'end'   => 'required',
+            'title'   => 'required'
+        ]);
+        if ($validasi->fails()) {
+            $val = $validasi->errors()->all();
+            return $this->error($val[0]);
+        }else{
+            Holiday::create([
+                'start'     => $request->start,
+                'end'       => $request->end,
+                'title'     => $request->title
+            ]);
+            return response()->json([ 'status' => true, 'message' => 'Added Successfully' ]);
+        }
+    }
+
+    public function event_destroy($id)
+    {
+        Holiday::where('id', $id)->delete();
+        return response()->json([ 'status' => true, 'message' => 'Data has been deleted', ]);
+    }
+
     // Attendance
     // public function attend_list()
     // {
@@ -643,14 +909,86 @@ class ApiController extends Controller
     // Project
     public function project_list()
     {
-        $project = Project::orderByDesc('created_at')->get();
-        $status = ['not started', 'in progress', 'on hold', 'canceled', 'finished'];
-        $teammember = ProjectMember::select('id','user_id','project_id')->get();
+        $data = DB::table('projects as p')
+                    ->join('users as u', 'p.submitted_by', '=', 'u.id')
+                    ->groupBy('p.id')
+                    ->select('p.*', 'u.name as submitted_by_name')
+                    ->latest()
+                    ->get();
 
         return response()->json([
-            'data_project'   => $project,
-            'data_status'  => $status,
-            'data_teammember'=> $teammember,
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function ongoing_project_list()
+    {
+        $data = DB::table('projects as p')
+                    ->where('p.status', 'in progress')
+                    ->join('users as u', 'p.submitted_by', '=', 'u.id')
+                    ->groupBy('p.id')
+                    ->select('p.*', 'u.name as submitted_by_name')
+                    ->latest()
+                    ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function project_list_user($id)
+    {
+        $data = Project::whereHas('members', function(Builder $query) use ($id) {
+            $query->where('user_id', '=', $id);
+        })->latest()->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function ongoing_project_list_user($id)
+    {
+        $data = Project::where('status', 'in progress')
+                ->whereHas('members', function(Builder $query) use ($id) {
+                    $query->where('user_id', '=', $id);
+                })->latest()->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function project_member($id)
+    {
+        $data = DB::table('project_members as pm')
+                    ->where('pm.project_id', $id)
+                    ->join('users as u', 'pm.user_id', '=', 'u.id')
+                    ->groupBy('pm.id')
+                    ->select('pm.*', 'u.name as user_name', 'u.profile_photo_path')
+                    ->get();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function project_category()
+    {
+        $data = ProjectCategory::all();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
         ]);
     }
 
@@ -665,8 +1003,7 @@ class ApiController extends Controller
         ]);
     }
 
-    // submitted by blm fix
-    public function project_store(Request $request)
+    public function project_store(Request $request, $userId)
     {
         $validasi = Validator::make($request->all(), [
             'project_name'  => 'required|string',
@@ -684,7 +1021,7 @@ class ApiController extends Controller
         }else{
             if (now() < $request->start_date) {
                 $status = "not started";
-            }elseif (now() > $request->start_date && now() < $request->deadline){
+            }else{
                 $status = "in progress";
             }
             $project = new Project();
@@ -695,7 +1032,7 @@ class ApiController extends Controller
             $project->status            = $status;
             $project->project_summary   = $request->summary;
             $project->notes             = $request->note;
-            $project->submitted_by      = '1';
+            $project->submitted_by      = $userId;
             $project->save();
 
             $user = $request->member;
@@ -712,13 +1049,13 @@ class ApiController extends Controller
         }
     }
 
-    public function project_addCat(Request $request)
+    public function project_add_cat(Request $request)
     {
         ProjectCategory::create(['category_name' => $request->category]);
         return response()->json([ 'status' => true, 'message' => 'Add Data Success', ]);
     }
 
-    public function project_destroyCat($id)
+    public function project_destroy_cat($id)
     {
         ProjectCategory::where('id', $id)->delete();
         return response()->json([ 'status' => true, 'message' => 'Data has been deleted', ]);
@@ -730,44 +1067,43 @@ class ApiController extends Controller
         return response()->json([ 'status' => true, 'message' => 'Data has been deleted', ]);
     }
 
-    public function project_update($id)
+    public function project_update(Request $request, $id)
     {
-        $project    = Project::where('id', $id)->first();
-        $category   = ProjectCategory::select('id','category_name')->get();
-        $emp        = User::select('id','name')->get();
-        $teammember = ProjectMember::where('project_id', $id)->select('id','user_id')->get();
-        
-        return response()->json([
-            'data_project'   => $project,
-            'data_category'  => $category,
-            'data_emp'       => $emp,
-            'data_teammember'=> $teammember,
-        ]);
-    }
-
-    public function project_edit(Request $request, $id)
-    {
-        $this->validate($request,[
+        $validasi = Validator::make($request->all(), [
             'project_name'  => 'required|string',
             'category'      => 'required|integer',
             'start_date'    => 'required|date',
             'deadline'      => 'required|date',
-            'status'        => 'required',
+            'member'        => 'required',
             'summary'       => 'nullable',
             'note'          => 'nullable',
+            'status'        => 'required'
         ]);
 
-        $project = Project::findOrFail($id);
-        $project->project_name      = $request->project_name;
-        $project->category_id       = $request->category;
-        $project->start_date        = $request->start_date;
-        $project->deadline          = $request->deadline;
-        $project->status            = $request->status;
-        $project->project_summary   = $request->summary;
-        $project->notes             = $request->note;
-        $project->save();
+        if ($validasi->fails()) {
+            $val = $validasi->errors()->all();
+            return $this->error($val[0]);
+        }else{
+            $project = Project::findOrFail($id);
+            $project->project_name      = $request->project_name;
+            $project->category_id       = $request->category;
+            $project->start_date        = $request->start_date;
+            $project->deadline          = $request->deadline;
+            $project->status            = $request->status;
+            $project->project_summary   = $request->summary;
+            $project->notes             = $request->note;
+            $project->save();
 
-        return response()->json([ 'status' => true, 'message' => 'Data has been updated', ]);
+            $user = $request->member;
+            foreach ($user as $users) {
+                DB::insert(DB::raw("insert into project_members (user_id, project_id) select * from (select '$users', '$id') as temp
+                where not exists ( select user_id, project_id from project_members where user_id='$users' and project_id='$id' )"));
+            }
+            return response()->json([
+                'status' => true,
+                'message' => 'Data has been updated'
+            ]);
+        }
     }
 
     public function project_member_destroy($id)
@@ -788,6 +1124,103 @@ class ApiController extends Controller
         return response()->json([ 'status' => true, 'message' => 'Member added', ]);
     }
 
+    public function project_activity_list($id)
+    {
+        $data = DB::table('project_updates as pu')->where('pu.project_id', $id)
+                    ->join('users as u', 'pu.user_id', '=', 'u.id')
+                    ->groupBy('pu.id')
+                    ->select('pu.*', 'u.name as user_name', 'u.profile_photo_path')
+                    ->latest()
+                    ->get();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function project_activity_download($id)
+    {
+        $file = ProjectUpdate::where('id', $id)->first();
+        $path = public_path().'/storage/'.$file->file;
+        return Response::download($path);
+    }
+
+    public function project_activity_destroy($id)
+    {
+        $project = ProjectUpdate::find($id);
+        Storage::disk('public')->delete($project->file);
+        $project->delete();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+        ]);
+    }
+
+    public function project_activity_submit(Request $request)
+    {
+        $validasi = Validator::make($request->all(), [
+            'comment'   => 'required',
+            'file'      => 'nullable|max:10240',
+        ]);
+
+        if ($validasi->fails()) {
+            $val = $validasi->errors()->all();
+            return $this->error($val[0]);
+        }else{
+            $project = new ProjectUpdate();
+            $project->comment = $request->comment;
+            if($request->hasFile('file')){
+                $file = $request->file('file');
+                $filename = time()."_".$file->getClientOriginalName();
+                $file->storeAs('public/project_files', $filename);
+                $path = 'project_files/'.$filename;
+                $project->file  = $path;
+            }
+            $project->project_id = $request->project_id;
+            $project->user_id = $request->user_id;
+            $project->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data has been added'
+            ]);
+        }
+    }
+
+    // Goal
+    public function goal_list()
+    {
+        $data = DB::table('goals as g')
+                    ->join('users as u', 'g.user_id', '=', 'u.id')
+                    ->groupBy('g.id')
+                    ->select('g.*', 'u.name as user_name', 'u.profile_photo_path')
+                    ->latest()
+                    ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function goal_list_user($id)
+    {
+        $data = DB::table('goals as g')
+                    ->where('g.user_id', $id)
+                    ->join('users as u', 'g.user_id', '=', 'u.id')
+                    ->groupBy('g.id')
+                    ->select('g.*', 'u.name as user_name')
+                    ->latest()
+                    ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
 
     public function error($msg)
     {
