@@ -17,6 +17,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                  <a href="{{ route('dash.task') }}" class="nav-link {{ (request()->segment(1) == 'task') ? 'active' : '' }}">
+                      <i class="nav-icon fas fa-chart-pie"></i>
+                      <p>Tasks</p>
+                  </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ route('dash.goals') }}" class="nav-link {{ (request()->segment(1) == 'goals') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bullseye"></i>
                         <p>Goals</p>
@@ -112,6 +118,11 @@
                         <li class="nav-item">
                           <a href="{{ route('admin.projects') }}" class="nav-link {{ (request()->segment(2) == 'projects') ? 'active' : '' }}">
                             <p>Projects</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="{{ route('dash.task') }}" class="nav-link {{ (request()->segment(1) == 'task') ? 'active' : '' }}">
+                              <p>Tasks</p>
                           </a>
                         </li>
                         <li class="nav-item">

@@ -30,4 +30,9 @@ class Project extends Model
     {
         return $this->hasMany(ProjectUpdate::class);
     }
+
+    public function task()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

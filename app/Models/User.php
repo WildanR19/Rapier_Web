@@ -95,4 +95,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Attendance::class);
     }
+
+    public function task()
+    {
+        return $this->hasMany(Task::class, 'user_id');
+    }
+
+    public function task_comment()
+    {
+        return $this->hasMany(TaskComment::class, 'user_id');
+    }
 }

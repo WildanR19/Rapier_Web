@@ -32,8 +32,10 @@ class CreateJobsTable extends Migration
      */
     public function down()
     {
+        Schema::table('employee_details', function(Blueprint $table){
+            $table->dropForeign(['job_id']);
+        });
         Schema::dropIfExists('jobs');
-
         Schema::table('employee_details', function (Blueprint $table) {
             $table->dropColumn(['job_id']);
         });

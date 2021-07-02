@@ -25,6 +25,7 @@ class CreateProjectsTable extends Migration
             $table->foreign('submitted_by')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('category_id')->unsigned()->nullable();
             $table->foreign('category_id')->references('id')->on('project_category')->onDelete('set null')->onUpdate('cascade');
+            $table->integer('progress_percent')->nullable();
             $table->timestamps();
         });
     }

@@ -21,7 +21,7 @@ class CreateEmployeeStatusTable extends Migration
         });
 
         Schema::table('employee_details', function (Blueprint $table) {
-            $table->integer('status_id')->unsigned()->nullable()->default(null)->after('department_id');
+            $table->integer('status_id')->unsigned()->after('department_id');
             $table->foreign('status_id')->references('id')->on('employee_status')->onDelete('cascade')->onUpdate('cascade');
         });
         
@@ -49,6 +49,9 @@ class CreateEmployeeStatusTable extends Migration
      */
     public function down()
     {
+        Schema::table('employee_details', function(Blueprint $table){
+            $table->dropForeign(['status_id']);
+        });
         Schema::dropIfExists('employee_status');
         Schema::table('employee_details', function (Blueprint $table) {
             $table->dropColumn(['status_id']);

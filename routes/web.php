@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Employee\{HolidayController as EmployeeHolidayController, LeaveController as EmployeeLeaveController, ContactController, GoalController as EmployeeGoalController, PayslipController as EmployeePayslipController, ProjectController as EmployeeProjectController};
-use App\Http\Controllers\{AttendanceController, EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, NotificationController, ProfileController};
+use App\Http\Controllers\{AttendanceController, EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, NotificationController, ProfileController, TaskController};
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
@@ -17,9 +17,27 @@ Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
     
     // dashboard
     Route::get('/dashboard', [HomeController::class, 'index'])->name('dash.home');
+
     Route::get('/settings', function () {
         return view('settings.index');
     })->name('dash.settings');    
+
+    // task
+    Route::get('/task', [TaskController::class, 'index'])->name('dash.task');
+    Route::get('/task/add', [TaskController::class, 'add'])->name('task.add');
+    Route::post('/task/store', [TaskController::class, 'store'])->name('task.store');
+    Route::get('/task/{project}/emp', [TaskController::class, 'getEmployee'])->name('task.getemp');
+    Route::get('/task/delete/{id}', [TaskController::class, 'destroy'])->name('task.delete');
+    Route::get('/task/update/{id}', [TaskController::class, 'edit'])->name('task.edit');
+    Route::get('/task/detail/{id}', [TaskController::class, 'details'])->name('task.details');
+    Route::post('/task/update', [TaskController::class, 'update'])->name('task.update');
+    Route::post('/task/add/category', [TaskController::class, 'addCat'])->name('task.category.add');
+    Route::get('/task/category/delete/{id}', [TaskController::class, 'destroyCat'])->name('task.category.delete');
+    Route::get('/task/comment/delete/{id}', [TaskController::class, 'destroyComment'])->name('task.comment.delete');
+    Route::post('/task/comment/add', [TaskController::class, 'submitComment'])->name('task.comment.add');
+    Route::get('/task/comment/download/{id}', [TaskController::class, 'fileDownload'])->name('task.comment.download');
+    Route::get('/task/completed/{id}', [TaskController::class, 'completedStatus'])->name('task.completed');
+    Route::get('/task/incomplete/{id}', [TaskController::class, 'incompleteStatus'])->name('task.incomplete');
 });
 
 //employee
