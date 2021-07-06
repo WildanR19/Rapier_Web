@@ -20,6 +20,7 @@ use App\Models\ProjectCategory;
 use App\Models\ProjectMember;
 use App\Models\ProjectUpdate;
 use App\Models\Role;
+use App\Models\Task;
 use App\Notifications\LeavesNotification;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Builder;
@@ -36,7 +37,7 @@ class ApiController extends Controller
 
     public function login(Request $request)
     {
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->where('status', 'active')->first();
         $response = [];
         if($user){
             if(password_verify($request->password, $user->password)){
@@ -1227,6 +1228,34 @@ class ApiController extends Controller
         return response()->json([
             'status' => false,
             'message' => $msg
+        ]);
+    }
+
+    // Task
+    public function task_list($id)
+    {
+        $role = User::where('id', $id)->select('role_id')->first();
+        
+        if ($role->role_id != 1) {
+            $data = Task::leftJoin('projects as p', 'p.id', '=', 'tasks.project_id')
+                    ->join('users as u', 'u.id', '=', 'tasks.user_id')
+                    ->leftJoin('users as creator', 'creator.id', '=', 'tasks.created_by')
+                    ->join('task_category as tc', 'tc.id', '=', 'tasks.task_category_id')
+                    ->where('tasks.user_id', $id)
+                    ->select('tasks.*', 'u.name', 'u.profile_photo_path', 'creator.name as created_by_name', 'creator.profile_photo_path as created_by_image', 'p.project_name', 'tc.category_name')
+                    ->latest()->get();
+        } else {
+            $data = Task::leftJoin('projects as p', 'p.id', '=', 'tasks.project_id')
+                    ->join('users as u', 'u.id', '=', 'tasks.user_id')
+                    ->leftJoin('users as creator', 'creator.id', '=', 'tasks.created_by')
+                    ->join('task_category as tc', 'tc.id', '=', 'tasks.task_category_id')
+                    ->select('tasks.*', 'u.name', 'u.profile_photo_path', 'creator.name as created_by_name', 'creator.profile_photo_path as created_by_image', 'p.project_name', 'tc.category_name')
+                    ->latest()->get();
+        }
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
         ]);
     }
 }

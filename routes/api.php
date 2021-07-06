@@ -107,3 +107,5 @@ Route::post('project/activity/submit/{id}', [ApiController::class, 'project_acti
 // Goal
 Route::get('goal', [ApiController::class, 'goal_list']);
 Route::get('goal/user/{id}', [ApiController::class, 'goal_list_user']);
+
+Route::get('task/{id}', [ApiController::class, 'task_list']);

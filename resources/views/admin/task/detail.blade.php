@@ -19,7 +19,7 @@
     @endif
     <ul class="row no-gutters p-0">
         <li class="card w-100 p-4 mb-4">
-            <div class="row no-gutters justify-content-between mb-3">
+            <div class="row no-gutters justify-content-between">
                 <h6 class="text-{{ $tasks->status == 'incomplete' ? 'danger' : 'success' }}"><em>{{ ucfirst($tasks->status) }}</em></h6>
                 @if ($tasks->status == 'completed')
                     <a href="{{ route('task.incomplete', $tasks->id) }}" id="inCompletedButton" class="btn btn-outline-danger btn-sm"><i class="fa fa-times"></i> Mark as incomplete</a>

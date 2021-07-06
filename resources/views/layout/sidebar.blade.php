@@ -18,7 +18,7 @@
                 </li>
                 <li class="nav-item">
                   <a href="{{ route('dash.task') }}" class="nav-link {{ (request()->segment(1) == 'task') ? 'active' : '' }}">
-                      <i class="nav-icon fas fa-chart-pie"></i>
+                      <i class="nav-icon fas fa-tasks"></i>
                       <p>Tasks</p>
                   </a>
                 </li>
