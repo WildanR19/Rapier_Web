@@ -16,118 +16,112 @@
 @endsection
 
 @section('content')
-<div id="todo">
-    <div class="content">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card card-primary card-outline card-outline-tabs">
-                        <div class="card-header p-0 border-bottom-0">
-                          <ul class="nav nav-tabs nav-fill" id="custom-tabs-three-tab" role="tablist">
-                            <li class="nav-item">
-                              <a class="nav-link active" id="calendar-tab" data-toggle="pill" href="#sumcalendar" role="tab" aria-controls="calendar" aria-selected="true">Summary & Calendar</a>
-                            </li>
-                            <li class="nav-item">
-                              <a class="nav-link" id="leave-tab" data-toggle="pill" href="#leave" role="tab" aria-controls="leave" aria-selected="false">Your Leave</a>
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="card-body">
-                          <div class="tab-content" id="custom-tabs-three-tabContent">
-                            <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="calendar-tab" id="sumcalendar">
-                                {!! $leave_header !!}
-                                <div class="row mt-4">
-                                    <div class="col-md-12 text-right">
-                                        <button class="btn btn-secondary" data-toggle="modal" data-target="#applyModal">Assign
-                                            Leave</button>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div id="calendar"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
-                                {!! $leave_header !!}
-                                <div class="row mt-5 table-responsive">
-                                    <table class="table table-sm table-striped" id="leaveTable">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Duration</th>
-                                                <th scope="col">From Date</th>
-                                                <th scope="col">To Date</th>
-                                                <th scope="col">Reason</th>
-                                                <th scope="col">Leave Count</th>
-                                                <th scope="col">Applied On</th>
-                                                <th scope="col">Status</th>
-                                                <th scope="col">Reject Reason</th>
-                                                <th scope="col">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($leave as $leaves)    
-                                                <tr>
-                                                    <td><span class="badge bg-{{ $leaves->type->color }}">{{ $leaves->type->type_name }}</span></td>
-                                                    <td class="text-capitalize">{{ $leaves->duration }}</td>
-                                                    <td>{{ date('d-m-Y', strtotime($leaves->from_date)) }}</td>
-                                                    <td>{{ date('d-m-Y', strtotime($leaves->to_date)) }}</td>
-                                                    <td>{{ $leaves->reason}}</td>
-                                                    @php
-                                                        $td = strtotime($leaves->to_date);
-                                                        $fd = strtotime($leaves->from_date);
-                                                        $count = floor(($td-$fd) / (60 * 60 * 24))+1;
-                                                        if($leaves->duration == 'half day'){
-                                                            $count = $count/2;
-                                                        }
-                                                    @endphp
-                                                    <td>{{ $count }} day(s)</td>
-                                                    @php
-                                                        if($leaves->status == 'approved'){
-                                                            $color = 'success';
-                                                            $applied = date('d-m-Y', strtotime($leaves->updated_at));
-                                                        }else if($leaves->status == 'pending'){
-                                                            $color = 'warning';
-                                                            $applied = '';
-                                                        }else{
-                                                            $color = 'danger';
-                                                            $applied = '';
-                                                        }
-                                                        @endphp
-                                                    <td>{{ $applied }}</td>
-                                                    <td><span class="badge bg-{{ $color }} text-capitalize">{{ $leaves->status }}</span></td>
-                                                    <td>{{ $leaves->reject_reason }}</td>
-                                                    <td>
-                                                        @if ($leaves->status == 'pending')
-                                                        <a href="" id="editLeave" class="btn btn-warning btn-circle" data-tooltip="tooltip" title="Edit" data-toggle="modal" data-target="#editModal" data-id="{{ $leaves->id }}">
-                                                            <i class="fas fa-pencil-alt"></i>
-                                                        </a>
-                                                        <a href="{{ route('dash.leave.delete', $leaves->id) }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Cancel">
-                                                            <i class="fas fa-times"></i>
-                                                        </a>
-                                                        @endif
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    <div class="col text-right">
-                                        <small>*date format d-m-y</small>
-                                    </div>
-                                </div>
-                                <div class="row mt-4 mx-auto">
-                                    <div class="col text-center"><button class="btn btn-secondary"  data-toggle="modal" data-target="#applyModal">Assign Leave</button></div>
-                                </div>
-                            </div>
-                          </div>
-                        </div>
-                        <!-- /.card -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card card-primary card-outline card-outline-tabs">
+                    <div class="card-header p-0 border-bottom-0">
+                      <ul class="nav nav-tabs nav-fill" id="custom-tabs-three-tab" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="calendar-tab" data-toggle="pill" href="#sumcalendar" role="tab" aria-controls="calendar" aria-selected="true">Summary & Calendar</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="leave-tab" data-toggle="pill" href="#leave" role="tab" aria-controls="leave" aria-selected="false">Your Leave</a>
+                        </li>
+                      </ul>
                     </div>
+                    <div class="card-body">
+                      <div class="tab-content" id="custom-tabs-three-tabContent">
+                        <div class="tab-pane fade show active" role="tabpanel" aria-labelledby="calendar-tab" id="sumcalendar">
+                            {!! $leave_header !!}
+                            <div class="row mt-4">
+                                <div class="col-md-12 text-right">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#applyModal"><i class="fas fa-calendar-plus"></i> Assign
+                                        Leave</button>
+                                </div>
+                                <div class="col-md-12">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
+                            {!! $leave_header !!}
+                            <div class="row mt-5 table-responsive">
+                                <table class="table table-sm table-striped" id="leaveTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Duration</th>
+                                            <th scope="col">From Date</th>
+                                            <th scope="col">To Date</th>
+                                            <th scope="col">Reason</th>
+                                            <th scope="col">Leave Count</th>
+                                            <th scope="col">Applied On</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Reject Reason</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($leave as $leaves)    
+                                            <tr>
+                                                <td><span class="badge bg-{{ $leaves->type->color }}">{{ $leaves->type->type_name }}</span></td>
+                                                <td class="text-capitalize">{{ $leaves->duration }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($leaves->from_date)) }}</td>
+                                                <td>{{ date('d-m-Y', strtotime($leaves->to_date)) }}</td>
+                                                <td>{{ $leaves->reason}}</td>
+                                                @php
+                                                    $td = strtotime($leaves->to_date);
+                                                    $fd = strtotime($leaves->from_date);
+                                                    $count = floor(($td-$fd) / (60 * 60 * 24))+1;
+                                                    if($leaves->duration == 'half day'){
+                                                        $count = $count/2;
+                                                    }
+                                                @endphp
+                                                <td>{{ $count }} day(s)</td>
+                                                @php
+                                                    if($leaves->status == 'approved'){
+                                                        $color = 'success';
+                                                        $applied = date('d-m-Y', strtotime($leaves->updated_at));
+                                                    }else if($leaves->status == 'pending'){
+                                                        $color = 'warning';
+                                                        $applied = '';
+                                                    }else{
+                                                        $color = 'danger';
+                                                        $applied = '';
+                                                    }
+                                                    @endphp
+                                                <td>{{ $applied }}</td>
+                                                <td><span class="badge bg-{{ $color }} text-capitalize">{{ $leaves->status }}</span></td>
+                                                <td>{{ $leaves->reject_reason }}</td>
+                                                <td>
+                                                    @if ($leaves->status == 'pending')
+                                                    <a href="" id="editLeave" class="btn btn-warning btn-circle" data-tooltip="tooltip" title="Edit" data-toggle="modal" data-target="#editModal" data-id="{{ $leaves->id }}">
+                                                        <i class="fas fa-pencil-alt"></i>
+                                                    </a>
+                                                    <a href="{{ route('dash.leave.delete', $leaves->id) }}" class="btn btn-danger btn-circle delete-confirm" data-tooltip="tooltip" title="Cancel">
+                                                        <i class="fas fa-times"></i>
+                                                    </a>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div class="col text-right">
+                                    <small>*date format d-m-y</small>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.card -->
                 </div>
             </div>
         </div>
     </div>
-</div>
-
+</section>
 
 <!-- modal -->
 @include('employee.leave.modal')

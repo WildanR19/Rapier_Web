@@ -117,10 +117,10 @@
             theme: 'bootstrap4'
         });
 
+        var APP_URL = {!! json_encode(url('/')) !!};
         $(function () {
            $('select[name=project]').change(function () {
-            var APP_URL = {!! json_encode(url('/')) !!}
-               var url = APP_URL + '/task/' + $(this).val() + '/emp';
+               var url = APP_URL + '/tasks/' + $(this).val() + '/emp';
 
                $.get(url, function (data) {
                    var select = $('form select[name=assigned]');
@@ -132,6 +132,22 @@
                    });
                });
            });
-       });
+        });
+
+        if($('select[name=user] option:selected').length > 0){
+            $(document).ready(function(){
+                var url = APP_URL + '/tasks/' + $('select[name=project] option:selected').val() + '/emp';
+    
+                $.get(url, function (data) {
+                    var select = $('form select[name=assigned]');
+    
+                    select.empty();
+    
+                    $.each(data, function (key, value) {
+                        select.append('<option value=' + value.user_id + '>' + value.name + '</option>');
+                    });
+                });
+            });
+        }
     </script>
 @endsection

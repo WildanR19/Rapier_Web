@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6 col-12">
-                <div class="card card-info">
+                <div class="card card-primary">
                     <div class="card-header">Basic Salaries</div>
                     <div class="card-body">
                         <table class="table">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-12">
-                <div class="card card-info">
+                <div class="card card-primary">
                     <div class="card-header">New Basic Salary</div>
                     @if (count($errors) > 0)
                         <div class="alert alert-danger alert-dismissible">

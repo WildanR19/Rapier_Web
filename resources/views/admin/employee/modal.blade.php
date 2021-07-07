@@ -37,8 +37,8 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" form="formStatus">Submit</button>
+          <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary" form="formStatus">Save</button>
         </div>
       </div>
     </div>

@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="card card-widget widget-user">
-                        <div class="widget-user-header bg-info">
+                        <div class="widget-user-header bg-primary">
                           <h3 class="widget-user-username">{{ $user->name }}</h3>
                           <h5 class="widget-user-desc">{{ $ed->job->name }}</h5>
                         </div>

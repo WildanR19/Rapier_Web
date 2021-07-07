@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Employee\{HolidayController as EmployeeHolidayController, LeaveController as EmployeeLeaveController, ContactController, GoalController as EmployeeGoalController, PayslipController as EmployeePayslipController, ProjectController as EmployeeProjectController};
-use App\Http\Controllers\{AttendanceController, EmployeeController, GoalController, HolidayController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, NotificationController, ProfileController, TaskController};
+use App\Http\Controllers\Employee\{LeaveController as EmployeeLeaveController, ContactController, EventController as EmployeeEventController, GoalController as EmployeeGoalController, PayslipController as EmployeePayslipController, ProjectController as EmployeeProjectController};
+use App\Http\Controllers\{AttendanceController, EmployeeController, GoalController, HomeController, JobController, LeaveController, PayslipController, ProjectController, DepartmentController, EventController, NotificationController, ProfileController, TaskController};
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
@@ -23,21 +23,21 @@ Route::middleware(['auth:sanctum', 'verified', 'allrole'])->group(function () {
     })->name('dash.settings');    
 
     // task
-    Route::get('/task', [TaskController::class, 'index'])->name('dash.task');
-    Route::get('/task/add', [TaskController::class, 'add'])->name('task.add');
-    Route::post('/task/store', [TaskController::class, 'store'])->name('task.store');
-    Route::get('/task/{project}/emp', [TaskController::class, 'getEmployee'])->name('task.getemp');
-    Route::get('/task/delete/{id}', [TaskController::class, 'destroy'])->name('task.delete');
-    Route::get('/task/update/{id}', [TaskController::class, 'edit'])->name('task.edit');
-    Route::get('/task/detail/{id}', [TaskController::class, 'details'])->name('task.details');
-    Route::post('/task/update', [TaskController::class, 'update'])->name('task.update');
-    Route::post('/task/add/category', [TaskController::class, 'addCat'])->name('task.category.add');
-    Route::get('/task/category/delete/{id}', [TaskController::class, 'destroyCat'])->name('task.category.delete');
-    Route::get('/task/comment/delete/{id}', [TaskController::class, 'destroyComment'])->name('task.comment.delete');
-    Route::post('/task/comment/add', [TaskController::class, 'submitComment'])->name('task.comment.add');
-    Route::get('/task/comment/download/{id}', [TaskController::class, 'fileDownload'])->name('task.comment.download');
-    Route::get('/task/completed/{id}', [TaskController::class, 'completedStatus'])->name('task.completed');
-    Route::get('/task/incomplete/{id}', [TaskController::class, 'incompleteStatus'])->name('task.incomplete');
+    Route::get('/tasks', [TaskController::class, 'index'])->name('dash.task');
+    Route::get('/tasks/add', [TaskController::class, 'add'])->name('task.add');
+    Route::post('/tasks/store', [TaskController::class, 'store'])->name('task.store');
+    Route::get('/tasks/{project}/emp', [TaskController::class, 'getEmployee'])->name('task.getemp');
+    Route::get('/tasks/delete/{id}', [TaskController::class, 'destroy'])->name('task.delete');
+    Route::get('/tasks/update/{id}', [TaskController::class, 'edit'])->name('task.edit');
+    Route::get('/tasks/detail/{id}', [TaskController::class, 'details'])->name('task.details');
+    Route::post('/tasks/update', [TaskController::class, 'update'])->name('task.update');
+    Route::post('/tasks/add/category', [TaskController::class, 'addCat'])->name('task.category.add');
+    Route::get('/tasks/category/delete/{id}', [TaskController::class, 'destroyCat'])->name('task.category.delete');
+    Route::get('/tasks/comment/delete/{id}', [TaskController::class, 'destroyComment'])->name('task.comment.delete');
+    Route::post('/tasks/comment/add', [TaskController::class, 'submitComment'])->name('task.comment.add');
+    Route::get('/tasks/comment/download/{id}', [TaskController::class, 'fileDownload'])->name('task.comment.download');
+    Route::get('/tasks/completed/{id}', [TaskController::class, 'completedStatus'])->name('task.completed');
+    Route::get('/tasks/incomplete/{id}', [TaskController::class, 'incompleteStatus'])->name('task.incomplete');
 });
 
 //employee
@@ -64,7 +64,7 @@ Route::middleware(['auth:sanctum', 'verified', 'employee'])->group(function () {
     Route::get('/leave/delete/{id}', [EmployeeLeaveController::class, 'destroy'])->name('dash.leave.delete');
 
     //holiday
-    Route::get('/holiday', [EmployeeHolidayController::class, 'index'])->name('dash.holiday');
+    Route::get('/event', [EmployeeEventController::class, 'index'])->name('dash.event');
     
     // contacts
     Route::get('/contacts', [ContactController::class, 'index'])->name('dash.contacts');
@@ -129,9 +129,9 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function ()
     Route::get('/admin/leaves/delete/{id}', [LeaveController::class, 'destroy'])->name('admin.leaves.delete');
     Route::get('/admin/leaves/export/', [LeaveController::class, 'export'])->name('admin.leaves.export');
 
-    //holiday
-    Route::get('/admin/holiday', [HolidayController::class, 'index'])->name('admin.holiday');
-    Route::post('/admin/holiday/ajax', [HolidayController::class, 'ajax'])->name('admin.holiday.ajax');
+    //event
+    Route::get('/admin/event', [EventController::class, 'index'])->name('admin.event');
+    Route::post('/admin/event/ajax', [EventController::class, 'ajax'])->name('admin.event.ajax');
 
     // project
     Route::get('/admin/projects', [ProjectController::class, 'index'])->name('admin.projects');
@@ -160,6 +160,8 @@ Route::middleware(['auth:sanctum', 'verified', 'admin'])->group(function ()
     Route::get('/admin/payslip/add', [PayslipController::class, 'add'])->name('admin.payslip.add');
     Route::get('/admin/payslip/{user}/salary', [PayslipController::class, 'getSalary'])->name('admin.salary');
     Route::post('/admin/payslip/add/store', [PayslipController::class, 'store'])->name('admin.payslip.store');
+    Route::get('/admin/payslip/update/{id}', [PayslipController::class, 'edit'])->name('admin.payslip.edit');
+    Route::post('/admin/payslip/update', [PayslipController::class, 'update'])->name('admin.payslip.update');
     Route::get('/admin/payslip/basic', [PayslipController::class, 'basic'])->name('admin.payslip.basic');
     Route::post('/admin/payslip/basic/add', [PayslipController::class, 'basic_add'])->name('admin.payslip.basic.add');
     Route::get('/admin/payslip/basic/{id}', [PayslipController::class, 'basic_destroy'])->name('admin.payslip.basic.delete');

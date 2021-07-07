@@ -1,12 +1,12 @@
+<div class="modal-header bg-dark align-items-center">
+    <h5 class="modal-title">Payslip <br><span style="font-size: 1.5rem;">{{ date('j F Y', strtotime($payslip->for_date)) }} - {{ date('j F Y', strtotime($payslip->to_date)) }}</span></h5>
+    <img src="{{ asset('img/logo.png') }}" alt="Logo" width="150px" class="mr-3">
+</div>
 <div class="modal-body">
-    <div class="text-right mb-3">
-        <img src="{{ asset('img/logo-with-text.svg') }}" alt="Logo" width="150px">
-    </div>
-    <h3>{{ date('j F Y', strtotime($payslip->for_date)) }} - {{ date('j F Y', strtotime($payslip->to_date)) }}</h3>
     <div class="row mt-3">
         <div class="col-md-6">
             <div class="row">
-                <div class="col font-weight-bold">Name</div>
+                <div class="col font-weight-bold">Name Employee</div>
                 <div class="col">{{ Auth::user()->name }}</div>
             </div>
             <div class="row">
@@ -14,7 +14,7 @@
                 <div class="col">{{ Auth::user()->employee_detail->department->name }}</div>
             </div>
             <div class="row">
-                <div class="col font-weight-bold">Role</div>
+                <div class="col font-weight-bold">Job</div>
                 <div class="col">{{ Auth::user()->employee_detail->job->name }}</div>
             </div>
         </div>
@@ -114,6 +114,6 @@
         </div>
     </div>
     <div class="col text-center">
-        <a href="{{ route('dash.payslip.pdf', $payslip->id) }}" class="btn btn-secondary">Download</a>
+        <a href="{{ route('dash.payslip.pdf', $payslip->id) }}" class="btn btn-primary">Download</a>
     </div>
 </div>

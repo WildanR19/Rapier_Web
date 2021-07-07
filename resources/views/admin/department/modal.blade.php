@@ -18,7 +18,7 @@
             </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn" data-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-primary" form="addForm">Save</button>
         </div>
       </div>
@@ -43,8 +43,8 @@
               </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <input type="submit" id="submit" class="btn btn-primary" value="Save Changes">
+            <button type="button" class="btn" data-dismiss="modal">Cancel</button>
+            <input type="submit" id="submit" class="btn btn-primary" value="Save">
           </div>
         </form>
       </div>

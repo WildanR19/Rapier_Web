@@ -49,8 +49,8 @@ class LeaveController extends Controller
                 </div>
                 <div class="col-auto mr-4">
                     <strong><i>Period</i></strong><br>
-                    <strong><i>Total Leave This Period</i></strong><br>
-                    <strong><i>Total Leave Remaining</i></strong><br>
+                    <strong><i>Leaves Taken</i></strong><br>
+                    <strong><i>Leaves Remaining</i></strong><br>
                 </div>
                 <div class="col-auto">
                     '.date("Y").' <br> '.$leaveCount.' day(s) <br> '.$leaveRemaining.' day(s)

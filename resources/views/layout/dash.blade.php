@@ -11,7 +11,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Kount</title>
+    <title>Rapier Tech</title>
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -33,38 +33,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
 
+        <!-- Preloader -->
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="{{ asset('img/logo.png') }}" alt="Logo" height="60">
+        </div>
+
         <!-- Main Sidebar Container -->
         @include('layout.navbar')
         @include('layout.sidebar')
         
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper px-1 px-sm-3 px-md-5">
+        <div class="content-wrapper">
             @include('sweetalert::alert')
-            {{-- breadcrumb --}}
-            {{-- @if (Auth::user()->role->name == 'Admin' && Request::segment(1) != 'dashboard')    
-                <section class="content-header">
-                    <div class="container-fluid">
-                    <div class="row m-0 mb-2">
-                        <div class="col-sm-6">
-                        <h1 class="text-capitalize">{{ Request::segment(2) }}</h1>
-                        </div>
-                        <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('dash.home') }}">Home</a></li>
-                            <?php $segments = ''; ?>
-                            @foreach(Request::segments() as $segment)
-                                <?php $segments .= '/'.$segment; ?>
-                                <li class="breadcrumb-item">
-                                    <a href="{{ $segments }}">{{$segment}}</a>
-                                </li>
-                            @endforeach
-                        </ol>
-                        </div>
-                    </div>
-                    </div><!-- /.container-fluid -->
-                </section>
-            @endif --}}
-           
+            @include('layout.breadcrumb')
             @yield('content')
         </div>
         <!-- /.content-wrapper -->
@@ -72,15 +53,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- ./wrapper -->
     <footer class="main-footer">
-        <strong>Copyright © {{ date('Y') }} <a href="">Kount</a>.</strong>
+        <strong>Copyright © {{ date('Y') }} <a href="">Rapier Tech</a>.</strong>
         <div class="float-right d-none d-sm-inline-block">
-          <b>Version</b> 1.0
+          <b>Version</b> 1.1.0
         </div>
     </footer>
     <!-- REQUIRED SCRIPTS -->
 
     <!-- jQuery -->
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{{ asset('plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+    $.widget.bridge('uibutton', $.ui.button)
+    </script>
     <!-- Bootstrap 4 -->
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- overlayScrollbars -->

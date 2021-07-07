@@ -1,7 +1,7 @@
 @extends('layout.dash')
 
 @section('content')
-    <div class="content">
+    <section class="content">
         <div class="container-fluid">
             <div class="row">
                 @include('admin.attendance.filter_tab')
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 @endsection
 
 @section('js')

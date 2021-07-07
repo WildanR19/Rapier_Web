@@ -25,8 +25,15 @@ class EmployeeController extends Controller
     {
     	// Get all data user
         $user = User::all();
+        $active = User::where('status', 'active')->count();
+        $deactive = User::where('status', 'deactive')->count();
     	// return data to view
-        return view('admin.employee.index')->with('user', $user);
+        $data = [
+            'user' => $user,
+            'active' => $active,
+            'deactive' => $deactive
+        ];
+        return view('admin.employee.index')->with($data);
     }
 
     public function add()

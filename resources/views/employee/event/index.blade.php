@@ -12,19 +12,19 @@
 @endsection
 
 @section('content')
-<section>
-    <h2 class="mb-4">Holiday</h2>
-</section>
-
-<div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-            <div id='calendar'></div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                    <div id='calendar'></div>
+                </div>
+              </div>
+            </div>
         </div>
-      </div>
     </div>
-</div>
+</section>
 @endsection
 
 @section('js')
@@ -49,12 +49,12 @@
                 eventSources: [
                     {
                         googleCalendarId: 'id.indonesian#holiday@group.v.calendar.google.com',
-                        color: '#FFC045',
-                        textColor: '#000'
+                        color: '#dc3545',
+                        textColor: '#fff'
                     },
                     {
-                        url: SITEURL + "/holiday",
-                        color: '#59becd'
+                        url: SITEURL + "/event",
+                        color: '#FF5722'
                     }
                 ],
                 displayEventTime: false,

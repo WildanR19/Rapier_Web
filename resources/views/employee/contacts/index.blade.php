@@ -71,10 +71,10 @@
                                                     <h2 class="lead"><b>{{ $user->name }}</b></h2>
                                                     <ul class="ml-4 mb-0 fa-ul text-muted">
                                                         <li class="small">
-                                                            <span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: {{ $user->employee_detail->address }}
+                                                            <span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: {{ !empty($user->employee_detail) ? $user->employee_detail->address : '' }}
                                                         </li>
                                                         <li class="small">
-                                                            <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone: {{ $user->employee_detail->phone }}
+                                                            <span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone: {{ !empty($user->employee_detail) ? $user->employee_detail->phone : '' }}
                                                         </li>
                                                         <li class="small">
                                                             <span class="fa-li"><i class="fas fa-lg fa-envelope"></i></span> Email: {{ $user->email }}
@@ -100,14 +100,13 @@
                                 <div class="head mt-2">
                                     <h2>{{ Auth::user()->name }}</h2>
                                     <h5 style="color: #59BECD;"><i>{{ Auth::user()->employee_detail->job->name }}</i></h5>
-                                    <p style="color: #6c757d;">{{ Auth::user()->employee_detail->department->name }}</p>
                                 </div>
                                 <div class="foot mt-4">
                                     @php
                                         $date = strtotime(Auth::user()->employee_detail->join_date);
                                         $datee = date("F Y", $date);
                                     @endphp
-                                    <p>Joined Kount <br> since {{$datee}}</p>
+                                    <p>Joined since {{$datee}}</p>
                                 </div>
                             </div>
                             <div class="col my-auto">
@@ -126,7 +125,7 @@
                         </div>
                         <div class="row mt-5">
                             <div class="col text-center">
-                                <button id="editContact" class="btn btn-secondary" data-toggle="modal" data-target="#editContactModal" data-id="{{ Auth::user()->id }}">Edit Contact Info</button>
+                                <button id="editContact" class="btn btn-primary" data-toggle="modal" data-target="#editContactModal" data-id="{{ Auth::user()->id }}">Edit Contact Info</button>
                             </div>
                         </div>
                     </div>

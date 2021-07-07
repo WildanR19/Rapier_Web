@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Employee;
 
+use App\Helpers\ProjectActivity;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\ProjectMember;
 use App\Models\ProjectUpdate;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,15 +33,25 @@ class ProjectController extends Controller
 
     public function details($id)
     {
-        $project = Project::where('id', $id)->first();
-        $member = ProjectMember::all();
-        $update = ProjectUpdate::where('project_id', $id)->orderByDesc('created_at')->get();
+        $project    = Project::where('id', $id)->first();
+        $teammember = ProjectMember::where('project_id', $id)->get();
+        $user       = User::all();
+        $task       = Task::where('tasks.project_id', $id)
+                        ->leftJoin('projects as p', 'p.id', '=', 'tasks.project_id')
+                        ->join('users as u', 'u.id', '=', 'tasks.user_id')
+                        ->leftJoin('users as creator', 'creator.id', '=', 'tasks.created_by')
+                        ->select('tasks.*', 'u.name', 'u.profile_photo_path', 'creator.name as created_by_name', 'creator.profile_photo_path as created_by_image', 'p.project_name')
+                        ->get();
+        $activity   = ProjectActivity::activityLists($id);
+
         $data = [
-            'projects'  => $project,
-            'members'   => $member,
-            'updates'   => $update,
+            'project'       => $project,
+            'members'       => $teammember,
+            'user'          => $user,
+            'tasks'         => $task,
+            'activities'    => $activity
         ];
-        return view('employee.projects.detail')->with($data);
+        return view('employee.projects.detail2')->with($data);
     }
 
     public function submit_update(Request $request)

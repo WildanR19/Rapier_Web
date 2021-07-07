@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <div class="col text-center mt-4">
-                        <button type="submit" class="btn btn-secondary" id="submit">Apply Edit</button>
+                        <button type="submit" class="btn btn-primary" id="submit">Apply Edit</button>
                     </div>
                 </form>
             </div>

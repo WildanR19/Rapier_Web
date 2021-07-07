@@ -11,7 +11,7 @@
     </style>
 @endsection
 @section('content')
-<div class="content">
+<section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -27,9 +27,7 @@
                     </div>
                 @endif
                 <div class="card">
-                    <div class="card-header bg-primary">
-                        <h5>Add Project</h5>
-                    </div>
+                    <h5 class="card-header bg-primary">Add Project</h5>
                     <div class="card-body">
                         <form action="{{ route('admin.projects.store') }}" method="POST">
                             @csrf
@@ -45,7 +43,7 @@
                                     <select id="category" class="form-control" name="category">
                                         <option disabled selected>Choose...</option>
                                         @foreach ($category as $cat)
-                                            <option value="{{ $cat->id }}" class="text-capitalize">{{ $cat->category_name }}</option>
+                                            <option value="{{ $cat->id }}">{{ ucfirst($cat->category_name) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -65,7 +63,7 @@
                                     <label for="member">Project Member</label>
                                     <select class="select2 form-control" multiple="multiple" data-placeholder="Select Member" id="member" name="member[]">
                                         @foreach ($emp as $member)
-                                            <option value="{{ $member->id }}">{{ $member->name }}</option>
+                                            <option value="{{ $member->id }}">{{ ucfirst($member->name) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -77,7 +75,7 @@
                                     <select id="status" class="form-control" name="status">
                                         <option disabled selected>Choose...</option>
                                         @foreach ($status as $stat)
-                                            <option value="{{ $stat }}" class="text-capitalize">{{ $stat }}</option>
+                                            <option value="{{ $stat }}">{{ ucwords($stat) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -97,7 +95,7 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 @include('admin.project.modal')
 @endsection
 

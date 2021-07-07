@@ -11,7 +11,7 @@
     </style>
 @endsection
 @section('content')
-<div class="content">
+<section class="content">
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -27,9 +27,7 @@
                     </div>
                 @endif
                 <div class="card">
-                    <div class="card-header bg-primary">
-                        <h5>Edit Project</h5>
-                    </div>
+                    <h5 class="card-header bg-primary">Edit Project</h5>
                     <div class="card-body">
                         <form action="{{ route('admin.projects.update') }}" method="POST">
                             @csrf
@@ -46,7 +44,7 @@
                                     <select id="category" class="form-control" name="category">
                                         <option disabled selected>Choose...</option>
                                         @foreach ($category as $cat)
-                                            <option value="{{ $cat->id }}" class="text-capitalize" {{ ($cat->id == $project->category_id) ? 'selected' : '' }}>{{ $cat->category_name }}</option>
+                                            <option value="{{ $cat->id }}" {{ ($cat->id == $project->category_id) ? 'selected' : '' }}>{{ ucfirst($cat->category_name) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -70,7 +68,7 @@
                                     <select id="status" class="form-control" name="status">
                                         <option disabled selected>Choose...</option>
                                         @foreach ($status as $stat)
-                                            <option value="{{ $stat }}" class="text-capitalize" {{ ($project->status == $stat) ? 'selected' : '' }}>{{ $stat }}</option>
+                                            <option value="{{ $stat }}" {{ ($project->status == $stat) ? 'selected' : '' }}>{{ ucwords($stat) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -90,7 +88,7 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 @include('admin.project.modal')
 @endsection
 

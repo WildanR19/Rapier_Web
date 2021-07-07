@@ -119,7 +119,7 @@
             event.preventDefault();
             var id = $(this).data('id');
             $.get('job/' + id + '/edit', function (data) {
-                $('#submit').val("Save Changes");
+                $('#submit').val("Save");
                 $('#editJobModal').modal('show');
                 $('#color_id').val(data.data.id);
                 $('#name').val(data.data.name);

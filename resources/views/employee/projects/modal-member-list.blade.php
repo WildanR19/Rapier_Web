@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <ul class="users-list clearfix">
                     @foreach ($members as $member)
-                        @if ($member->project_id == $projects->id)
+                        @if ($member->project_id == $project->id)
                             <li>
                                 <img src="{{ (!empty($member->user->profile_photo_path)) ? url('/storage/'.$member->user->profile_photo_path) : asset('img/dummy-profile.svg') }}" class="img-member-modal">
                                 <a class="users-list-name" href="#">{{ $member->user->name }}</a>

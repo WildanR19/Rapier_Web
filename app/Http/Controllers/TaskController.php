@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ProjectActivity;
 use App\Http\Widget\Widget;
 use App\Models\Project;
 use App\Models\ProjectMember;
@@ -91,10 +92,15 @@ class TaskController extends Controller
         $task->description = $request->description;
         $task->start_date = $request->start_date;
         $task->due_date = $request->due_date;
+
+        $user = User::where('id', $request->assigned)->first();
+        $username = (Auth::user()->role_id == 1) ? $user->name : Auth::user()->name;
         if (Auth::user()->role_id == 1) {
             $task->user_id = $request->assigned;
+            $activity = Auth::user()->name . " added new task assigned to " . $username;
         } else {
             $task->user_id = Auth::user()->id;
+            $activity = Auth::user()->name . " added new task";
         }
         $task->project_id = $request->project;
         $task->task_category_id = $request->category;
@@ -104,6 +110,8 @@ class TaskController extends Controller
 
         $widget = new Widget();
         $widget->calculateProjectProgressPercent($request->project);
+
+        ProjectActivity::addToActivity($request->project, $activity);
 
         Alert::success('Success', 'Your data has been added.');
         return redirect()->route('dash.task');
@@ -166,14 +174,24 @@ class TaskController extends Controller
         $widget = new Widget();
         $widget->calculateProjectProgressPercent($request->project);
 
+        if ($request->status == "completed") {
+            $activity = "Task " . $task->title . " has been completed";
+            ProjectActivity::addToActivity($task->project_id, $activity);
+        }
+
         Alert::success('Success', 'Your data has been updated.');
         return redirect()->route('dash.task');
     }
 
     public function destroy($id)
     {
+        $task = Task::where('id', $id)->first();
+        $activity = Auth::user()->name . " delete task " . $task->title;
+        ProjectActivity::addToActivity($task->project_id, $activity);
+
         Task::where('id', $id)->delete();
         Alert::success('Deleted', 'Your data has been deleted.');
+
         return back();
     }
 
@@ -234,9 +252,13 @@ class TaskController extends Controller
     {
         Task::where('id', $id)->update(['status' => 'completed']);
         
-        $projectId = Task::where('id', $id)->select('project_id')->first();
+        $task = Task::where('id', $id)->first();
         $widget = new Widget;
-        $widget->calculateProjectProgressPercent($projectId);
+        $widget->calculateProjectProgressPercent($task->project_id);
+
+        $activity = "Task " . $task->title . " has been completed";
+        ProjectActivity::addToActivity($task->project_id, $activity);
+
         Alert::success('Success', 'Task updated succesfully.');
         return back();
     }
@@ -245,6 +267,10 @@ class TaskController extends Controller
     {
         Task::where('id', $id)->update(['status' => 'incomplete']);
         
+        $task = Task::where('id', $id)->first();
+        $widget = new Widget;
+        $widget->calculateProjectProgressPercent($task->project_id);
+
         Alert::success('Success', 'Task updated succesfully.');
         return back();
     }

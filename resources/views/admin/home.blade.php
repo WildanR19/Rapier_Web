@@ -3,18 +3,24 @@
 
 @endsection
 @section('content')
-<section>
-    <div class="content-header">
-        <h2>Dashboard</h2>
-    </div>
-    <div class="content">
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">Dashboard</h1>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<section class="content">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-6">
                 <!-- small box -->
                 <div class="small-box bg-info">
                   <div class="inner">
                     <h3>{{ $users->count() }}</h3>
-                    <p>Kount Employee</p>
+                    <p>Employees</p>
                   </div>
                   <div class="icon">
                     <i class="fas fa-users"></i>
@@ -64,7 +70,7 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <div class="card card-lightblue">
+                <div class="card card-primary">
                     <div class="card-header">
                       <h3 class="card-title">Pending Leaves</h3>
       
@@ -99,7 +105,7 @@
                       <a href="{{ route('admin.leaves') }}" class="uppercase">View All Leaves</a>
                     </div>
                 </div>
-                <div class="card card-lightblue">
+                <div class="card card-primary">
                     <div class="card-header">
                       <h3 class="card-title">Leave Chart ({{ date("Y") }})</h3>
       
@@ -117,7 +123,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="card card-maroon">
+                <div class="card card-primary">
                     <div class="card-header">
                         <h3 class="card-title">Project Chart</h3>
                         <div class="card-tools">

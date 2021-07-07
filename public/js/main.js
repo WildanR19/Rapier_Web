@@ -1,7 +1,7 @@
-$(document).ready(function() {
-    var height = $('.navbar:visible').outerHeight();
-    $('.main-sidebar').css('margin-top', height);
-});
+// $(document).ready(function() {
+//     var height = $('.navbar:visible').outerHeight();
+//     $('.main-sidebar').css('margin-top', height);
+// });
 
 // const navtoggle = document.querySelector('.nav-toggle');
 // const navmenuback = document.querySelector('.nav-menu-back');

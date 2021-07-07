@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ProjectActivity;
 use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\ProjectMember;
@@ -100,6 +101,10 @@ class ProjectController extends Controller
             $member->project_id = $project->id;
             $member->save();
         }
+
+        $activity = $project->project_name . " added as new project";
+        ProjectActivity::addToActivity($project->id, $activity);
+
         Alert::success('Success', 'Your data has been added.');
         return redirect()->route('admin.projects');
     }
@@ -163,6 +168,9 @@ class ProjectController extends Controller
         $project->notes             = $request->note;
         $project->save();
 
+        $activity = $project->project_name . " project details updated";
+        ProjectActivity::addToActivity($project->id, $activity);
+
         Alert::success('Success', 'Your data has been updated.');
         return redirect()->route('admin.projects');
     }
@@ -190,7 +198,13 @@ class ProjectController extends Controller
 
     public function member_destroy($id)
     {
+        $pm = ProjectMember::where('id', $id)->first();
+        $user = User::where('id', $pm->user_id)->first();
+        $activity = $user->name . " leave the project";
+        ProjectActivity::addToActivity($pm->project_id, $activity);
+
         ProjectMember::where('id', $id)->delete();
+
         return back();
     }
 
@@ -202,6 +216,10 @@ class ProjectController extends Controller
             $member->user_id    = $users;
             $member->project_id = $request->id;
             $member->save();
+
+            $user = User::where('id', $users)->first();
+            $activity = $user->name . " joined the project";
+            ProjectActivity::addToActivity($request->id, $activity);
         }
         return back();
     }

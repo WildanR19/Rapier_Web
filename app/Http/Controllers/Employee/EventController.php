@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Holiday;
 use Illuminate\Http\Request;
 
-class HolidayController extends Controller
+class EventController extends Controller
 {
     public function index(Request $request)
     {
@@ -17,6 +17,6 @@ class HolidayController extends Controller
 
             return response()->json($data);
         }
-        return view('employee.holiday.index');
+        return view('employee.event.index');
     }
 }

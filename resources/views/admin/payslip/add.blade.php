@@ -133,7 +133,8 @@
        $(function () {
            $('select[name=user]').change(function () {
 
-               var url = window.location.origin + '/admin/payslip/' + $(this).val() + '/salary';
+            var APP_URL = {!! json_encode(url('/')) !!}
+               var url = APP_URL + '/admin/payslip/' + $(this).val() + '/salary';
 
                $.get(url, function (data) {
                    var select = $('form select[name= salary]');

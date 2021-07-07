@@ -32,6 +32,51 @@ class PayslipController extends Controller
         return view('admin.payslip.add')->with($data);
     }
 
+    public function edit($id)
+    {
+        $user = User::all();
+        $basic = BasicPay::all();
+        $payslip = Payslip::where('id', $id)->first();
+        $data = [
+            'users' => $user,
+            'basics'=> $basic,
+            'payslip' => $payslip
+        ];
+        return view('admin.payslip.edit')->with($data);
+    }
+
+    public function update(Request $request)
+    {
+        $this->validate($request,[
+            'user'      => 'required',
+            'salary'    => 'required',
+            'from_date' => 'required',
+            'to_date'   => 'required',
+            'allowance' => 'nullable|integer',
+            'deduction' => 'nullable|integer',
+            'overtime'  => 'nullable|integer',
+            'other'     => 'nullable|integer',
+            'payment'   => 'required',
+            'status'    => 'required',
+        ]);
+
+        $payslip = Payslip::findOrFail($request->id);
+        $payslip->user_id       = $request->user;
+        $payslip->for_date      = $request->from_date;
+        $payslip->to_date       = $request->to_date;
+        $payslip->basic_id      = $request->salary;
+        $payslip->allowances    = $request->allowance;
+        $payslip->deductions    = $request->deduction;
+        $payslip->overtimes     = $request->overtime;
+        $payslip->others        = $request->other;
+        $payslip->payment       = $request->payment;
+        $payslip->status        = $request->status;
+        $payslip->save();
+
+        Alert::success('Success', 'Your data has been updated.');
+        return redirect()->route('admin.payslip');
+    }
+
     public function store(Request $request)
     {
         $this->validate($request,[

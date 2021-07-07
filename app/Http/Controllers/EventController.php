@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Holiday;
 use Illuminate\Http\Request;
 
-class HolidayController extends Controller
+class EventController extends Controller
 {
     public function index(Request $request)
     {
@@ -14,12 +14,13 @@ class HolidayController extends Controller
        
              $data = Holiday::whereDate('start', '>=', $request->start)
                        ->whereDate('end',   '<=', $request->end)
+                       ->select()
                        ->get(['id', 'title', 'start', 'end']);
   
              return response()->json($data);
         }
   
-        return view('admin.holiday.index');
+        return view('admin.event.index');
     }
  
     public function ajax(Request $request)

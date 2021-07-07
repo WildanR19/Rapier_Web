@@ -12,21 +12,22 @@
 </style>
 @endsection
 @section('content')
-<section>
-    <h2 class="mb-4">Holiday</h2>
-</section>
 
-<div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="container">
-            <div id='calendar'></div>
-          </div>
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="container">
+                    <div id='calendar'></div>
+                  </div>
+                </div>
+              </div>
+            </div>
         </div>
-      </div>
     </div>
-</div>
+</section>
 @endsection
 
 @section('js')
@@ -52,12 +53,12 @@
             eventSources: [
                 {
                     googleCalendarId: 'id.indonesian#holiday@group.v.calendar.google.com',
-                    color: '#FFC045',
-                    textColor: '#000'
+                    color: '#dc3545',
+                    textColor: '#FFF'
                 },
                 {
-                    url: SITEURL + "/admin/holiday",
-                    color: '#59becd'
+                    url: SITEURL + "/admin/event",
+                    color: '#FF5722'
                 }
             ],
             header: {
@@ -83,7 +84,7 @@
                     var start = $.fullCalendar.formatDate(start, "Y-MM-DD");
                     var end = $.fullCalendar.formatDate(end, "Y-MM-DD");
                     $.ajax({
-                        url: SITEURL + "/admin/holiday/ajax",
+                        url: SITEURL + "/admin/event/ajax",
                         data: {
                             title: title,
                             start: start,
@@ -112,7 +113,7 @@
                 var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD");
 
                 $.ajax({
-                    url: SITEURL + '/admin/holiday/ajax',
+                    url: SITEURL + '/admin/event/ajax',
                     data: {
                         title: event.title,
                         start: start,
@@ -131,7 +132,7 @@
                 if (deleteMsg) {
                     $.ajax({
                         type: "POST",
-                        url: SITEURL + '/admin/holiday/ajax',
+                        url: SITEURL + '/admin/event/ajax',
                         data: {
                             id: event.id,
                             type: 'delete'
