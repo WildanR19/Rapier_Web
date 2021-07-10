@@ -9,6 +9,7 @@ use App\Models\Job;
 use App\Models\Leave;
 use App\Models\Project;
 use App\Models\ProjectUpdate;
+use App\Models\Task;
 use App\Models\User;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Builder;
@@ -52,12 +53,15 @@ class HomeController extends Controller
             ];
             return view('admin.home')->with($data)->with($record)->with($record_leave);
         }else if(Auth::user()->role_id == 2){
-            $pu = ProjectUpdate::whereHas('project.members', function($query) {
-                $query->where('user_id', '=', Auth::user()->id);
-            })->orderByDesc('created_at')->get();
+            $task = Task::leftJoin('projects as p', 'p.id', '=', 'tasks.project_id')
+                    ->where('tasks.user_id', Auth::user()->id)
+                    ->where('tasks.status', 'incomplete')
+                    ->select('tasks.*', 'p.project_name')
+                    ->latest()->get();
 
             $auth = Auth::user()->id;
-            $pg = Goal::where('user_id', $auth)->get();
+            // $pg = Goal::where('user_id', $auth)->get();
+            $pg = Task::where('user_id', $auth)->get();
 
             $record_leave = [];
             $result = CarbonPeriod::create('2021-01-01', '1 month', '2021-12-01');
@@ -76,7 +80,7 @@ class HomeController extends Controller
             $record_leave['leave_data'] = json_encode($record_leave);
 
             $data = [
-                'updates'   => $pu,
+                'tasks'   => $task,
                 'pg'        => $pg,
             ];
             return view('home')->with($data)->with($record_leave);

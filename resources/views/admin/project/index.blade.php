@@ -21,7 +21,7 @@
                             <tr>
                                 <th style="width: 1%">#</th>
                                 <th>Project Name</th>
-                                <th style="width: 25%">Team Members</th>
+                                <th>Team Members</th>
                                 <th>Deadline</th>
                                 <th>Progress</th>
                                 <th>Status</th>
@@ -39,24 +39,18 @@
                                         <small>Created {{ $pj->created_at }}</small>
                                     </td>
                                     <td>
-                                        @php $count = 0; @endphp
-                                        @foreach ($teammember as $tm)
-                                            @if($tm->project_id == $pj->id)    
-                                                @php if($count++ == 5) break; @endphp
-                                                @php
-                                                    if (!empty($tm->user->profile_photo_path)) {
-                                                        $url = url('/storage/'.$tm->user->profile_photo_path);
-                                                    }else{
-                                                        $url = url('/img/dummy-profile.svg');
-                                                    }
-                                                @endphp
-                                                <img alt="Avatar" class="table-avatar thumb-index-sm" src="{{ $url }}" data-tooltip="tooltip" title="{{ $tm->user->name }}">
+                                        <ul class="row no-gutters list-assigned p-0">
+                                            @php $count = 0; @endphp
+                                            @foreach ($teammember as $member)
+                                                @if ($member->project_id == $pj->id)
+                                                    @php if($count++ == 5) break; @endphp
+                                                    <li><a href=""><img src="{{ (!empty($member->user->profile_photo_path)) ? url('/storage/'.$member->user->profile_photo_path) : asset('img/dummy-profile.svg') }}" data-tooltip="tooltip" title="{{ $member->user->name }}"></a></li>
+                                                @endif
+                                            @endforeach
+                                            @if ($teammember->where('project_id', $pj->id)->count() > 5)
+                                                <li class="ml-2"><a href="" onclick="return false" class="align-middle">and {{ ($teammember->where('project_id', $pj->id)->count() - 5) }} more</a></li>
                                             @endif
-                                        @endforeach
-                                        @if ($teammember->where('project_id', $pj->id)->count() > 5)
-                                            <br>
-                                            <a href="" onclick="return false">and {{ ($teammember->where('project_id', $pj->id)->count() - 5) }} more</a>
-                                        @endif
+                                        </ul>
                                     </td>
                                     <td>{{ $pj->deadline }}</td>
                                     <td class="project_progress">

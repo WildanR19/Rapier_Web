@@ -79,7 +79,7 @@
                                 @foreach ($members as $member)
                                     @if ($member->project_id == $project->id)
                                         @php if($count++ == 5) break; @endphp
-                                        <li><a href=""><img src="{{ (!empty($member->user->profile_photo_path)) ? url('/storage/'.$member->user->profile_photo_path) : asset('img/dummy-profile.svg') }}" data-tooltip="tooltip" title="{{ $member->user->name }}"></a></li>
+                                        <li><a><img src="{{ (!empty($member->user->profile_photo_path)) ? url('/storage/'.$member->user->profile_photo_path) : asset('img/dummy-profile.svg') }}" data-tooltip="tooltip" title="{{ $member->user->name }}"></a></li>
                                     @endif
                                 @endforeach
                                 @if ($members->where('project_id', $project->id)->count() > 5)

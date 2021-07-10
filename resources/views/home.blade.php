@@ -37,43 +37,66 @@
         <div class="row">
             <div class="col-12">
                 <div class="row">
-                    <div class="col-sm-6">
-                        <h3 class="m-0 text-dark">Project Update (<span class="text-danger">{{ $updates->count() }}</span>)</h3>
-                    </div>
-
-                    <div class="col-lg-12">
-                        @php $count = 0; @endphp
-                        @foreach ($updates as $update)
-                            @php if($count == 3) break; @endphp
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row my-2">
-                                            <div class="col-auto">
-                                                <img src="{{ (!empty($update->user->profile_photo_path)) ? asset('storage/'.$update->user->profile_photo_path) : asset('img/dummy-profile.svg') }}" alt="User Image" class="thumb-dashboard">
-                                            </div>
-                                            <div class="col">
-                                                <div class="row justify-content-between">
-                                                    <div class="col-12 col-sm">
-                                                        <h5><span class="text-primary">{{ $update->user->name }}</span> on Project <span class="text-primary">{{ $update->project->project_name }}</span></h5>
-                                                        <p>{{ $update->comment }}</p>
-                                                    </div>
-                                                    <div class="col-auto">
-                                                        <span class="text-notif">{{ date('H:i', strtotime($update->updated_at)) }} | {{ date('j M Y', strtotime($update->updated_at)) }}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @php $count++; @endphp
-                        @endforeach
-                    </div>
-
-                    <div class="col-lg-12">
-                        @if ($updates->count() > 3)
-                            <div class="separator mb-2">And <span class="text-primary">{{ $updates->count()-3 }}</span> More</div>
-                        @endif
-                        <a href="{{ route('dash.projects') }}" class="btn btn-primary btn-block">See All</a>
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header border-transparent">
+                              <h3 class="card-title">Task Incomplete</h3>
+              
+                              <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                  <i class="fas fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                  <i class="fas fa-times"></i>
+                                </button>
+                              </div>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body p-0">
+                              <div class="table-responsive">
+                                <table class="table m-0">
+                                  <thead>
+                                    <tr>
+                                        <th>Task</th>
+                                        <th>Project</th>
+                                        <th>Priority</th>
+                                        <th>Due Date</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    @php $count = 0; @endphp
+                                    @foreach ($tasks as $task)
+                                        @php if($count++ == 5) break; @endphp
+                                        <tr>
+                                            <td><a href="{{ route('task.details', $task->id) }}">{{ $task->title }}</a></td>
+                                            <td><a href="{{ route('admin.projects.details', $task->project_id) }}">{{ $task->project_name }}</a></td>
+                                            @php
+                                                $priority = ['low', 'medium', 'high'];
+                                                if ($priority[0] == $task->priority) {
+                                                    $color = 'success';
+                                                } elseif ($priority[1] == $task->priority) {
+                                                    $color = 'warning';
+                                                } else {
+                                                    $color = 'danger';
+                                                }
+                                            @endphp
+                                            <td><span class="badge badge-{{$color}}">{{$task->priority}}</span></td>
+                                            <td>
+                                            <div class="text-danger">{{ $task->due_date }}</div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                  </tbody>
+                                </table>
+                              </div>
+                              <!-- /.table-responsive -->
+                            </div>
+                            <!-- /.card-body -->
+                            <div class="card-footer clearfix">
+                              <a class="btn btn-sm btn-primary float-right" href="{{ route('dash.task') }}">View All Tasks</a>
+                            </div>
+                            <!-- /.card-footer -->
+                          </div>
                     </div>
                 </div>
             </div>
@@ -82,7 +105,7 @@
             <div class="col-lg-6">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Goals</h3>
+                        <h3 class="card-title">Tasks</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-card-widget="collapse">
                               <i class="fas fa-minus"></i>
@@ -96,18 +119,18 @@
                         <div class="row">
                             <div class="col text-center">
                                 @php
-                                    ($pg->count() != 0) ? $pgpercent = (int)round($pg->sum('progress_percent') / $pg->count()) : $pgpercent = 0;
+                                    ($pg->where('status', 'completed')->count() != 0) ? $pgpercent = (int)round($pg->where('status', 'completed')->count() / $pg->count() * 100) : $pgpercent = 0;
                                 @endphp
                                 <input id="personalGoals" type="text" value="{{ $pgpercent }}" class="dial animated" readonly data-thickness=".2">
                             </div>
                             <div class="col my-auto">
-                                <p id="pg" style="cursor: pointer;"><i class="fas fa-square text-oren"></i> Personal Goals
+                                <p id="pg" style="cursor: pointer;"><i class="fas fa-square text-oren"></i> Personal Tasks
                                 </p>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col text-center">
-                                <p id="personalp"><span class="text-oren font-weight-bold">{{ $pg->where('status', 'completed')->count() }}</span> out of <span class="text-oren font-weight-bold">{{ $pg->count() }}</span> goals completed</p>
+                                <p id="personalp"><span class="text-oren font-weight-bold">{{ $pg->where('status', 'completed')->count() }}</span> out of <span class="text-oren font-weight-bold">{{ $pg->count() }}</span> tasks completed</p>
                             </div>
                         </div>
                     </div>

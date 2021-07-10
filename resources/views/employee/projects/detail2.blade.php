@@ -4,14 +4,6 @@
     <!-- Select2 -->
     <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
-    <style>
-        .img-member{
-            height: 40px;
-            width: 40px;
-            object-fit: cover;
-            object-position: center;
-        }
-    </style>
 @endsection
 @section('content')
 

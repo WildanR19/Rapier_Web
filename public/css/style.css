@@ -257,7 +257,8 @@ p {
     border-radius: 50% !important;
 }
 
-.list-assigned li+li {
+.list-assigned li {
+    float: left;
     margin-left: -0.5rem;
 }
 

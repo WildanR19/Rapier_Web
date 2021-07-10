@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\ProjectMember;
 use App\Models\ProjectUpdate;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -177,21 +178,41 @@ class ProjectController extends Controller
 
     public function details($id)
     {
+        // $project    = Project::where('id', $id)->first();
+        // $user       = User::all();
+        // $teammember = ProjectMember::where('project_id', $id)->get();
+        // $empEx      = $teammember->pluck('user_id');
+        // $emp        = User::whereNotIn('id', $empEx)->get();
+        // $updates    = ProjectUpdate::where('project_id', $id)->orderByDesc('created_at')->get();
+        
+        // $data = [
+        //     'project'   => $project,
+        //     'user'      => $user,
+        //     'category'  => $category,
+        //     'emp'       => $emp,
+        //     'teammember'=> $teammember,
+        //     'updates'   => $updates,
+        // ];
         $project    = Project::where('id', $id)->first();
-        $category   = ProjectCategory::all();
-        $user       = User::all();
         $teammember = ProjectMember::where('project_id', $id)->get();
+        $user       = User::all();
+        $task       = Task::where('tasks.project_id', $id)
+                        ->leftJoin('projects as p', 'p.id', '=', 'tasks.project_id')
+                        ->join('users as u', 'u.id', '=', 'tasks.user_id')
+                        ->leftJoin('users as creator', 'creator.id', '=', 'tasks.created_by')
+                        ->select('tasks.*', 'u.name', 'u.profile_photo_path', 'creator.name as created_by_name', 'creator.profile_photo_path as created_by_image', 'p.project_name')
+                        ->get();
+        $activity   = ProjectActivity::activityLists($id);
         $empEx      = $teammember->pluck('user_id');
         $emp        = User::whereNotIn('id', $empEx)->get();
-        $updates    = ProjectUpdate::where('project_id', $id)->orderByDesc('created_at')->get();
-        
+
         $data = [
-            'project'   => $project,
-            'user'      => $user,
-            'category'  => $category,
-            'emp'       => $emp,
-            'teammember'=> $teammember,
-            'updates'   => $updates,
+            'project'       => $project,
+            'members'       => $teammember,
+            'user'          => $user,
+            'tasks'         => $task,
+            'activities'    => $activity,
+            'emp'           => $emp,
         ];
         return view('admin.project.details')->with($data);
     }
