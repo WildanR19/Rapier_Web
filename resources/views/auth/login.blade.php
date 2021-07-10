@@ -17,50 +17,34 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="{{ asset('css/login.css') }}"> --}}
 
     <style>
-        .card-primary.card-outline {
-            border-top: 3px solid #FF5722;
-        }
         .login-logo{
             color: #FF5722;
         }
+        .form-control {
+          background: #fff;
+          border: none;
+          height: 50px;
+          border: 1px solid transparent;
+          border-radius: 40px;
+          padding-left: 20px;
+          padding-right: 20px;
+          -webkit-transition: 0.3s;
+          -o-transition: 0.3s;
+          transition: 0.3s;
+      }
+      .btn-primary {
+        color: #fff;
+        background-color: #ff3f05 !important;
+        border-color: #ff3f05 !important;
+      }
+      .icheck-primary > input:first-child:checked + label::before, .icheck-primary > input:first-child:checked + input[type="hidden"] + label::before {
+          background-color: #ff3f05;
+          border-color: #ff3f05;
+      }
     </style>
 </head>
-{{-- <body>
-    <div class="container">
-        <div class="col">
-            <div class="card">
-                <x-jet-validation-errors class="mb-4" />
-
-                @if (session('status'))
-                    <div class="mb-4 font-medium text-sm text-green-600">
-                        {{ session('status') }}
-                    </div>
-                @endif
-                <div class="title"><h3 class="font-weight-bold">Sign In</h3></div>
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-
-                    <div class="form-group">
-                        <label for="login-email"><i class="fas fa-envelope"></i></label>
-                        <input type="email" name="email" :value="old('email')" required autofocus placeholder="Email">
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password"><i class="fas fa-lock"></i></label>
-                        <input type="password" name="password" required autocomplete="current-password" placeholder="Password">
-                    </div>
-                    <div class="form-check">
-                        <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
-                        <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                    </div>
-                    <button type="submit" class="btn-login"><em>Log In</em></button>
-                </form>
-            </div>
-        </div>
-    </div>
-</body> --}}
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
@@ -72,46 +56,25 @@
                 {{ session('status') }}
             </div>
         @endif
-        <div class="card card-outline card-primary">
-          <div class="card-body">
-            <form action="{{ route('login') }}" method="post">
-            @csrf
-              <div class="input-group mb-3">
-                <input type="email" class="form-control" placeholder="Email" name="email" :value="old('email')" required autofocus>
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <span class="fas fa-envelope"></span>
-                  </div>
-                </div>
-              </div>
-              <div class="input-group mb-3">
-                <input type="password" class="form-control" placeholder="Password" name="password">
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <span class="fas fa-lock"></span>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-8">
-                  <div class="icheck-primary">
-                    <input type="checkbox" id="remember" name="remember">
-                    <label for="remember">
-                      Remember Me
-                    </label>
-                  </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-4">
-                  <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                </div>
-                <!-- /.col -->
-              </div>
-            </form>
+        <form action="{{ route('login') }}" method="post">
+        @csrf
+          <div class="form-group">
+            <input type="email" class="form-control shadow" placeholder="Email" name="email" :value="old('email')" required autofocus>
           </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
+          <div class="form-group">
+            <input type="password" class="form-control shadow" placeholder="Password" name="password">
+          </div>
+          <div class="form-group icheck-primary icheck-inline">
+            <input type="checkbox" id="remember" name="remember">
+            <label for="remember">
+              Remember Me
+            </label>
+          </div>
+          <div class="form-group mt-2">
+            <button type="submit" class="form-control btn btn-primary btn-block">Sign In</button>
+          </div>
+        </form>
+        
       </div>
 </body>
 </html>

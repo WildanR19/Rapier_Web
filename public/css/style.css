@@ -3,9 +3,10 @@
     --primaryHover: #fa3a00;
     --secondary: #FFC045;
     --secondaryHover: #FFB41F;
-    --sidebarColor: #FF5722;
-    --activeColor: #FF8A65;
+    --sidebarColor: #252F3F;
+    --activeColor: #353e4c;
     --navigation-bar: 12.5rem;
+    --darkColor: #252F3F;
 }
 
 /* * {
@@ -20,10 +21,14 @@ ul {
 }
 
 .preloader {
-    background-color: #252F3F;
+    background-color: var(--darkColor);
 }
 .scroll {
     height: 100%;
+}
+
+.login-page {
+    background-color: var(--darkColor);
 }
 
 .nav-menu {
@@ -60,10 +65,10 @@ ul {
 .nav-logo img {
     height: 1.25rem;
 }
-
+/* 
 [class*="sidebar-dark"] .brand-link {
     border-bottom: 1px solid var(--primaryHover);
-}
+} */
 
 .main-sidebar {
     background: var(--sidebarColor);
@@ -89,6 +94,11 @@ ul {
     width: 100%;
     align-items: center;
     justify-content: space-between;
+}
+
+.nav-sidebar .nav-link.active,
+.nav-sidebar .show > .nav-link {
+  background-color: var(--activeColor);
 }
 
 /* .dropdown-menu {

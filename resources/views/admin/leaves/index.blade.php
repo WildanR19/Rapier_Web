@@ -13,10 +13,10 @@
                     <div class="card mt-2">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
-                                <a href="{{ route('admin.leaves.add') }}" type="button" class="btn btn-primary">
+                                <a href="{{ route('admin.leaves.add') }}" type="button" class="btn btn-outline-primary">
                                     <i class="fas fa-plus"></i> Assign Leave
                                 </a>
-                                <a href="" type="button" class="btn btn-success" data-toggle="modal" data-target="#exportModal">
+                                <a href="" type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exportModal">
                                     <i class="fas fa-print"></i> Export to Excel
                                 </a>
                             </div>

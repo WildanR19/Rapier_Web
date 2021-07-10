@@ -39,7 +39,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col text-right">
-                                    <a href="{{ route('admin.employee.add') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Add New Employee</a>
+                                    <a href="{{ route('admin.employee.add') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Add New Employee</a>
                                 </div>
                             </div>
                             <div class="table-responsive mt-3">

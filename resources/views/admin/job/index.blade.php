@@ -19,7 +19,7 @@
                             @endif
                             <div class="row">
                                 <div class="col text-right">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addJobModal">
+                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addJobModal">
                                         <i class="fas fa-plus"></i> Add New Job
                                     </button>
                                 </div>

@@ -20,7 +20,7 @@
                             @endif
                             <div class="row">
                                 <div class="col text-right">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDepartmentModal">
+                                    <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addDepartmentModal">
                                         <i class="fas fa-plus"></i> Add New Department
                                     </button>
                                 </div>

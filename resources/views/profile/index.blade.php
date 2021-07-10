@@ -22,13 +22,16 @@ input,
   text-align: center;
   top: 0.5em;
   /* Decorative */
-  background: #59becd;
+  background: #FF5722;
   color: #fff;
   border: none;
   cursor: pointer;
 }
 [type=file] + label:hover {
-  background: #3399ff;
+  background: #fa3a00;
+}
+.card-primary.card-outline {
+    border-top: 3px solid #FF5722;
 }
 </style>   
 @endsection
@@ -38,7 +41,7 @@ input,
       <div class="row">
         <div class="col-md-3">
           <!-- Profile Image -->
-          <div class="card card-info card-outline">
+          <div class="card card-primary card-outline">
             <div class="card-body box-profile">
               <div class="text-center">
                 <img class="profile-user-img thumb-index-lg"
@@ -52,10 +55,10 @@ input,
 
               <ul class="list-group list-group-unbordered mb-3 mt-3">
                 <li class="list-group-item">
-                  <b>Join Date</b> <a class="float-right">{{ date('j F, Y', strtotime(Auth::user()->employee_detail->join_date)) }}</a>
+                  <b>Join Date</b> <span class="float-right">{{ date('j F, Y', strtotime(Auth::user()->employee_detail->join_date)) }}</span>
                 </li>
                 <li class="list-group-item">
-                  <b>Project Total</b> <a class="float-right">{{ $project->count() }}</a>
+                  <b>Project Total</b> <span class="float-right">{{ $project->count() }}</span>
                 </li>
             </div>
             <!-- /.card-body -->
@@ -63,7 +66,7 @@ input,
           <!-- /.card -->
 
           <!-- About Me Box -->
-          <div class="card card-info">
+          <div class="card card-primary">
             <div class="card-header">
               <h3 class="card-title">About Me</h3>
             </div>
