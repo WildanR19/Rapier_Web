@@ -99,13 +99,21 @@ Route::post('project/update/{id}', [ApiController::class, 'project_update']);
 Route::get('project/member/{id}', [ApiController::class, 'project_member']);
 Route::post('project/member/add', [ApiController::class, 'project_member_add']);
 Route::delete('project/member/delete/{id}', [ApiController::class, 'project_member_destroy']);
-Route::get('project/activity/{id}', [ApiController::class, 'project_activity_list']);
+Route::get('project/activity/{id}', [ApiController::class, 'pa_list']);
 Route::get('project/activity/download/{id}', [ApiController::class, 'project_activity_download']);
 Route::delete('project/activity/delete/{id}', [ApiController::class, 'project_activity_destroy']);
 Route::post('project/activity/submit/{id}', [ApiController::class, 'project_activity_submit']);
+Route::get('user/project/{id}', [ApiController::class, 'user_list_by_project']);
 
 // Goal
 Route::get('goal', [ApiController::class, 'goal_list']);
 Route::get('goal/user/{id}', [ApiController::class, 'goal_list_user']);
 
-Route::get('task/{id}', [ApiController::class, 'task_list']);
+// Task
+Route::get('task/list/{id}', [ApiController::class, 'task_list']);
+Route::post('task/add', [ApiController::class, 'task_store']);
+Route::get('task/category', [ApiController::class, 'task_category']);
+Route::post('task/category/add', [ApiController::class, 'task_add_cat']);
+Route::delete('task/category/delete/{id}', [ApiController::class, 'task_destroy_cat']);
+Route::get('task/comment/{id}', [ApiController::class, 'task_comment_list']);
+Route::delete('task/comment/delete/{id}', [ApiController::class, 'task_comment_destroy']);

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ProjectActivity;
 use App\Http\Controllers\Controller;
-use App\Models\Attendance;
+use App\Http\Widget\Widget;
 use App\Models\BasicPay;
 use App\Models\Department;
 use App\Models\User;
@@ -16,16 +17,18 @@ use App\Models\Leave;
 use App\Models\LeaveType;
 use App\Models\Payslip;
 use App\Models\Project;
+use App\Models\ProjectActivity as ModelsProjectActivity;
 use App\Models\ProjectCategory;
 use App\Models\ProjectMember;
 use App\Models\ProjectUpdate;
 use App\Models\Role;
 use App\Models\Task;
+use App\Models\TaskCategory;
+use App\Models\TaskComment;
 use App\Notifications\LeavesNotification;
 use Barryvdh\DomPDF\Facade as PDF;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\File;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
@@ -306,6 +309,18 @@ class ApiController extends Controller
                 return $this->error("Current password is incorrect!");;
             }
         }
+    }
+
+    public function user_list_by_project($id)
+    {
+        $data = ProjectMember::where('project_id', $id)
+                ->leftJoin('users as u', 'u.id', '=', 'project_members.user_id')
+                ->select('project_members.user_id', 'u.name')->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'Data Available',
+            'data' => $data
+        ]);
     }
 
     // Role
@@ -1140,6 +1155,16 @@ class ApiController extends Controller
         ]);
     }
 
+    public function pa_list($id)
+    {
+        $data = ModelsProjectActivity::where('project_id', $id)->latest()->get();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
     public function project_activity_download($id)
     {
         $file = ProjectUpdate::where('id', $id)->first();
@@ -1223,14 +1248,6 @@ class ApiController extends Controller
         ]);
     }
 
-    public function error($msg)
-    {
-        return response()->json([
-            'status' => false,
-            'message' => $msg
-        ]);
-    }
-
     // Task
     public function task_list($id)
     {
@@ -1256,6 +1273,120 @@ class ApiController extends Controller
             'status' => true,
             'message' => "Data Available",
             'data' => $data
+        ]);
+    }
+
+    public function task_store(Request $request)
+    {
+        $validasi = Validator::make($request->all(), [
+            'project'       => 'required|integer|gt:0',
+            'category'      => 'required|integer|gt:0',
+            'title'         => 'required',
+            'description'   => 'nullable',
+            'start_date'    => 'required|date',
+            'due_date'      => 'required|date',
+            'priority'      => 'required',
+            'creator'       => 'required|integer|gt:0',
+            'assigned'      => 'required|integer|gt:0',
+        ]);
+
+        if ($validasi->fails()) {
+            $val = $validasi->errors()->all();
+            return $this->error($val[0]);
+        }else{
+            // if (Auth::user()->role_id == 1) {
+            //     $this->validate($request, [
+            //         'assigned'      => 'required',
+            //     ]);
+            // }
+
+            $task = new Task();
+            $task->title = $request->title;
+            $task->description = $request->description;
+            $task->start_date = $request->start_date;
+            $task->due_date = $request->due_date;
+
+            $creator = User::where('id', $request->creator)->first();
+            $user = User::where('id', $request->assigned)->first();
+            $username = ($creator->role_id == 1) ? $user->name : $creator->name;
+            if ($creator->role_id == 1) {
+                $task->user_id = $request->assigned;
+                $activity = $creator->name . " added new task assigned to " . $username;
+            } else {
+                $task->user_id = $request->creator;
+                $activity = $creator->name . " added new task";
+            }
+            $task->project_id = $request->project;
+            $task->task_category_id = $request->category;
+            $task->priority = $request->priority;
+            $task->created_by = $request->creator;
+            $task->save();
+
+            $widget = new Widget();
+            $widget->calculateProjectProgressPercent($request->project);
+
+            ProjectActivity::addToActivity($request->project, $activity);
+            return response()->json([
+                'status' => true,
+                'message' => 'Add Data Success',
+            ]);
+        }
+    }
+
+    public function task_category()
+    {
+        $data = TaskCategory::all();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function task_add_cat(Request $request)
+    {
+        TaskCategory::create(['category_name' => $request->category]);
+        return response()->json([ 'status' => true, 'message' => 'Add Data Success', ]);
+    }
+
+    public function task_destroy_cat($id)
+    {
+        TaskCategory::where('id', $id)->delete();
+        return response()->json([ 'status' => true, 'message' => 'Data has been deleted', ]);
+    }
+
+    
+    public function task_comment_list($id)
+    {
+        $data = DB::table('task_comments as tc')->where('tc.task_id', $id)
+                    ->join('users as u', 'tc.user_id', '=', 'u.id')
+                    ->groupBy('tc.id')
+                    ->select('tc.*', 'u.name as user_name', 'u.profile_photo_path')
+                    ->latest()
+                    ->get();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+            'data' => $data
+        ]);
+    }
+
+    public function task_comment_destroy($id)
+    {
+        $task = TaskComment::find($id);
+        Storage::disk('public')->delete($task->file);
+        $task->delete();
+        return response()->json([
+            'status' => true,
+            'message' => "Data Available",
+        ]);
+    }
+
+    public function error($msg)
+    {
+        return response()->json([
+            'status' => false,
+            'message' => $msg
         ]);
     }
 }

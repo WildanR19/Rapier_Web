@@ -53,7 +53,7 @@
                                                     <td>{{ $pay->for_date }}</td>
                                                     <td>{{ $pay->to_date }}</td>
                                                     <td>
-                                                        <button class="btn btn-primary" data-toggle="modal" data-target="#payslipModal" data-url="{{ url('payslip',['id'=>$pay->id])}}" id="openmodal">Open</button>
+                                                        <button class="btn btn-outline-primary" data-toggle="modal" data-target="#payslipModal" data-url="{{ url('payslip',['id'=>$pay->id])}}" id="openmodal">Open</button>
                                                         <a href="{{ route('dash.payslip.pdf', $pay->id) }}" class="btn btn-primary">Download</a>
                                                     </td>
                                                 </tr>

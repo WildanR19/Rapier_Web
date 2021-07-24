@@ -126,7 +126,7 @@ class TaskController extends Controller
                 ->leftJoin('users as creator', 'creator.id', '=', 'tasks.created_by')
                 ->select('tasks.*', 'u.name', 'u.profile_photo_path', 'creator.name as created_by_name', 'creator.profile_photo_path as created_by_image', 'p.project_name')
                 ->first();
-        $comment = TaskComment::where('task_id', $id)->get();
+        $comment = TaskComment::where('task_id', $id)->latest()->get();
         $data = [
             'tasks' => $task,
             'comments' => $comment
